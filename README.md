@@ -1,9 +1,7 @@
 tabula
 ======
 
-Tabula is a program that processes a specific type of file format.
-This file format is similar to a Java .properties, but allows defining the
-same property for different objects.
+Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a Java .properties, but allows defining the same property for different objects.
 
 Author: [Julian Mendez](http://lat.inf.tu-dresden.de/~mendez/)
 
