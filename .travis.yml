@@ -1,0 +1,22 @@
+
+#
+# Configuration file for Travis CI
+# http://travis-ci.org/
+#
+
+language: java
+
+jdk:
+  - oraclejdk7
+  - openjdk7
+  - oraclejdk8
+
+install:
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=false -B -V
+
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report
+
+sudo: false
+
+
