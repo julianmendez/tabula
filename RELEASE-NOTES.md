@@ -13,8 +13,8 @@
 * primitive types:
  * String
  * URI
-* composite types:
- * List (e.g. List_String , List_URI)
+ * List_String
+ * List_URI
 * readers:
  * tabula format
  * comma-separated values
