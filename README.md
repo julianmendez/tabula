@@ -147,3 +147,8 @@ documents = \
 
 
 ```
+
+## Contact
+
+In case you need more information, please contact @julianmendez .
+
