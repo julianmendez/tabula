@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/julianmendez/tabula.png?branch=master)](https://travis-ci.org/julianmendez/tabula)
 
 
-Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](http://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-), but allows defining the same property for different objects.
+Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](http://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-) file, but allows defining the same property for different objects.
 
 
 ## Source code
