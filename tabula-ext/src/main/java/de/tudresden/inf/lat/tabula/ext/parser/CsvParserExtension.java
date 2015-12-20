@@ -12,14 +12,14 @@ import de.tudresden.inf.lat.tabula.renderer.SimpleFormatRenderer;
 import de.tudresden.inf.lat.tabula.table.TableMap;
 
 /**
- * This models an extension that reads comma separated values and writes them
+ * This models an extension that reads comma-separated values and writes them
  * with the default format.
  *
  */
 public class CsvParserExtension implements Extension {
 
 	public static final String Name = "parsecsv";
-	public static final String Help = "(input) (output) : create output file with a simple text format parsing a comma separated values (CSV) file";
+	public static final String Help = "(input) (output) : create output file with a simple text format parsing a comma-separated values (CSV) file";
 	public static final int RequiredArguments = 2;
 
 	@Override
