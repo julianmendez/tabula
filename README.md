@@ -20,6 +20,7 @@ $ mvn clean install
 
 
 ## Author
+
 [Julian Mendez](http://lat.inf.tu-dresden.de/~mendez/)
 
 
