@@ -99,6 +99,9 @@ However, the format will normalize and present them differently according to the
 
 ## Example
 
+This is an example of a library file. Each book record contains an identifier (`id`), a title (`title`), the authors (`authors`), a link to the abstract on the web (`web`), and a list of links to the documents (`documents`). This file is ordered by identifier.
+
+
 ```properties
 # simple format 1.0.0
 
