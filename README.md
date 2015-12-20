@@ -36,7 +36,7 @@ The Tabula format has *primitive types* and *composite types*. Unless something 
 * `List_String`: list of space-separated words
 * `List_URI`: list of space-separated URIs
 
-With this format it is possible to define one or many composite *types*. Each type is defined by its *fields*. The *instances* of each type are declared just after the type definition.
+With this format it is possible to define one or many composite *types*. Each type is defined by its *fields*. The *instances* of each type are listed just after the type definition.
 The name of a type or field can be any *identifier*. A identifier is a word that is not any of the reserved words: `type`, `def`, `new`, `id`.
 Instances can be identified by the field `id`.
 
@@ -56,6 +56,45 @@ def = \
 ```
 where each *FIELD_NAME* can be any identifier,
 and each *FIELD_TYPE* can be any of the primitive types.
+
+The order in which the instances are shown is defined as follows:
+```properties
+order = \
+ [-]FIELD_NAME_a_0 \
+ [-]FIELD_NAME_a_1 \
+ ...
+ [-]FIELD_NAME_a_k
+```
+where the `-` is optional and used to denote reverse order. For example:
+```properties
+order = \
+ id \
+ -author
+``` 
+order the instances by `id` (ascending) and then by author (descending).
+ 
+The instances come just after the type definition, with the following syntax:
+```properties
+new =
+FIELD_NAME_0 = VALUE_0
+FIELD_NAME_1 = VALUE_1
+...
+FIELD_NAME_n = VALUE_n
+```
+where each *FIELD_NAME* is one of the already declared field names in the type and each *VALUE* contains a String accoding to the field type.
+
+For the sake of simplicity there is no difference between a multi-line value or the concatenation of all those lines. This means that:
+```properties
+field_name = \
+ a \
+ b \
+ c
+```
+is the same as
+```properties
+field_name = a b c
+```
+However, the format will normalize and present them differently according to the declared type. Thus, the values of fields with type *List_* will be presented as multi-line values.
 
 
 ## Example
