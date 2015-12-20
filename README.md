@@ -28,6 +28,11 @@ $ mvn clean install
 This software is distributed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt).
 
 
+## Release notes
+
+See [release notes](http://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md).
+
+
 ## Format
 
 The Tabula format has *primitive types* and *composite types*. Unless something different is stated in the [release notes](http://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md), the primitive types are:
