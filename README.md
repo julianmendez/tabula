@@ -28,6 +28,36 @@ $ mvn clean install
 This software is distributed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt).
 
 
+## Format
+
+The Tabula format has *primitive types* and *composite types*. Unless something different is stated in the [release notes](http://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md), the primitive types are:
+* `String`: any string without any newline ('\n' 0x0A, '\r' 0x0D), and not ending in backslash ('\' 0x5C), neither in blanks ('\t' 0x08, ' ' 0x20)  
+* `URI`: any valid Uniform Resource Identifier
+* `List_String`: list of space-separated words
+* `List_URI`: list of space-separated URIs
+
+With this format it is possible to define one or many composite *types*. Each type is defined by its *fields*. The *instances* of each type are declared just after the type definition.
+The name of a type or field can be any *identifier*. A identifier is a word that is not any of the reserved words: `type`, `def`, `new`, `id`.
+Instances can be identified by the field `id`.
+
+Each type is defined as follows:
+```properties
+type = TYPE_NAME
+```
+where *TYPE_NAME* can be any identifier.
+
+Each type has its *fields*, defined as follow:
+```properties
+def = \
+ FIELD_NAME_0:FIELD_TYPE_0 \
+ FIELD_NAME_1:FIELD_TYPE_1 \
+...
+ FIELD_NAME_n:FIELD_TYPE_n
+```
+where each *FIELD_NAME* can be any identifier,
+and each *FIELD_TYPE* can be any of the primitive types.
+
+
 ## Example
 
 ```properties
