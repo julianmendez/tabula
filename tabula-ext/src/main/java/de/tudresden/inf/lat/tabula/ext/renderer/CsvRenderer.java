@@ -17,7 +17,7 @@ import de.tudresden.inf.lat.tabula.table.Table;
 import de.tudresden.inf.lat.tabula.table.TableMap;
 
 /**
- * Renderer of tables in comma separated values format.
+ * Renderer of tables in comma-separated values format.
  */
 public class CsvRenderer implements Renderer {
 

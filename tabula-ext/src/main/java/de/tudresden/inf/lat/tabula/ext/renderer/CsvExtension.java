@@ -12,13 +12,13 @@ import de.tudresden.inf.lat.tabula.parser.SimpleFormatParser;
 import de.tudresden.inf.lat.tabula.table.TableMap;
 
 /**
- * This models an extension that writes the output in comma separated values.
+ * This models an extension that writes the output in comma-separated values.
  *
  */
 public class CsvExtension implements Extension {
 
 	public static final String Name = "csv";
-	public static final String Help = "(input) (output) : create output as a comma separated values (CSV) file";
+	public static final String Help = "(input) (output) : create output as a comma-separated values (CSV) file";
 	public static final int RequiredArguments = 2;
 
 	@Override
