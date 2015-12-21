@@ -79,7 +79,7 @@ See [release notes](http://github.com/julianmendez/tabula/blob/master/RELEASE-NO
 ## Format
 
 The Tabula format has *primitive types* and *composite types*. Unless something different is stated in the [release notes](http://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md), the primitive types are:
-* `String`: any string without any newline ('\n' 0x0A, '\r' 0x0D), and not ending in backslash ('\' 0x5C), neither in blanks ('\t' 0x08, ' ' 0x20)  
+* `String`: any string without any newline (`'\n'` 0x0A, `'\r'` 0x0D), and not ending in backslash (`'\'` 0x5C), neither in blanks (`'\t'` 0x08, `' '` 0x20)  
 * `URI`: any valid Uniform Resource Identifier
 * `List_String`: list of space-separated words
 * `List_URI`: list of space-separated URIs
