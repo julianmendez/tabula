@@ -16,6 +16,7 @@ $ git clone https://github.com/julianmendez/tabula.git
 $ cd tabula
 $ mvn clean install
 ```
+The created executable library, its sources, and its Javadoc will be in `tabula-distribution/target`.
 
 To compile the project offline, first download the dependencies:
 ```
@@ -45,7 +46,7 @@ The version number is updated with:
 ```
 $ mvn versions:set -DnewVersion=NEW_VERSION
 ```
-where *NEW_VERSION* is the most current version.
+where *NEW_VERSION* is the new version.
 
 
 ## Author
