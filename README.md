@@ -8,6 +8,18 @@
 Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](http://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-) file, but allows defining the same property for different objects.
 
 
+## Download
+
+* Use as dependency:
+```xml
+<dependency>
+  <groupId>de.tu-dresden.inf.lat.tabula</groupId>
+  <artifactId>tabula-ext</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```
+
+
 ## Source code
 
 To clone and compile the project:
