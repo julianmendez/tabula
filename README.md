@@ -10,7 +10,8 @@ Tabula is a system to manage human-readable tables using files. It uses a specif
 
 ## Download
 
-* Use as dependency:
+* [executable JAR file](https://sourceforge.net/projects/latitude/files/tabula/0.1.0/tabula-0.1.0.jar/download)
+* as dependency:
 ```xml
 <dependency>
   <groupId>de.tu-dresden.inf.lat.tabula</groupId>
