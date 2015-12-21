@@ -11,12 +11,41 @@ Tabula is a system to manage human-readable tables using files. It uses a specif
 ## Source code
 
 To clone and compile the project:
-
 ```
 $ git clone https://github.com/julianmendez/tabula.git
 $ cd tabula
 $ mvn clean install
 ```
+
+To compile the project offline, first download the dependencies:
+```
+$ mvn dependency:go-offline
+```
+and once offline, use:
+```
+$ mvn --offline clean install
+```
+
+The bundles uploaded to [Sonatype](https://oss.sonatype.org/) are created with:
+```
+$ mvn clean install -DperformRelease=true
+```
+and then on each module:
+```
+$ cd target
+$ jar -cf bundle.jar tabula-*
+```
+and on the main directory:
+```
+$ cd target
+$ jar -cf bundle.jar tabula-parent-*
+```
+
+The version number is updated with:
+```
+$ mvn versions:set -DnewVersion=NEW_VERSION
+```
+where *NEW_VERSION* is the most current version.
 
 
 ## Author
