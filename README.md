@@ -131,7 +131,7 @@ FIELD_NAME_n = VALUE_n
 ```
 where each *FIELD_NAME* is one of the already declared field names in the type and each *VALUE* contains a String accoding to the field type.
 
-The *values* can be any Tabula String. The blanks ('\t' 0x08, ' ' 0x20) at the beginning and at the end are removed. To declare a multi-line value, each line must finish with backslash ('\' 0x5C), except the last one. For the sake of simplicity there is no difference between a multi-line value or the concatenation of all those lines. This means that:
+The *values* can be any Tabula String. The blanks (`'\t'` 0x08, `' '` 0x20) at the beginning and at the end are removed. To declare a multi-line value, each line must finish with backslash (`'\'` 0x5C), except the last one. For the sake of simplicity there is no difference between a multi-line value or the concatenation of all those lines. This means that:
 ```properties
 field_name = \
  a \
