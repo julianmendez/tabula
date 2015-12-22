@@ -29,7 +29,7 @@
 ```
 $ mvn clean install
 ```
-* release: `target/tabula-0.1.0.zip`
+* release: `tabula-distribution/target/tabula-0.1.0.jar`
 
 
 
