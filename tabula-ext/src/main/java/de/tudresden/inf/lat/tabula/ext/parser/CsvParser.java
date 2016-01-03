@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeImpl;
 import de.tudresden.inf.lat.tabula.datatype.ParseException;
@@ -67,9 +68,7 @@ public class CsvParser implements Parser {
 
 	private TableImpl createSortedTable(List<String> fields) {
 		CompositeTypeImpl tableType = new CompositeTypeImpl();
-		for (String fieldName : fields) {
-			tableType.declareField(fieldName, DefaultFieldType);
-		}
+		fields.forEach(fieldName -> tableType.declareField(fieldName, DefaultFieldType));
 
 		TableImpl ret = new TableImpl();
 		ret.setType(tableType);
@@ -77,19 +76,17 @@ public class CsvParser implements Parser {
 	}
 
 	public String normalize(String fieldName) {
-		String name = fieldName == null ? Underscore : fieldName.trim();
-		if (name.isEmpty()) {
-			name = Underscore;
-		}
+		String auxName = fieldName == null ? Underscore : fieldName.trim();
+		String name = auxName.isEmpty() ? Underscore : auxName;
 
 		StringBuffer ret = new StringBuffer();
-		for (int index = 0; index < name.length(); index += 1) {
+		IntStream.range(0, name.length()).forEach(index -> {
 			char ch = name.charAt(index);
 			if (!Character.isLetterOrDigit(ch)) {
 				ch = UnderscoreChar;
 			}
 			ret.append(ch);
-		}
+		});
 		return ret.toString();
 	}
 
@@ -102,10 +99,8 @@ public class CsvParser implements Parser {
 				idCount += 1;
 			}
 			if (idCount > 1) {
-				throw new ParseException(
-						"This cannot have two identifiers (field '"
-								+ ParserConstant.IdKeyword + "') (line "
-								+ lineCounter + ")");
+				throw new ParseException("This cannot have two identifiers (field '" + ParserConstant.IdKeyword
+						+ "') (line " + lineCounter + ")");
 			} else {
 				ret.add(fieldName);
 			}
@@ -127,8 +122,7 @@ public class CsvParser implements Parser {
 			if ((line != null) && !line.trim().isEmpty()) {
 				List<String> columns = getColumns(line);
 				if (columns.size() > fieldNames.size()) {
-					throw new ParseException("Too many fields in line: "
-							+ columns.size() + " instead of "
+					throw new ParseException("Too many fields in line: " + columns.size() + " instead of "
 							+ fieldNames.size() + " (line " + lineCounter + ")");
 				}
 

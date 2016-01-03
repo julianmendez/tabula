@@ -286,9 +286,7 @@ public class SimpleFormatParser implements Parser {
 		}
 
 		TableMapImpl ret = new TableMapImpl();
-		for (String key : map.keySet()) {
-			ret.put(key, map.get(key));
-		}
+		map.keySet().forEach(key -> ret.put(key, map.get(key)));
 		return ret;
 	}
 

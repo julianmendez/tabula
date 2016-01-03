@@ -1,5 +1,6 @@
 package de.tudresden.inf.lat.tabula.datatype;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,9 +14,7 @@ public class SimplifiedCompositeType implements CompositeType {
 	private CompositeTypeImpl dataType = new CompositeTypeImpl();
 
 	public SimplifiedCompositeType(String[] knownFields) {
-		for (String field : knownFields) {
-			this.dataType.declareField(field, DefaultFieldType);
-		}
+		Arrays.stream(knownFields).forEach(field -> this.dataType.declareField(field, DefaultFieldType));
 	}
 
 	@Override

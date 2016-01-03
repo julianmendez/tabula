@@ -59,9 +59,7 @@ public class TableMapImpl implements TableMap {
 			TableMap other = (TableMap) obj;
 			boolean ret = getTableIds().equals(other.getTableIds());
 			List<String> tableIds = getTableIds();
-			for (String tableId : tableIds) {
-				ret = ret && getTable(tableId).equals(other.getTable(tableId));
-			}
+			ret = ret && tableIds.stream().allMatch(tableId -> getTable(tableId).equals(other.getTable(tableId)));
 			return ret;
 		} else {
 			return false;
@@ -72,12 +70,12 @@ public class TableMapImpl implements TableMap {
 	public String toString() {
 		StringBuffer sbuf = new StringBuffer();
 		List<String> tableIds = getTableIds();
-		for (String tableId : tableIds) {
+		tableIds.forEach(tableId -> {
 			sbuf.append(tableId);
 			sbuf.append("=");
 			sbuf.append(getTable(tableId));
 			sbuf.append("\n");
-		}
+		});
 		return sbuf.toString();
 	}
 

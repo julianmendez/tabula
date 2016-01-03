@@ -44,8 +44,7 @@ public class CompositeTypeImpl implements CompositeType {
 	 */
 	public void declareField(String field, String typeStr) {
 		if (this.fields.contains(field)) {
-			throw new ParseException("Field '" + field
-					+ "' has been already defined.");
+			throw new ParseException("Field '" + field + "' has been already defined.");
 		} else {
 			this.fields.add(field);
 			this.fieldType.put(field, typeStr);
@@ -67,11 +66,7 @@ public class CompositeTypeImpl implements CompositeType {
 			boolean ret = getFields().equals(other.getFields());
 			if (ret) {
 				List<String> fields = getFields();
-				for (String field : fields) {
-					ret = ret
-							&& getFieldType(field).equals(
-									other.getFieldType(field));
-				}
+				ret = ret && fields.stream().allMatch(field -> getFieldType(field).equals(other.getFieldType(field)));
 			}
 			return ret;
 		}

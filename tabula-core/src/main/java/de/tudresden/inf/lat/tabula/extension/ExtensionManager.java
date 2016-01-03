@@ -28,15 +28,14 @@ public class ExtensionManager implements Extension {
 	public ExtensionManager(List<Extension> extensions) {
 		if (extensions != null) {
 			this.extensions.addAll(extensions);
-			for (Extension extension : extensions) {
+			extensions.forEach(extension -> {
 				String key = extension.getExtensionName();
 				if (this.extensionMap.containsKey(key)) {
-					throw new ExtensionException(
-							"Only one implementation is allowed for each extension, and '"
-									+ key + "' was at least twice.");
+					throw new ExtensionException("Only one implementation is allowed for each extension, and '" + key
+							+ "' was at least twice.");
 				}
 				this.extensionMap.put(key, extension);
-			}
+			});
 		}
 	}
 
@@ -51,8 +50,7 @@ public class ExtensionManager implements Extension {
 			newArguments.remove(0);
 			Extension extension = this.extensionMap.get(command);
 			if (extension == null) {
-				throw new ExtensionException("Extension '" + command
-						+ "' was not found.");
+				throw new ExtensionException("Extension '" + command + "' was not found.");
 			} else {
 				extension.process(newArguments);
 				return true;
@@ -68,12 +66,12 @@ public class ExtensionManager implements Extension {
 	@Override
 	public String getHelp() {
 		StringBuffer sbuf = new StringBuffer();
-		for (Extension extension : this.extensions) {
+		this.extensions.forEach(extension -> {
 			sbuf.append(extension.getExtensionName());
 			sbuf.append(Space);
 			sbuf.append(extension.getHelp());
 			sbuf.append(NewLine);
-		}
+		});
 		return sbuf.toString();
 	}
 

@@ -2,6 +2,7 @@ package de.tudresden.inf.lat.tabula.main;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 import de.tudresden.inf.lat.tabula.extension.DefaultExtension;
 import de.tudresden.inf.lat.tabula.extension.Extension;
@@ -31,9 +32,7 @@ public class Main {
 	public void run(String args[]) {
 		if ((args != null) && ((args.length == 2) || (args.length == 3))) {
 			ArrayList<String> arguments = new ArrayList<String>();
-			for (int index = 0; index < args.length; index += 1) {
-				arguments.add(args[index]);
-			}
+			IntStream.range(0, args.length).forEach(index -> arguments.add(args[index]));
 			this.manager.process(arguments);
 		} else {
 			System.out.println(Header + this.manager.getHelp());

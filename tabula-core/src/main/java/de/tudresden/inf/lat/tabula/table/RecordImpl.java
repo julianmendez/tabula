@@ -48,9 +48,7 @@ public class RecordImpl implements Record {
 		} else if (o instanceof Record) {
 			Record other = (Record) o;
 			boolean ret = getProperties().equals(other.getProperties());
-			for (String property : getProperties()) {
-				ret = ret && get(property).equals(other.get(property));
-			}
+			ret = ret && getProperties().stream().allMatch(property -> get(property).equals(other.get(property)));
 			return ret;
 		} else {
 			return false;

@@ -2,6 +2,7 @@ package de.tudresden.inf.lat.tabula.ext.main;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 import de.tudresden.inf.lat.tabula.ext.parser.CalendarParserExtension;
 import de.tudresden.inf.lat.tabula.ext.parser.CsvParserExtension;
@@ -43,9 +44,7 @@ public class Main {
 	public void run(String args[]) {
 		if ((args != null) && ((args.length == 2) || (args.length == 3) || (args.length == 4))) {
 			ArrayList<String> arguments = new ArrayList<String>();
-			for (int index = 0; index < args.length; index += 1) {
-				arguments.add(args[index]);
-			}
+			IntStream.range(0, args.length).forEach(index -> arguments.add(args[index]));
 			this.manager.process(arguments);
 		} else {
 			System.out.println(Header + this.manager.getHelp());
