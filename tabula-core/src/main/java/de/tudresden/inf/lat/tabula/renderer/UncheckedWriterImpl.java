@@ -119,4 +119,31 @@ public class UncheckedWriterImpl implements UncheckedWriter {
 		return this;
 	}
 
+	@Override
+	public Writer asWriter() {
+		return this.writer;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.writer.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		} else if (!(obj instanceof UncheckedWriter)) {
+			return false;
+		} else {
+			UncheckedWriter other = (UncheckedWriter) obj;
+			return asWriter().equals(other.asWriter());
+		}
+	}
+
+	@Override
+	public String toString() {
+		return this.writer.toString();
+	}
+
 }

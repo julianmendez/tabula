@@ -19,6 +19,8 @@ public interface UncheckedWriter {
 	 * 
 	 * @param character
 	 *            character
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	void write(int character);
 
@@ -27,6 +29,8 @@ public interface UncheckedWriter {
 	 * 
 	 * @param charBuffer
 	 *            array of characters
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	void write(char[] charBuffer);
 
@@ -39,6 +43,8 @@ public interface UncheckedWriter {
 	 *            offset
 	 * @param length
 	 *            number of characters to write
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	void write(char[] charBuffer, int offset, int length);
 
@@ -47,6 +53,8 @@ public interface UncheckedWriter {
 	 * 
 	 * @param str
 	 *            string
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	void write(String str);
 
@@ -59,16 +67,24 @@ public interface UncheckedWriter {
 	 *            offset
 	 * @param length
 	 *            number of characters to write
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	void write(String str, int offset, int length);
 
 	/**
 	 * Closes the stream, flushing it first.
+	 * 
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	void close();
 
 	/**
 	 * Flushes the stream.
+	 * 
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	void flush();
 
@@ -78,6 +94,8 @@ public interface UncheckedWriter {
 	 * @param character
 	 *            character
 	 * @return this writer
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	UncheckedWriter append(char character);
 
@@ -87,6 +105,8 @@ public interface UncheckedWriter {
 	 * @param charSequence
 	 *            character sequence
 	 * @return this writer
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	UncheckedWriter append(CharSequence charSequence);
 
@@ -100,7 +120,16 @@ public interface UncheckedWriter {
 	 * @param end
 	 *            end of the sequence
 	 * @return this writer
+	 * @throws UncheckedIOException
+	 *             if something goes wrong with input/output
 	 */
 	UncheckedWriter append(CharSequence charSequence, int start, int end);
+
+	/**
+	 * Returns this as a writer.
+	 * 
+	 * @return this as a writer
+	 */
+	Writer asWriter();
 
 }
