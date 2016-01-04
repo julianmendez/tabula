@@ -24,18 +24,11 @@ public class HtmlRenderer implements Renderer {
 
 	public static final String Prefix = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 			+ "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">"
-			+ "\n"
-			+ "\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">"
-			+ "\n<head>"
-			+ "\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"
-			+ "\n  <title></title>"
-			+ "\n</head>"
-			+ "\n<body>"
-			+ "\n  <div>"
-			+ "\n" + "\n<br />" + "\n" + "\n";
+			+ "\n" + "\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">" + "\n<head>"
+			+ "\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + "\n  <title></title>"
+			+ "\n</head>" + "\n<body>" + "\n  <div>" + "\n" + "\n<br />" + "\n" + "\n";
 
-	public static final String Suffix = "\n" + "\n" + "\n  </div>"
-			+ "\n</body>" + "\n</html>" + "\n";
+	public static final String Suffix = "\n" + "\n" + "\n  </div>" + "\n</body>" + "\n</html>" + "\n";
 
 	private Writer output = new OutputStreamWriter(System.out);
 
@@ -43,8 +36,7 @@ public class HtmlRenderer implements Renderer {
 		output = output0;
 	}
 
-	public boolean writeStringIfNotEmpty(Writer output, StringValue str)
-			throws IOException {
+	public boolean writeStringIfNotEmpty(Writer output, StringValue str) throws IOException {
 		if (str != null && !str.toString().trim().isEmpty()) {
 			output.write(str.toString());
 			output.write("\n");
@@ -54,8 +46,7 @@ public class HtmlRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeParameterizedListIfNotEmpty(Writer output,
-			ParameterizedListValue list) throws IOException {
+	public boolean writeParameterizedListIfNotEmpty(Writer output, ParameterizedListValue list) throws IOException {
 		if (list != null) {
 			for (PrimitiveTypeValue value : list) {
 				if (value.getType().equals(new URIType())) {
@@ -72,8 +63,7 @@ public class HtmlRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeLinkIfNotEmpty(Writer output, URIValue link)
-			throws IOException {
+	public boolean writeLinkIfNotEmpty(Writer output, URIValue link) throws IOException {
 		if (link != null && !link.isEmpty()) {
 			output.write("<a href=\"");
 			output.write(link.getUriNoLabel().toASCIIString());
@@ -87,8 +77,7 @@ public class HtmlRenderer implements Renderer {
 		}
 	}
 
-	public void render(Writer output, Record record, List<String> fields)
-			throws IOException {
+	public void render(Writer output, Record record, List<String> fields) throws IOException {
 		for (String field : fields) {
 			PrimitiveTypeValue value = record.get(field);
 			if (value == null) {
@@ -114,16 +103,14 @@ public class HtmlRenderer implements Renderer {
 					output.write(" </td>\n");
 
 				} else {
-					throw new IllegalStateException("Invalid value '"
-							+ value.toString() + "'.");
+					throw new IllegalStateException("Invalid value '" + value.toString() + "'.");
 				}
 
 			}
 		}
 	}
 
-	public void renderAllRecords(Writer output, CompositeTypeValue table)
-			throws IOException {
+	public void renderAllRecords(Writer output, CompositeTypeValue table) throws IOException {
 		List<Record> list = table.getRecords();
 		output.write("<table summary=\"\">\n");
 		for (Record record : list) {
@@ -134,8 +121,7 @@ public class HtmlRenderer implements Renderer {
 		output.write("</table>\n");
 	}
 
-	public void renderMap(Writer output, Map<String, String> map)
-			throws IOException {
+	public void renderMap(Writer output, Map<String, String> map) throws IOException {
 		output.write("<table summary=\"\" border=\"1\">\n");
 		for (String key : map.keySet()) {
 			String value = map.get(key);

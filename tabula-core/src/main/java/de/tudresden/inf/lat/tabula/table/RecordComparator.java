@@ -23,8 +23,7 @@ public class RecordComparator implements Comparator<Record> {
 		this.sortingOrder.addAll(sortingOrder0);
 	}
 
-	public RecordComparator(List<String> sortingOrder0,
-			Set<String> reverseOrder0) {
+	public RecordComparator(List<String> sortingOrder0, Set<String> reverseOrder0) {
 		this.sortingOrder.addAll(sortingOrder0);
 		this.fieldsWithReverseOrder.addAll(reverseOrder0);
 	}

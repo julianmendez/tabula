@@ -58,28 +58,23 @@ public class CalendarParser implements Parser {
 	public static final String EventTypeLabel = "VEVENT";
 	public static final String AlarmTypeLabel = "VALARM";
 
-	public static final String[] CalendarTypeFields = { GeneratedIdFieldName,
-			SubItemsFieldName, "PRODID", "VERSION", "CALSCALE", "METHOD",
-			"X-WR-CALNAME", "X-WR-TIMEZONE", };
+	public static final String[] CalendarTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "PRODID", "VERSION",
+			"CALSCALE", "METHOD", "X-WR-CALNAME", "X-WR-TIMEZONE", };
 
-	public static final String[] TimeZoneTypeFields = { GeneratedIdFieldName,
-			SubItemsFieldName, "TZID", "X-LIC-LOCATION" };
+	public static final String[] TimeZoneTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "TZID",
+			"X-LIC-LOCATION" };
 
-	public static final String[] DaylightTypeFields = { GeneratedIdFieldName,
-			SubItemsFieldName, "TZOFFSETFROM", "TZOFFSETTO", "TZNAME",
-			"DTSTART", "RRULE" };
+	public static final String[] DaylightTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "TZOFFSETFROM",
+			"TZOFFSETTO", "TZNAME", "DTSTART", "RRULE" };
 
 	public static final String[] StandardTypeFields = DaylightTypeFields;
 
-	public static final String[] EventTypeFields = { GeneratedIdFieldName,
-			SubItemsFieldName, "DTSTART", "DTEND", "RRULE", "ORGANIZER",
-			"DTSTAMP", "UID", "ATTENDEE", "CREATED", "DESCRIPTION",
-			"LAST-MODIFIED", "LOCATION", "SEQUENCE", "STATUS", "SUMMARY",
-			"TRANSP", "X-ALT-DESC", "X-MICROSOFT-CDO-BUSYSTATUS", "CLASS" };
+	public static final String[] EventTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "DTSTART", "DTEND",
+			"RRULE", "ORGANIZER", "DTSTAMP", "UID", "ATTENDEE", "CREATED", "DESCRIPTION", "LAST-MODIFIED", "LOCATION",
+			"SEQUENCE", "STATUS", "SUMMARY", "TRANSP", "X-ALT-DESC", "X-MICROSOFT-CDO-BUSYSTATUS", "CLASS" };
 
-	public static final String[] AlarmTypeFields = { GeneratedIdFieldName,
-			SubItemsFieldName, "ACTION", "DESCRIPTION", "SUMMARY", "ATTENDEE",
-			"TRIGGER" };
+	public static final String[] AlarmTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "ACTION", "DESCRIPTION",
+			"SUMMARY", "ATTENDEE", "TRIGGER" };
 
 	public static final SimplifiedCompositeType EventTyp = null;
 
@@ -143,24 +138,20 @@ public class CalendarParser implements Parser {
 		return (line != null) && line.trim().startsWith(EndKeyword);
 	}
 
-	private PrimitiveTypeValue getTypedValue(String key, String value,
-			CompositeType type0, int lineCounter) {
+	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, int lineCounter) {
 		if (key == null) {
 			return new StringValue();
 		} else {
 			try {
 				String typeStr = type0.getFieldType(key);
 				if (typeStr == null) {
-					throw new ParseException("Key '" + key
-							+ "' has an undefined type.");
+					throw new ParseException("Key '" + key + "' has an undefined type.");
 				} else {
-					PrimitiveTypeValue ret = (new PrimitiveTypeFactory())
-							.newInstance(typeStr, value);
+					PrimitiveTypeValue ret = (new PrimitiveTypeFactory()).newInstance(typeStr, value);
 					return ret;
 				}
 			} catch (ParseException e) {
-				throw new ParseException(e.getMessage() + " (line "
-						+ lineCounter + ")", e.getCause());
+				throw new ParseException(e.getMessage() + " (line " + lineCounter + ")", e.getCause());
 			}
 		}
 	}
@@ -186,24 +177,19 @@ public class CalendarParser implements Parser {
 		return ret;
 	}
 
-	private void parseProperty(String line, TableImpl currentTable,
-			Record record, int lineCounter) {
+	private void parseProperty(String line, TableImpl currentTable, Record record, int lineCounter) {
 		if (currentTable == null) {
-			throw new ParseException("New record was not declared (line "
-					+ lineCounter + ")");
+			throw new ParseException("New record was not declared (line " + lineCounter + ")");
 		}
 
 		String key = getKey(line);
 		String valueStr = getValue(line);
-		PrimitiveTypeValue value = getTypedValue(key, valueStr,
-				currentTable.getType(), lineCounter);
+		PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
 		if (key.equals(ParserConstant.IdKeyword)) {
 			if (currentTable.getIdentifiers().contains(valueStr)) {
-				throw new ParseException("Identifier '"
-						+ ParserConstant.IdKeyword + ParserConstant.Space
-						+ ParserConstant.EqualsSign + ParserConstant.Space
-						+ valueStr + "' is duplicated (line " + lineCounter
-						+ ").");
+				throw new ParseException(
+						"Identifier '" + ParserConstant.IdKeyword + ParserConstant.Space + ParserConstant.EqualsSign
+								+ ParserConstant.Space + valueStr + "' is duplicated (line " + lineCounter + ").");
 			}
 		}
 		record.set(key, value);
@@ -234,18 +220,12 @@ public class CalendarParser implements Parser {
 	public TableMap parseMap(BufferedReader input) throws IOException {
 		Map<String, TableImpl> map = new TreeMap<>();
 
-		map.put(CalendarTypeLabel, new TableImpl(new SimplifiedCompositeType(
-				CalendarTypeFields)));
-		map.put(TimeZoneTypeLabel, new TableImpl(new SimplifiedCompositeType(
-				TimeZoneTypeFields)));
-		map.put(DaylightTypeLabel, new TableImpl(new SimplifiedCompositeType(
-				DaylightTypeFields)));
-		map.put(StandardTypeLabel, new TableImpl(new SimplifiedCompositeType(
-				StandardTypeFields)));
-		map.put(EventTypeLabel, new TableImpl(new SimplifiedCompositeType(
-				EventTypeFields)));
-		map.put(AlarmTypeLabel, new TableImpl(new SimplifiedCompositeType(
-				AlarmTypeFields)));
+		map.put(CalendarTypeLabel, new TableImpl(new SimplifiedCompositeType(CalendarTypeFields)));
+		map.put(TimeZoneTypeLabel, new TableImpl(new SimplifiedCompositeType(TimeZoneTypeFields)));
+		map.put(DaylightTypeLabel, new TableImpl(new SimplifiedCompositeType(DaylightTypeFields)));
+		map.put(StandardTypeLabel, new TableImpl(new SimplifiedCompositeType(StandardTypeFields)));
+		map.put(EventTypeLabel, new TableImpl(new SimplifiedCompositeType(EventTypeFields)));
+		map.put(AlarmTypeLabel, new TableImpl(new SimplifiedCompositeType(AlarmTypeFields)));
 
 		TableImpl currentTable = null;
 		Record currentRecord = null;
@@ -273,50 +253,42 @@ public class CalendarParser implements Parser {
 						recordStack.push(currentRecord);
 					}
 					currentRecord = new RecordImpl();
-					currentRecord.set(GeneratedIdFieldName, new StringValue(
-							getGeneratedId(generatedIds, tableIdStack.size())));
+					currentRecord.set(GeneratedIdFieldName,
+							new StringValue(getGeneratedId(generatedIds, tableIdStack.size())));
 					TableImpl refTable = map.get(value);
 					if (refTable == null) {
-						throw new ParseException("Unknown type '" + value
-								+ "' (line " + lineCounter + ").");
+						throw new ParseException("Unknown type '" + value + "' (line " + lineCounter + ").");
 					}
 					currentTableId = value;
 					currentTable = refTable;
 
 				} else if (isEndLine(line)) {
-					String foreignKey = currentRecord.get(GeneratedIdFieldName)
-							.render();
+					String foreignKey = currentRecord.get(GeneratedIdFieldName).render();
 					currentTable.add(currentRecord);
 					String value = getValue(line);
 					TableImpl refTable = map.get(value);
 					if (refTable == null) {
-						throw new ParseException("Unknown type '" + value
-								+ "' (line " + lineCounter + ").");
+						throw new ParseException("Unknown type '" + value + "' (line " + lineCounter + ").");
 					}
 					if (!value.equals(currentTableId)) {
-						throw new ParseException("Closing wrong type '" + value
-								+ "' (line " + lineCounter + ").");
+						throw new ParseException("Closing wrong type '" + value + "' (line " + lineCounter + ").");
 					}
 					if (tableStack.isEmpty()) {
-						throw new ParseException("Too many " + EndKeyword
-								+ " keywords  (line " + lineCounter + ").");
+						throw new ParseException("Too many " + EndKeyword + " keywords  (line " + lineCounter + ").");
 					}
 					currentTableId = tableIdStack.pop();
 					currentTable = tableStack.pop();
 					currentRecord = recordStack.pop();
-					PrimitiveTypeValue subItems = currentRecord
-							.get(SubItemsFieldName);
+					PrimitiveTypeValue subItems = currentRecord.get(SubItemsFieldName);
 					if (subItems == null) {
 						subItems = new StringValue(foreignKey);
 					} else {
-						subItems = new StringValue(subItems.render()
-								+ SpaceChar + foreignKey);
+						subItems = new StringValue(subItems.render() + SpaceChar + foreignKey);
 					}
 					currentRecord.set(SubItemsFieldName, subItems);
 
 				} else {
-					parseProperty(line, currentTable, currentRecord,
-							lineCounter);
+					parseProperty(line, currentTable, currentRecord, lineCounter);
 
 				}
 			}
@@ -327,8 +299,7 @@ public class CalendarParser implements Parser {
 		}
 
 		if (!tableStack.isEmpty()) {
-			throw new ParseException("Too few " + EndKeyword
-					+ " keywords  (line " + lineCounter + ").");
+			throw new ParseException("Too few " + EndKeyword + " keywords  (line " + lineCounter + ").");
 		}
 
 		TableMapImpl ret = new TableMapImpl();

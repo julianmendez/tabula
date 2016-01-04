@@ -28,10 +28,8 @@ public class NormalizationExtension implements Extension {
 			try {
 				String inputFileName = arguments.get(0);
 				String outputFileName = inputFileName;
-				TableMap tableMap = new SimpleFormatParser(new FileReader(
-						inputFileName)).parse();
-				BufferedWriter output = new BufferedWriter(new FileWriter(
-						outputFileName));
+				TableMap tableMap = new SimpleFormatParser(new FileReader(inputFileName)).parse();
+				BufferedWriter output = new BufferedWriter(new FileWriter(outputFileName));
 				SimpleFormatRenderer renderer = new SimpleFormatRenderer(output);
 				renderer.render(tableMap);
 				return true;

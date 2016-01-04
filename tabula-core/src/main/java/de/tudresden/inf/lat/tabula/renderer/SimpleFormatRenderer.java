@@ -17,8 +17,8 @@ import de.tudresden.inf.lat.tabula.table.TableMap;
  */
 public class SimpleFormatRenderer implements Renderer {
 
-	public static final String Prefix = "" + ParserConstant.CommentSymbol
-			+ " simple format 1.0.0" + ParserConstant.NewLine;
+	public static final String Prefix = "" + ParserConstant.CommentSymbol + " simple format 1.0.0"
+			+ ParserConstant.NewLine;
 
 	private Writer output = new OutputStreamWriter(System.out);
 
@@ -26,18 +26,15 @@ public class SimpleFormatRenderer implements Renderer {
 		output = output0;
 	}
 
-	public boolean writeIfNotEmpty(Writer output, String field,
-			PrimitiveTypeValue value) throws IOException {
-		if (field != null && !field.trim().isEmpty() && value != null
-				&& !value.isEmpty()) {
+	public boolean writeIfNotEmpty(Writer output, String field, PrimitiveTypeValue value) throws IOException {
+		if (field != null && !field.trim().isEmpty() && value != null && !value.isEmpty()) {
 			output.write(ParserConstant.NewLine);
 			output.write(field);
 			output.write(ParserConstant.Space + ParserConstant.EqualsSign);
 			if (value.getType().isList()) {
 				List<String> list = value.renderAsList();
 				for (String link : list) {
-					output.write(ParserConstant.Space
-							+ ParserConstant.LineContinuationSymbol);
+					output.write(ParserConstant.Space + ParserConstant.LineContinuationSymbol);
 					output.write(ParserConstant.NewLine);
 					output.write(ParserConstant.Space);
 					output.write(link.toString());
@@ -54,8 +51,7 @@ public class SimpleFormatRenderer implements Renderer {
 		}
 	}
 
-	public void render(Writer output, Record record, List<String> fields)
-			throws IOException {
+	public void render(Writer output, Record record, List<String> fields) throws IOException {
 
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
 		output.write(ParserConstant.NewRecordToken + ParserConstant.Space);
@@ -69,8 +65,7 @@ public class SimpleFormatRenderer implements Renderer {
 		}
 	}
 
-	public void renderAllRecords(Writer output, CompositeTypeValue table)
-			throws IOException {
+	public void renderAllRecords(Writer output, CompositeTypeValue table) throws IOException {
 		List<Record> list = table.getRecords();
 		for (Record record : list) {
 			render(output, record, table.getType().getFields());
@@ -79,8 +74,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderTypeSelection(Writer output, String tableName,
-			CompositeTypeValue table) throws IOException {
+	public void renderTypeSelection(Writer output, String tableName, CompositeTypeValue table) throws IOException {
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
 		output.write(ParserConstant.TypeSelectionToken + ParserConstant.Space);
 		output.write(ParserConstant.EqualsSign);
@@ -89,15 +83,13 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderTypeDefinition(Writer output, CompositeTypeValue table)
-			throws IOException {
+	public void renderTypeDefinition(Writer output, CompositeTypeValue table) throws IOException {
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
 		output.write(ParserConstant.TypeDefinitionToken + ParserConstant.Space);
 		output.write(ParserConstant.EqualsSign);
 
 		for (String field : table.getType().getFields()) {
-			output.write(ParserConstant.Space
-					+ ParserConstant.LineContinuationSymbol);
+			output.write(ParserConstant.Space + ParserConstant.LineContinuationSymbol);
 			output.write(ParserConstant.NewLine);
 			output.write(ParserConstant.Space);
 			output.write(field);
@@ -109,13 +101,11 @@ public class SimpleFormatRenderer implements Renderer {
 
 	public void renderOrder(Writer output, Table table) throws IOException {
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
-		output.write(ParserConstant.SortingOrderDeclarationToken
-				+ ParserConstant.Space);
+		output.write(ParserConstant.SortingOrderDeclarationToken + ParserConstant.Space);
 		output.write(ParserConstant.EqualsSign);
 
 		for (String field : table.getSortingOrder()) {
-			output.write(ParserConstant.Space
-					+ ParserConstant.LineContinuationSymbol);
+			output.write(ParserConstant.Space + ParserConstant.LineContinuationSymbol);
 			output.write(ParserConstant.NewLine);
 			output.write(ParserConstant.Space);
 			if (table.getFieldsWithReverseOrder().contains(field)) {

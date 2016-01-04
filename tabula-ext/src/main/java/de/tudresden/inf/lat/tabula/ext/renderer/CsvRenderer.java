@@ -36,10 +36,8 @@ public class CsvRenderer implements Renderer {
 		return str.replace(Quotes, QuotesReplacement);
 	}
 
-	public boolean writeStringIfNotEmpty(Writer output, String field,
-			StringValue value) throws IOException {
-		if (field != null && !field.trim().isEmpty() && value != null
-				&& !value.toString().trim().isEmpty()) {
+	public boolean writeStringIfNotEmpty(Writer output, String field, StringValue value) throws IOException {
+		if (field != null && !field.trim().isEmpty() && value != null && !value.toString().trim().isEmpty()) {
 			output.write(Quotes);
 			output.write(sanitize(value.toString()));
 			output.write(Quotes);
@@ -50,8 +48,8 @@ public class CsvRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeParameterizedListIfNotEmpty(Writer output, String field,
-			ParameterizedListValue list) throws IOException {
+	public boolean writeParameterizedListIfNotEmpty(Writer output, String field, ParameterizedListValue list)
+			throws IOException {
 		if (list != null && !list.isEmpty()) {
 			output.write(Quotes);
 			for (PrimitiveTypeValue value : list) {
@@ -66,8 +64,7 @@ public class CsvRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeLinkIfNotEmpty(Writer output, String field,
-			URIValue link) throws IOException {
+	public boolean writeLinkIfNotEmpty(Writer output, String field, URIValue link) throws IOException {
 		if (link != null && !link.isEmpty()) {
 			output.write(Quotes);
 			output.write(sanitize(link.toString()));
@@ -79,8 +76,7 @@ public class CsvRenderer implements Renderer {
 		}
 	}
 
-	public void render(Writer output, Record record, List<String> fields)
-			throws IOException {
+	public void render(Writer output, Record record, List<String> fields) throws IOException {
 
 		boolean first = true;
 		for (String field : fields) {
@@ -104,8 +100,7 @@ public class CsvRenderer implements Renderer {
 					writeLinkIfNotEmpty(output, field, link);
 
 				} else {
-					throw new IllegalStateException("Invalid value '"
-							+ value.toString() + "'.");
+					throw new IllegalStateException("Invalid value '" + value.toString() + "'.");
 				}
 
 			} else {
@@ -115,16 +110,14 @@ public class CsvRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderAllRecords(Writer output, CompositeTypeValue table)
-			throws IOException {
+	public void renderAllRecords(Writer output, CompositeTypeValue table) throws IOException {
 		List<Record> list = table.getRecords();
 		for (Record record : list) {
 			render(output, record, table.getType().getFields());
 		}
 	}
 
-	public void renderTypeSelection(Writer output, String tableName,
-			CompositeTypeValue table) throws IOException {
+	public void renderTypeSelection(Writer output, String tableName, CompositeTypeValue table) throws IOException {
 		output.write(Quotes);
 		output.write(tableName);
 		output.write(Quotes);
@@ -136,8 +129,7 @@ public class CsvRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderTypeDefinition(Writer output, CompositeTypeValue table)
-			throws IOException {
+	public void renderTypeDefinition(Writer output, CompositeTypeValue table) throws IOException {
 		boolean first = true;
 		for (String field : table.getType().getFields()) {
 			if (first) {

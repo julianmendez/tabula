@@ -29,10 +29,8 @@ public class CsvExtension implements Extension {
 			try {
 				String inputFileName = arguments.get(0);
 				String outputFileName = arguments.get(1);
-				TableMap tableMap = new SimpleFormatParser(new FileReader(
-						inputFileName)).parse();
-				BufferedWriter output = new BufferedWriter(new FileWriter(
-						outputFileName));
+				TableMap tableMap = new SimpleFormatParser(new FileReader(inputFileName)).parse();
+				BufferedWriter output = new BufferedWriter(new FileWriter(outputFileName));
 				CsvRenderer renderer = new CsvRenderer(output);
 				renderer.render(tableMap);
 				return true;

@@ -76,8 +76,7 @@ public class SimpleFormatParser implements Parser {
 			if (pos == -1) {
 				return "";
 			} else {
-				return line.substring(pos + ParserConstant.EqualsSign.length(),
-						line.length()).trim();
+				return line.substring(pos + ParserConstant.EqualsSign.length(), line.length()).trim();
 			}
 		}
 	}
@@ -90,18 +89,14 @@ public class SimpleFormatParser implements Parser {
 			String token = stok.nextToken();
 			int pos = token.indexOf(ParserConstant.TypeSign);
 			if (pos == -1) {
-				throw new ParseException("Field '" + line
-						+ "' does not have a type. (line " + lineCounter + ")");
+				throw new ParseException("Field '" + line + "' does not have a type. (line " + lineCounter + ")");
 			} else {
 				String key = token.substring(0, pos);
-				String value = token.substring(
-						(pos + ParserConstant.TypeSign.length()),
-						token.length());
+				String value = token.substring((pos + ParserConstant.TypeSign.length()), token.length());
 				if (factory.contains(value)) {
 					ret.declareField(key, value);
 				} else {
-					throw new ParseException("Type '" + value
-							+ "' is undefined. (line " + lineCounter + ")");
+					throw new ParseException("Type '" + value + "' is undefined. (line " + lineCounter + ")");
 				}
 			}
 		}
@@ -115,11 +110,9 @@ public class SimpleFormatParser implements Parser {
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
 			if (token.startsWith(ParserConstant.StandardOrderSign)) {
-				token = token.substring(ParserConstant.StandardOrderSign
-						.length());
+				token = token.substring(ParserConstant.StandardOrderSign.length());
 			} else if (token.startsWith(ParserConstant.ReverseOrderSign)) {
-				token = token.substring(ParserConstant.ReverseOrderSign
-						.length());
+				token = token.substring(ParserConstant.ReverseOrderSign.length());
 				fieldsWithReverseOrder.add(token);
 			}
 			list.add(token);
@@ -129,50 +122,40 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public boolean isTypeSelection(String line) {
-		return (line != null)
-				&& line.trim().startsWith(ParserConstant.TypeSelectionToken);
+		return (line != null) && line.trim().startsWith(ParserConstant.TypeSelectionToken);
 	}
 
 	public boolean isTypeDefinition(String line) {
-		return (line != null)
-				&& line.trim().startsWith(ParserConstant.TypeDefinitionToken);
+		return (line != null) && line.trim().startsWith(ParserConstant.TypeDefinitionToken);
 	}
 
 	public boolean isSortingOrderDeclaration(String line) {
-		return (line != null)
-				&& line.trim().startsWith(
-						ParserConstant.SortingOrderDeclarationToken);
+		return (line != null) && line.trim().startsWith(ParserConstant.SortingOrderDeclarationToken);
 	}
 
 	public boolean isNewRecord(String line) {
-		return (line != null)
-				&& line.trim().startsWith(ParserConstant.NewRecordToken);
+		return (line != null) && line.trim().startsWith(ParserConstant.NewRecordToken);
 	}
 
-	private PrimitiveTypeValue getTypedValue(String key, String value,
-			CompositeType type0, int lineCounter) {
+	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, int lineCounter) {
 		if (key == null) {
 			return new StringValue();
 		} else {
 			try {
 				String typeStr = type0.getFieldType(key);
 				if (typeStr == null) {
-					throw new ParseException("Key '" + key
-							+ "' has an undefined type.");
+					throw new ParseException("Key '" + key + "' has an undefined type.");
 				} else {
-					PrimitiveTypeValue ret = (new PrimitiveTypeFactory())
-							.newInstance(typeStr, value);
+					PrimitiveTypeValue ret = (new PrimitiveTypeFactory()).newInstance(typeStr, value);
 					return ret;
 				}
 			} catch (ParseException e) {
-				throw new ParseException(e.getMessage() + " (line "
-						+ lineCounter + ")", e.getCause());
+				throw new ParseException(e.getMessage() + " (line " + lineCounter + ")", e.getCause());
 			}
 		}
 	}
 
-	private Pair readMultiLine(BufferedReader input, int lineCounter0)
-			throws IOException {
+	private Pair readMultiLine(BufferedReader input, int lineCounter0) throws IOException {
 		int lineCounter = lineCounter0;
 		String line = input.readLine();
 		if (line == null) {
@@ -183,11 +166,9 @@ public class SimpleFormatParser implements Parser {
 				return new Pair(lineCounter, "");
 			} else {
 				String multiLine = line;
-				while (multiLine
-						.endsWith(ParserConstant.LineContinuationSymbol)) {
-					multiLine = multiLine.substring(0, multiLine.length()
-							- ParserConstant.LineContinuationSymbol.length())
-							+ ParserConstant.Space;
+				while (multiLine.endsWith(ParserConstant.LineContinuationSymbol)) {
+					multiLine = multiLine.substring(0,
+							multiLine.length() - ParserConstant.LineContinuationSymbol.length()) + ParserConstant.Space;
 					line = input.readLine();
 					if (line != null) {
 						lineCounter += 1;
@@ -214,24 +195,19 @@ public class SimpleFormatParser implements Parser {
 		}
 	}
 
-	private void parseProperty(String line, TableImpl currentTable,
-			Record record, int lineCounter) {
+	private void parseProperty(String line, TableImpl currentTable, Record record, int lineCounter) {
 		if (currentTable == null) {
-			throw new ParseException("New record was not declared (line "
-					+ lineCounter + ")");
+			throw new ParseException("New record was not declared (line " + lineCounter + ")");
 		}
 
 		String key = getKey(line);
 		String valueStr = getValue(line);
-		PrimitiveTypeValue value = getTypedValue(key, valueStr,
-				currentTable.getType(), lineCounter);
+		PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
 		if (key.equals(ParserConstant.IdKeyword)) {
 			if (currentTable.getIdentifiers().contains(valueStr)) {
-				throw new ParseException("Identifier '"
-						+ ParserConstant.IdKeyword + ParserConstant.Space
-						+ ParserConstant.EqualsSign + ParserConstant.Space
-						+ valueStr + "' is duplicated (line " + lineCounter
-						+ ").");
+				throw new ParseException(
+						"Identifier '" + ParserConstant.IdKeyword + ParserConstant.Space + ParserConstant.EqualsSign
+								+ ParserConstant.Space + valueStr + "' is duplicated (line " + lineCounter + ").");
 			}
 		}
 		record.set(key, value);
@@ -277,10 +253,8 @@ public class SimpleFormatParser implements Parser {
 							successful = currentTable.addId(currentId);
 						}
 						if (!successful) {
-							throw new ParseException(
-									"Identifier has been already defined ('"
-											+ currentId + "') (line "
-											+ lineCounter + ")");
+							throw new ParseException("Identifier has been already defined ('" + currentId + "') (line "
+									+ lineCounter + ")");
 						}
 					}
 

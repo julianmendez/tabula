@@ -29,8 +29,7 @@ public class WikitextRenderer implements Renderer {
 		output = output0;
 	}
 
-	public boolean writeStringIfNotEmpty(Writer output, String prefix,
-			StringValue str) throws IOException {
+	public boolean writeStringIfNotEmpty(Writer output, String prefix, StringValue str) throws IOException {
 		if (str != null && !str.toString().trim().isEmpty()) {
 			output.write(prefix);
 			output.write(str.toString());
@@ -41,8 +40,8 @@ public class WikitextRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeParameterizedListIfNotEmpty(Writer output, String prefix,
-			ParameterizedListValue list) throws IOException {
+	public boolean writeParameterizedListIfNotEmpty(Writer output, String prefix, ParameterizedListValue list)
+			throws IOException {
 		if (list != null) {
 			output.write(prefix);
 			for (PrimitiveTypeValue value : list) {
@@ -60,8 +59,7 @@ public class WikitextRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeLinkIfNotEmpty(Writer output, String prefix,
-			URIValue link) throws IOException {
+	public boolean writeLinkIfNotEmpty(Writer output, String prefix, URIValue link) throws IOException {
 		if (link != null && !link.isEmpty()) {
 			output.write(prefix);
 			output.write("[");
@@ -76,8 +74,7 @@ public class WikitextRenderer implements Renderer {
 		}
 	}
 
-	public void render(Writer output, Record record, List<String> fields)
-			throws IOException {
+	public void render(Writer output, Record record, List<String> fields) throws IOException {
 
 		for (String field : fields) {
 			PrimitiveTypeValue value = record.get(field);
@@ -99,16 +96,14 @@ public class WikitextRenderer implements Renderer {
 					writeLinkIfNotEmpty(output, prefix, link);
 
 				} else {
-					throw new IllegalStateException("Invalid value '"
-							+ value.toString() + "'.");
+					throw new IllegalStateException("Invalid value '" + value.toString() + "'.");
 				}
 
 			}
 		}
 	}
 
-	public void renderAllRecords(Writer output, CompositeTypeValue table)
-			throws IOException {
+	public void renderAllRecords(Writer output, CompositeTypeValue table) throws IOException {
 		List<Record> list = table.getRecords();
 		output.write("{|\n");
 		output.write("|-\n");
@@ -119,8 +114,7 @@ public class WikitextRenderer implements Renderer {
 		output.write("|}\n");
 	}
 
-	public void renderMap(Writer output, Map<String, String> map)
-			throws IOException {
+	public void renderMap(Writer output, Map<String, String> map) throws IOException {
 		output.write("{| border=\"1\"\n");
 		output.write("|-\n");
 		for (String key : map.keySet()) {

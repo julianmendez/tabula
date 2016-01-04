@@ -82,8 +82,7 @@ public class TableImpl implements Table {
 	public List<Record> getRecords() {
 		List<Record> ret = new ArrayList<>();
 		ret.addAll(this.list);
-		Collections.sort(ret, new RecordComparator(this.sortingOrder,
-				this.fieldsWithReverseOrder));
+		Collections.sort(ret, new RecordComparator(this.sortingOrder, this.fieldsWithReverseOrder));
 		return ret;
 	}
 
@@ -94,10 +93,8 @@ public class TableImpl implements Table {
 
 	@Override
 	public int hashCode() {
-		return this.sortingOrder.hashCode()
-				+ 0x1F
-				* (this.fieldsWithReverseOrder.hashCode() + 0x1F * (this.list
-						.hashCode() + 0x1F * this.tableType.hashCode()));
+		return this.sortingOrder.hashCode() + 0x1F * (this.fieldsWithReverseOrder.hashCode()
+				+ 0x1F * (this.list.hashCode() + 0x1F * this.tableType.hashCode()));
 	}
 
 	@Override
@@ -107,10 +104,8 @@ public class TableImpl implements Table {
 		} else if (obj instanceof Table) {
 			Table other = (Table) obj;
 			return getSortingOrder().equals(other.getSortingOrder())
-					&& getFieldsWithReverseOrder().equals(
-							other.getFieldsWithReverseOrder())
-					&& getType().equals(other.getType())
-					&& getRecords().equals(other.getRecords())
+					&& getFieldsWithReverseOrder().equals(other.getFieldsWithReverseOrder())
+					&& getType().equals(other.getType()) && getRecords().equals(other.getRecords())
 					&& getIdentifiers().equals(other.getIdentifiers());
 		} else {
 			return false;
@@ -119,8 +114,7 @@ public class TableImpl implements Table {
 
 	@Override
 	public String toString() {
-		return this.tableType.toString() + " " + this.sortingOrder + " "
-				+ this.fieldsWithReverseOrder.toString() + " "
+		return this.tableType.toString() + " " + this.sortingOrder + " " + this.fieldsWithReverseOrder.toString() + " "
 				+ this.list.toString();
 	}
 

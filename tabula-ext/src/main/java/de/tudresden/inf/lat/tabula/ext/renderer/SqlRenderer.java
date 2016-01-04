@@ -28,8 +28,7 @@ public class SqlRenderer implements Renderer {
 	public static final String CreateTable = "create table";
 	public static final String OpenPar = "(";
 	public static final String ClosePar = ")";
-	public static final String DefaultFieldType = "varchar(" + DefaultSize
-			+ ")";
+	public static final String DefaultFieldType = "varchar(" + DefaultSize + ")";
 	public static final String Comma = ",";
 	public static final String Semicolon = ";";
 	public static final String Values = "values";
@@ -52,10 +51,8 @@ public class SqlRenderer implements Renderer {
 		return str.replace(Apostrophe, ApostropheReplacement);
 	}
 
-	public boolean writeStringIfNotEmpty(Writer output, String field,
-			StringValue value) throws IOException {
-		if (field != null && !field.trim().isEmpty() && value != null
-				&& !value.toString().trim().isEmpty()) {
+	public boolean writeStringIfNotEmpty(Writer output, String field, StringValue value) throws IOException {
+		if (field != null && !field.trim().isEmpty() && value != null && !value.toString().trim().isEmpty()) {
 			output.write(Apostrophe);
 			output.write(sanitize(value.toString()));
 			output.write(Apostrophe);
@@ -66,8 +63,8 @@ public class SqlRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeParameterizedListIfNotEmpty(Writer output, String field,
-			ParameterizedListValue list) throws IOException {
+	public boolean writeParameterizedListIfNotEmpty(Writer output, String field, ParameterizedListValue list)
+			throws IOException {
 		if (list != null && !list.isEmpty()) {
 			output.write(Apostrophe);
 			for (PrimitiveTypeValue strVal : list) {
@@ -82,8 +79,7 @@ public class SqlRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeLinkIfNotEmpty(Writer output, String field,
-			URIValue link) throws IOException {
+	public boolean writeLinkIfNotEmpty(Writer output, String field, URIValue link) throws IOException {
 		if (link != null && !link.isEmpty()) {
 			output.write(Apostrophe);
 			output.write(sanitize(link.toString()));
@@ -95,8 +91,7 @@ public class SqlRenderer implements Renderer {
 		}
 	}
 
-	public void render(Writer output, String tableName, Record record,
-			List<String> fields) throws IOException {
+	public void render(Writer output, String tableName, Record record, List<String> fields) throws IOException {
 
 		output.write(ParserConstant.NewLine);
 		output.write(InsertInto);
@@ -131,8 +126,7 @@ public class SqlRenderer implements Renderer {
 					writeLinkIfNotEmpty(output, field, link);
 
 				} else {
-					throw new IllegalStateException("Invalid value '"
-							+ value.toString() + "'.");
+					throw new IllegalStateException("Invalid value '" + value.toString() + "'.");
 				}
 
 			} else {
@@ -144,8 +138,7 @@ public class SqlRenderer implements Renderer {
 		output.write(Semicolon);
 	}
 
-	public void renderAllRecords(Writer output, String tableName,
-			CompositeTypeValue table) throws IOException {
+	public void renderAllRecords(Writer output, String tableName, CompositeTypeValue table) throws IOException {
 		output.write(ParserConstant.NewLine);
 		List<Record> list = table.getRecords();
 		for (Record record : list) {
@@ -155,8 +148,7 @@ public class SqlRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderTypes(Writer output, String tableName,
-			CompositeTypeValue table) throws IOException {
+	public void renderTypes(Writer output, String tableName, CompositeTypeValue table) throws IOException {
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
 		output.write(CreateTable + ParserConstant.Space);
 		output.write(tableName + ParserConstant.Space);
@@ -181,8 +173,7 @@ public class SqlRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderOrder(Writer output, String tableName, Table table)
-			throws IOException {
+	public void renderOrder(Writer output, String tableName, Table table) throws IOException {
 		output.write(ParserConstant.NewLine);
 		output.write(SelectAllFrom);
 		output.write(ParserConstant.Space);
@@ -214,12 +205,10 @@ public class SqlRenderer implements Renderer {
 
 	public void renderPrefix(Writer output) throws IOException {
 		output.write(ParserConstant.NewLine);
-		output.write(CreateDatabase + ParserConstant.Space
-				+ DefaultDatabaseName + Semicolon);
+		output.write(CreateDatabase + ParserConstant.Space + DefaultDatabaseName + Semicolon);
 		output.write(ParserConstant.NewLine);
 		output.write(ParserConstant.NewLine);
-		output.write(Use + ParserConstant.Space + DefaultDatabaseName
-				+ Semicolon);
+		output.write(Use + ParserConstant.Space + DefaultDatabaseName + Semicolon);
 		output.write(ParserConstant.NewLine);
 		output.write(ParserConstant.NewLine);
 	}

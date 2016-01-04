@@ -29,10 +29,8 @@ public class WikitextExtension implements Extension {
 			try {
 				String inputFileName = arguments.get(0);
 				String outputFileName = arguments.get(1);
-				TableMap tableMap = new SimpleFormatParser(new FileReader(
-						inputFileName)).parse();
-				BufferedWriter output = new BufferedWriter(new FileWriter(
-						outputFileName));
+				TableMap tableMap = new SimpleFormatParser(new FileReader(inputFileName)).parse();
+				BufferedWriter output = new BufferedWriter(new FileWriter(outputFileName));
 				WikitextRenderer renderer = new WikitextRenderer(output);
 				renderer.render(tableMap);
 				return true;
