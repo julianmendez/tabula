@@ -45,7 +45,7 @@ public class WikitextRenderer implements Renderer {
 			ParameterizedListValue list) {
 		if (list != null) {
 			output.write(prefix);
-			for (PrimitiveTypeValue value : list) {
+			list.forEach(value -> {
 				if (value.getType().equals(new URIType())) {
 					URIValue link = (new URIType()).castInstance(value);
 					writeLinkIfNotEmpty(output, "", link);
@@ -53,7 +53,7 @@ public class WikitextRenderer implements Renderer {
 					StringValue strVal = (new StringType()).castInstance(value);
 					writeStringIfNotEmpty(output, "", strVal);
 				}
-			}
+			});
 			return true;
 		} else {
 			return false;
@@ -77,7 +77,7 @@ public class WikitextRenderer implements Renderer {
 
 	public void render(UncheckedWriter output, Record record, List<String> fields) {
 
-		for (String field : fields) {
+		fields.forEach(field -> {
 			PrimitiveTypeValue value = record.get(field);
 			output.write("|");
 			if (value == null) {
@@ -101,24 +101,24 @@ public class WikitextRenderer implements Renderer {
 				}
 
 			}
-		}
+		});
 	}
 
 	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
 		List<Record> list = table.getRecords();
 		output.write("{|\n");
 		output.write("|-\n");
-		for (Record record : list) {
+		list.forEach(record -> {
 			render(output, record, table.getType().getFields());
 			output.write("|-\n");
-		}
+		});
 		output.write("|}\n");
 	}
 
 	public void renderMap(UncheckedWriter output, Map<String, String> map) {
 		output.write("{| border=\"1\"\n");
 		output.write("|-\n");
-		for (String key : map.keySet()) {
+		map.keySet().forEach(key -> {
 			String value = map.get(key);
 			output.write("| ");
 			output.write(key);
@@ -127,17 +127,17 @@ public class WikitextRenderer implements Renderer {
 			output.write(value);
 			output.write("\n");
 			output.write("|-\n");
-		}
+		});
 		output.write("|}\n");
 		output.write("\n");
 	}
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
 		output.write("\n");
-		for (String tableId : tableMap.getTableIds()) {
+		tableMap.getTableIds().forEach(tableId -> {
 			CompositeTypeValue table = tableMap.getTable(tableId);
 			renderAllRecords(output, table);
-		}
+		});
 		output.write("\n");
 		output.write("\n");
 		output.flush();

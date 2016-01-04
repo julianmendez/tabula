@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.ext.renderer;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
@@ -52,10 +53,10 @@ public class CsvRenderer implements Renderer {
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
 		if (list != null && !list.isEmpty()) {
 			output.write(Quotes);
-			for (PrimitiveTypeValue value : list) {
+			list.forEach(value -> {
 				output.write(sanitize(value.toString()));
 				output.write(ParserConstant.Space);
-			}
+			});
 			output.write(Quotes);
 			return true;
 		} else {
@@ -112,9 +113,9 @@ public class CsvRenderer implements Renderer {
 
 	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
 		List<Record> list = table.getRecords();
-		for (Record record : list) {
+		list.forEach(record -> {
 			render(output, record, table.getType().getFields());
-		}
+		});
 	}
 
 	public void renderTypeSelection(UncheckedWriter output, String tableName, CompositeTypeValue table) {
@@ -122,10 +123,10 @@ public class CsvRenderer implements Renderer {
 		output.write(tableName);
 		output.write(Quotes);
 		int n = table.getType().getFields().size();
-		for (int index = 1; index < n; index += 1) {
+		IntStream.range(1, n).forEach(index -> {
 			output.write(Comma);
 			output.write(Null);
-		}
+		});
 		output.write(ParserConstant.NewLine);
 	}
 
@@ -145,12 +146,12 @@ public class CsvRenderer implements Renderer {
 	}
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
-		for (String tableName : tableMap.getTableIds()) {
+		tableMap.getTableIds().forEach(tableName -> {
 			Table table = tableMap.getTable(tableName);
 			renderTypeSelection(output, tableName, table);
 			renderTypeDefinition(output, table);
 			renderAllRecords(output, table);
-		}
+		});
 		output.flush();
 	}
 

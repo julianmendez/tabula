@@ -49,7 +49,7 @@ public class HtmlRenderer implements Renderer {
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, ParameterizedListValue list) {
 		if (list != null) {
-			for (PrimitiveTypeValue value : list) {
+			list.forEach(value -> {
 				if (value.getType().equals(new URIType())) {
 					URIValue link = (new URIType()).castInstance(value);
 					writeLinkIfNotEmpty(output, link);
@@ -57,7 +57,7 @@ public class HtmlRenderer implements Renderer {
 					StringValue strVal = (new StringType()).castInstance(value);
 					writeStringIfNotEmpty(output, strVal);
 				}
-			}
+			});
 			return true;
 		} else {
 			return false;
@@ -79,7 +79,7 @@ public class HtmlRenderer implements Renderer {
 	}
 
 	public void render(UncheckedWriter output, Record record, List<String> fields) {
-		for (String field : fields) {
+		fields.forEach(field -> {
 			PrimitiveTypeValue value = record.get(field);
 			if (value == null) {
 				output.write("<td> </td>\n");
@@ -108,23 +108,23 @@ public class HtmlRenderer implements Renderer {
 				}
 
 			}
-		}
+		});
 	}
 
 	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
 		List<Record> list = table.getRecords();
 		output.write("<table summary=\"\">\n");
-		for (Record record : list) {
+		list.forEach(record -> {
 			output.write("<tr>\n");
 			render(output, record, table.getType().getFields());
 			output.write("</tr>\n");
-		}
+		});
 		output.write("</table>\n");
 	}
 
 	public void renderMap(UncheckedWriter output, Map<String, String> map) {
 		output.write("<table summary=\"\" border=\"1\">\n");
-		for (String key : map.keySet()) {
+		map.keySet().forEach(key -> {
 			String value = map.get(key);
 			output.write("<tr>\n");
 			output.write("<td>");
@@ -134,17 +134,17 @@ public class HtmlRenderer implements Renderer {
 			output.write(value);
 			output.write("</td>\n");
 			output.write("</tr>\n");
-		}
+		});
 		output.write("</table>\n");
 		output.write("\n");
 	}
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
 		output.write(Prefix);
-		for (String tableId : tableMap.getTableIds()) {
+		tableMap.getTableIds().forEach(tableId -> {
 			CompositeTypeValue table = tableMap.getTable(tableId);
 			renderAllRecords(output, table);
-		}
+		});
 		output.write("\n");
 		output.write("\n");
 		output.write(Suffix);

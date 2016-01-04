@@ -67,10 +67,10 @@ public class SqlRenderer implements Renderer {
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
 		if (list != null && !list.isEmpty()) {
 			output.write(Apostrophe);
-			for (PrimitiveTypeValue strVal : list) {
+			list.forEach(strVal -> {
 				output.write(sanitize(strVal.toString()));
 				output.write(ParserConstant.Space);
-			}
+			});
 			output.write(Apostrophe);
 			return true;
 		} else {
@@ -141,10 +141,10 @@ public class SqlRenderer implements Renderer {
 	public void renderAllRecords(UncheckedWriter output, String tableName, CompositeTypeValue table) {
 		output.write(ParserConstant.NewLine);
 		List<Record> list = table.getRecords();
-		for (Record record : list) {
+		list.forEach(record -> {
 			render(output, tableName, record, table.getType().getFields());
 			output.write(ParserConstant.NewLine);
-		}
+		});
 		output.write(ParserConstant.NewLine);
 	}
 
@@ -215,12 +215,12 @@ public class SqlRenderer implements Renderer {
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
 		renderPrefix(output);
-		for (String tableName : tableMap.getTableIds()) {
+		tableMap.getTableIds().forEach(tableName -> {
 			Table table = tableMap.getTable(tableName);
 			renderTypes(output, tableName, table);
 			renderAllRecords(output, tableName, table);
 			renderOrder(output, tableName, table);
-		}
+		});
 		output.write(ParserConstant.NewLine);
 		output.flush();
 	}

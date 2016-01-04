@@ -32,12 +32,12 @@ public class SimpleFormatRenderer implements Renderer {
 			output.write(ParserConstant.Space + ParserConstant.EqualsSign);
 			if (value.getType().isList()) {
 				List<String> list = value.renderAsList();
-				for (String link : list) {
+				list.forEach(link -> {
 					output.write(ParserConstant.Space + ParserConstant.LineContinuationSymbol);
 					output.write(ParserConstant.NewLine);
 					output.write(ParserConstant.Space);
 					output.write(link.toString());
-				}
+				});
 
 			} else {
 				output.write(ParserConstant.Space);
@@ -56,20 +56,20 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.NewRecordToken + ParserConstant.Space);
 		output.write(ParserConstant.EqualsSign + ParserConstant.Space);
 
-		for (String field : fields) {
+		fields.forEach(field -> {
 			PrimitiveTypeValue value = record.get(field);
 			if (value != null) {
 				writeIfNotEmpty(output, field, value);
 			}
-		}
+		});
 	}
 
 	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
 		List<Record> list = table.getRecords();
-		for (Record record : list) {
+		list.forEach(record -> {
 			render(output, record, table.getType().getFields());
 			output.write(ParserConstant.NewLine);
-		}
+		});
 		output.write(ParserConstant.NewLine);
 	}
 
@@ -87,14 +87,14 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.TypeDefinitionToken + ParserConstant.Space);
 		output.write(ParserConstant.EqualsSign);
 
-		for (String field : table.getType().getFields()) {
+		table.getType().getFields().forEach(field -> {
 			output.write(ParserConstant.Space + ParserConstant.LineContinuationSymbol);
 			output.write(ParserConstant.NewLine);
 			output.write(ParserConstant.Space);
 			output.write(field);
 			output.write(ParserConstant.TypeSign);
 			output.write(table.getType().getFieldType(field));
-		}
+		});
 		output.write(ParserConstant.NewLine);
 	}
 
@@ -103,7 +103,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.SortingOrderDeclarationToken + ParserConstant.Space);
 		output.write(ParserConstant.EqualsSign);
 
-		for (String field : table.getSortingOrder()) {
+		table.getSortingOrder().forEach(field -> {
 			output.write(ParserConstant.Space + ParserConstant.LineContinuationSymbol);
 			output.write(ParserConstant.NewLine);
 			output.write(ParserConstant.Space);
@@ -111,19 +111,19 @@ public class SimpleFormatRenderer implements Renderer {
 				output.write(ParserConstant.ReverseOrderSign);
 			}
 			output.write(field);
-		}
+		});
 		output.write(ParserConstant.NewLine);
 	}
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
 		output.write(Prefix);
-		for (String tableName : tableMap.getTableIds()) {
+		tableMap.getTableIds().forEach(tableName -> {
 			Table table = tableMap.getTable(tableName);
 			renderTypeSelection(output, tableName, table);
 			renderTypeDefinition(output, table);
 			renderOrder(output, table);
 			renderAllRecords(output, table);
-		}
+		});
 		output.write(ParserConstant.NewLine);
 		output.flush();
 	}
