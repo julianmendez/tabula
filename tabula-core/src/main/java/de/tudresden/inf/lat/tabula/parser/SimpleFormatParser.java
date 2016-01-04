@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -106,8 +109,8 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	private void setSortingOrder(String line, TableImpl table) {
-		TreeSet<String> fieldsWithReverseOrder = new TreeSet<>();
-		ArrayList<String> list = new ArrayList<>();
+		Set<String> fieldsWithReverseOrder = new TreeSet<>();
+		List<String> list = new ArrayList<>();
 		StringTokenizer stok = new StringTokenizer(getValue(line));
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
@@ -235,7 +238,7 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public TableMap parseMap(BufferedReader input) throws IOException {
-		TreeMap<String, TableImpl> map = new TreeMap<>();
+		Map<String, TableImpl> map = new TreeMap<>();
 
 		String line = "";
 		TableImpl currentTable = null;

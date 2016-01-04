@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.datatype;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -11,8 +12,8 @@ import java.util.TreeMap;
  */
 public class CompositeTypeImpl implements CompositeType {
 
-	private final ArrayList<String> fields = new ArrayList<>();
-	private final TreeMap<String, String> fieldType = new TreeMap<>();
+	private final List<String> fields = new ArrayList<>();
+	private final Map<String, String> fieldType = new TreeMap<>();
 
 	/**
 	 * Constructs a new default implementation of type.

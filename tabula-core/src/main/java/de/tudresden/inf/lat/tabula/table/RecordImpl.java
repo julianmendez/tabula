@@ -2,6 +2,7 @@ package de.tudresden.inf.lat.tabula.table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
@@ -13,7 +14,7 @@ import de.tudresden.inf.lat.tabula.datatype.Record;
  */
 public class RecordImpl implements Record {
 
-	private final TreeMap<String, PrimitiveTypeValue> map = new TreeMap<>();
+	private final Map<String, PrimitiveTypeValue> map = new TreeMap<>();
 
 	public RecordImpl() {
 	}
@@ -36,7 +37,7 @@ public class RecordImpl implements Record {
 
 	@Override
 	public List<String> getProperties() {
-		ArrayList<String> ret = new ArrayList<>();
+		List<String> ret = new ArrayList<>();
 		ret.addAll(map.keySet());
 		return ret;
 	}

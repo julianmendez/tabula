@@ -2,6 +2,7 @@ package de.tudresden.inf.lat.tabula.table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -10,7 +11,7 @@ import java.util.TreeMap;
  */
 public class TableMapImpl implements TableMap {
 
-	private final TreeMap<String, Table> map = new TreeMap<>();
+	private final Map<String, Table> map = new TreeMap<>();
 
 	/**
 	 * Returns the identifiers of the stored tables.
@@ -18,7 +19,7 @@ public class TableMapImpl implements TableMap {
 	 * @return the identifiers of the stored tables
 	 */
 	public List<String> getTableIds() {
-		ArrayList<String> ret = new ArrayList<>();
+		List<String> ret = new ArrayList<>();
 		ret.addAll(this.map.keySet());
 		return ret;
 	}

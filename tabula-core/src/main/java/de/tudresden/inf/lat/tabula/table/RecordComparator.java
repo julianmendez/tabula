@@ -16,8 +16,8 @@ import de.tudresden.inf.lat.tabula.datatype.Record;
  */
 public class RecordComparator implements Comparator<Record> {
 
-	private final ArrayList<String> sortingOrder = new ArrayList<>();
-	private final TreeSet<String> fieldsWithReverseOrder = new TreeSet<>();
+	private final List<String> sortingOrder = new ArrayList<>();
+	private final Set<String> fieldsWithReverseOrder = new TreeSet<>();
 
 	public RecordComparator(List<String> sortingOrder0) {
 		this.sortingOrder.addAll(sortingOrder0);

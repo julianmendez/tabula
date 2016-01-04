@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
 
@@ -165,7 +166,7 @@ public class CalendarParser implements Parser {
 	}
 
 	private List<Pair> preload(BufferedReader input) throws IOException {
-		ArrayList<Pair> ret = new ArrayList<>();
+		List<Pair> ret = new ArrayList<>();
 		StringBuffer sbuf = new StringBuffer();
 		boolean finish = false;
 		int lineCounter = 0;
@@ -231,7 +232,7 @@ public class CalendarParser implements Parser {
 	}
 
 	public TableMap parseMap(BufferedReader input) throws IOException {
-		TreeMap<String, TableImpl> map = new TreeMap<>();
+		Map<String, TableImpl> map = new TreeMap<>();
 
 		map.put(CalendarTypeLabel, new TableImpl(new SimplifiedCompositeType(
 				CalendarTypeFields)));
@@ -253,7 +254,7 @@ public class CalendarParser implements Parser {
 		Stack<String> tableIdStack = new Stack<String>();
 		Stack<Record> recordStack = new Stack<Record>();
 		Stack<TableImpl> tableStack = new Stack<TableImpl>();
-		ArrayList<Integer> generatedIds = new ArrayList<>();
+		List<Integer> generatedIds = new ArrayList<>();
 
 		List<Pair> lines = preload(input);
 		int lineCounter = 0;

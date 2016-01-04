@@ -2,6 +2,7 @@ package de.tudresden.inf.lat.tabula.ext.main;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import de.tudresden.inf.lat.tabula.ext.parser.CalendarParserExtension;
@@ -28,7 +29,7 @@ public class Main {
 	 * Constructs a new main class.
 	 */
 	public Main() {
-		ArrayList<Extension> extensions = new ArrayList<>();
+		List<Extension> extensions = new ArrayList<>();
 		extensions.add(new DefaultExtension());
 		extensions.add(new CsvParserExtension());
 		extensions.add(new CalendarParserExtension());
@@ -43,7 +44,7 @@ public class Main {
 
 	public void run(String args[]) {
 		if ((args != null) && ((args.length == 2) || (args.length == 3) || (args.length == 4))) {
-			ArrayList<String> arguments = new ArrayList<>();
+			List<String> arguments = new ArrayList<>();
 			IntStream.range(0, args.length).forEach(index -> arguments.add(args[index]));
 			this.manager.process(arguments);
 		} else {

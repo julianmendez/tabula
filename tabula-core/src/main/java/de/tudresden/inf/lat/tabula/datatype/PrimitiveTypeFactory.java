@@ -1,5 +1,6 @@
 package de.tudresden.inf.lat.tabula.datatype;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -8,7 +9,7 @@ import java.util.TreeMap;
  */
 public class PrimitiveTypeFactory {
 
-	private TreeMap<String, PrimitiveType> map = new TreeMap<>();
+	private Map<String, PrimitiveType> map = new TreeMap<>();
 
 	private void add(PrimitiveType primType) {
 		this.map.put(primType.getTypeName(), primType);

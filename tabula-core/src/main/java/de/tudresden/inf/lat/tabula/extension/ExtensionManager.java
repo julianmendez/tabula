@@ -2,6 +2,7 @@ package de.tudresden.inf.lat.tabula.extension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -16,8 +17,8 @@ public class ExtensionManager implements Extension {
 	public static final char NewLine = '\n';
 	public static final char Space = ' ';
 
-	private final ArrayList<Extension> extensions = new ArrayList<>();
-	private final TreeMap<String, Extension> extensionMap = new TreeMap<>();
+	private final List<Extension> extensions = new ArrayList<>();
+	private final Map<String, Extension> extensionMap = new TreeMap<>();
 
 	/**
 	 * Constructs an extension manager.
@@ -45,7 +46,7 @@ public class ExtensionManager implements Extension {
 			return false;
 		} else {
 			String command = arguments.get(0);
-			ArrayList<String> newArguments = new ArrayList<>();
+			List<String> newArguments = new ArrayList<>();
 			newArguments.addAll(arguments);
 			newArguments.remove(0);
 			Extension extension = this.extensionMap.get(command);
