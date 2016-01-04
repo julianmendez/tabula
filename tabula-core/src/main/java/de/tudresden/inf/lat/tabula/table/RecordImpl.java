@@ -13,7 +13,7 @@ import de.tudresden.inf.lat.tabula.datatype.Record;
  */
 public class RecordImpl implements Record {
 
-	private final TreeMap<String, PrimitiveTypeValue> map = new TreeMap<String, PrimitiveTypeValue>();
+	private final TreeMap<String, PrimitiveTypeValue> map = new TreeMap<>();
 
 	public RecordImpl() {
 	}
@@ -36,7 +36,7 @@ public class RecordImpl implements Record {
 
 	@Override
 	public List<String> getProperties() {
-		ArrayList<String> ret = new ArrayList<String>();
+		ArrayList<String> ret = new ArrayList<>();
 		ret.addAll(map.keySet());
 		return ret;
 	}

@@ -106,8 +106,8 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	private void setSortingOrder(String line, TableImpl table) {
-		TreeSet<String> fieldsWithReverseOrder = new TreeSet<String>();
-		ArrayList<String> list = new ArrayList<String>();
+		TreeSet<String> fieldsWithReverseOrder = new TreeSet<>();
+		ArrayList<String> list = new ArrayList<>();
 		StringTokenizer stok = new StringTokenizer(getValue(line));
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
@@ -235,7 +235,7 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public TableMap parseMap(BufferedReader input) throws IOException {
-		TreeMap<String, TableImpl> map = new TreeMap<String, TableImpl>();
+		TreeMap<String, TableImpl> map = new TreeMap<>();
 
 		String line = "";
 		TableImpl currentTable = null;

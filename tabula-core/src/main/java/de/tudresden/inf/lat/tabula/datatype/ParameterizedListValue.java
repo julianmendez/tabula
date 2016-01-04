@@ -51,7 +51,7 @@ public class ParameterizedListValue extends ArrayList<PrimitiveTypeValue> implem
 
 	@Override
 	public List<String> renderAsList() {
-		ArrayList<String> ret = new ArrayList<String>();
+		ArrayList<String> ret = new ArrayList<>();
 		this.forEach(elem -> ret.add(elem.render()));
 		return Collections.unmodifiableList(ret);
 	}

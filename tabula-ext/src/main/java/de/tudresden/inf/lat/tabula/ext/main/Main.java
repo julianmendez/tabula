@@ -28,7 +28,7 @@ public class Main {
 	 * Constructs a new main class.
 	 */
 	public Main() {
-		ArrayList<Extension> extensions = new ArrayList<Extension>();
+		ArrayList<Extension> extensions = new ArrayList<>();
 		extensions.add(new DefaultExtension());
 		extensions.add(new CsvParserExtension());
 		extensions.add(new CalendarParserExtension());
@@ -43,7 +43,7 @@ public class Main {
 
 	public void run(String args[]) {
 		if ((args != null) && ((args.length == 2) || (args.length == 3) || (args.length == 4))) {
-			ArrayList<String> arguments = new ArrayList<String>();
+			ArrayList<String> arguments = new ArrayList<>();
 			IntStream.range(0, args.length).forEach(index -> arguments.add(args[index]));
 			this.manager.process(arguments);
 		} else {

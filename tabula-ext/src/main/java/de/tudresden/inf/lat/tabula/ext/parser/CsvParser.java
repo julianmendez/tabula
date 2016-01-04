@@ -45,7 +45,7 @@ public class CsvParser implements Parser {
 	}
 
 	public List<String> getColumns(String line0) {
-		ArrayList<String> ret = new ArrayList<String>();
+		ArrayList<String> ret = new ArrayList<>();
 		String line = (line0 == null) ? "" : line0.trim();
 		StringBuffer current = new StringBuffer();
 		boolean betweenQuotes = false;
@@ -91,7 +91,7 @@ public class CsvParser implements Parser {
 	}
 
 	public List<String> normalizeHeaders(List<String> headers, int lineCounter) {
-		ArrayList<String> ret = new ArrayList<String>();
+		ArrayList<String> ret = new ArrayList<>();
 		int idCount = 0;
 		for (String header : headers) {
 			String fieldName = normalize(header);

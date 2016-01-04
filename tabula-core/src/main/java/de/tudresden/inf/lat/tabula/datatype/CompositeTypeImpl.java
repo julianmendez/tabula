@@ -11,8 +11,8 @@ import java.util.TreeMap;
  */
 public class CompositeTypeImpl implements CompositeType {
 
-	private final ArrayList<String> fields = new ArrayList<String>();
-	private final TreeMap<String, String> fieldType = new TreeMap<String, String>();
+	private final ArrayList<String> fields = new ArrayList<>();
+	private final TreeMap<String, String> fieldType = new TreeMap<>();
 
 	/**
 	 * Constructs a new default implementation of type.

@@ -18,10 +18,10 @@ import de.tudresden.inf.lat.tabula.datatype.Record;
 public class TableImpl implements Table {
 
 	private CompositeType tableType = new CompositeTypeImpl();
-	private final ArrayList<Record> list = new ArrayList<Record>();
-	private final TreeSet<String> identifiers = new TreeSet<String>();
-	private final ArrayList<String> sortingOrder = new ArrayList<String>();
-	private final TreeSet<String> fieldsWithReverseOrder = new TreeSet<String>();
+	private final ArrayList<Record> list = new ArrayList<>();
+	private final TreeSet<String> identifiers = new TreeSet<>();
+	private final ArrayList<String> sortingOrder = new ArrayList<>();
+	private final TreeSet<String> fieldsWithReverseOrder = new TreeSet<>();
 
 	public TableImpl() {
 	}
@@ -80,7 +80,7 @@ public class TableImpl implements Table {
 
 	@Override
 	public List<Record> getRecords() {
-		ArrayList<Record> ret = new ArrayList<Record>();
+		ArrayList<Record> ret = new ArrayList<>();
 		ret.addAll(this.list);
 		Collections.sort(ret, new RecordComparator(this.sortingOrder,
 				this.fieldsWithReverseOrder));

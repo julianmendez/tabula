@@ -16,8 +16,8 @@ public class ExtensionManager implements Extension {
 	public static final char NewLine = '\n';
 	public static final char Space = ' ';
 
-	private final ArrayList<Extension> extensions = new ArrayList<Extension>();
-	private final TreeMap<String, Extension> extensionMap = new TreeMap<String, Extension>();
+	private final ArrayList<Extension> extensions = new ArrayList<>();
+	private final TreeMap<String, Extension> extensionMap = new TreeMap<>();
 
 	/**
 	 * Constructs an extension manager.
@@ -45,7 +45,7 @@ public class ExtensionManager implements Extension {
 			return false;
 		} else {
 			String command = arguments.get(0);
-			ArrayList<String> newArguments = new ArrayList<String>();
+			ArrayList<String> newArguments = new ArrayList<>();
 			newArguments.addAll(arguments);
 			newArguments.remove(0);
 			Extension extension = this.extensionMap.get(command);

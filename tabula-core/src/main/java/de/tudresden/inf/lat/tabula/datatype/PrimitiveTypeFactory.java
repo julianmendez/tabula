@@ -8,7 +8,7 @@ import java.util.TreeMap;
  */
 public class PrimitiveTypeFactory {
 
-	private TreeMap<String, PrimitiveType> map = new TreeMap<String, PrimitiveType>();
+	private TreeMap<String, PrimitiveType> map = new TreeMap<>();
 
 	private void add(PrimitiveType primType) {
 		this.map.put(primType.getTypeName(), primType);

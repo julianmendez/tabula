@@ -69,7 +69,7 @@ public class URIValue implements PrimitiveTypeValue {
 
 	@Override
 	public List<String> renderAsList() {
-		ArrayList<String> ret = new ArrayList<String>();
+		ArrayList<String> ret = new ArrayList<>();
 		ret.add(render());
 		return Collections.unmodifiableList(ret);
 	}
