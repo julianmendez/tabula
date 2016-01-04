@@ -5,9 +5,9 @@ import java.io.UncheckedIOException;
 import java.io.Writer;
 
 /**
- * This interface models an unchecked writer. This looks like a {@link Writer},
- * but throws an {@link UncheckedIOException} where a <code>Writer</code> throws
- * an {@link IOException}.
+ * This models an unchecked writer. This looks like a {@link Writer}, but throws
+ * an {@link UncheckedIOException} where a <code>Writer</code> throws an
+ * {@link IOException}.
  * 
  * @author Julian Mendez
  *
