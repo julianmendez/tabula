@@ -1,6 +1,5 @@
 package de.tudresden.inf.lat.tabula.ext.renderer;
 
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
@@ -13,6 +12,8 @@ import de.tudresden.inf.lat.tabula.datatype.StringValue;
 import de.tudresden.inf.lat.tabula.datatype.URIValue;
 import de.tudresden.inf.lat.tabula.parser.ParserConstant;
 import de.tudresden.inf.lat.tabula.renderer.Renderer;
+import de.tudresden.inf.lat.tabula.renderer.UncheckedWriter;
+import de.tudresden.inf.lat.tabula.renderer.UncheckedWriterImpl;
 import de.tudresden.inf.lat.tabula.table.Table;
 import de.tudresden.inf.lat.tabula.table.TableMap;
 
@@ -51,7 +52,7 @@ public class SqlRenderer implements Renderer {
 		return str.replace(Apostrophe, ApostropheReplacement);
 	}
 
-	public boolean writeStringIfNotEmpty(Writer output, String field, StringValue value) throws IOException {
+	public boolean writeStringIfNotEmpty(UncheckedWriter output, String field, StringValue value) {
 		if (field != null && !field.trim().isEmpty() && value != null && !value.toString().trim().isEmpty()) {
 			output.write(Apostrophe);
 			output.write(sanitize(value.toString()));
@@ -63,8 +64,7 @@ public class SqlRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeParameterizedListIfNotEmpty(Writer output, String field, ParameterizedListValue list)
-			throws IOException {
+	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
 		if (list != null && !list.isEmpty()) {
 			output.write(Apostrophe);
 			for (PrimitiveTypeValue strVal : list) {
@@ -79,7 +79,7 @@ public class SqlRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeLinkIfNotEmpty(Writer output, String field, URIValue link) throws IOException {
+	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String field, URIValue link) {
 		if (link != null && !link.isEmpty()) {
 			output.write(Apostrophe);
 			output.write(sanitize(link.toString()));
@@ -91,7 +91,7 @@ public class SqlRenderer implements Renderer {
 		}
 	}
 
-	public void render(Writer output, String tableName, Record record, List<String> fields) throws IOException {
+	public void render(UncheckedWriter output, String tableName, Record record, List<String> fields) {
 
 		output.write(ParserConstant.NewLine);
 		output.write(InsertInto);
@@ -138,7 +138,7 @@ public class SqlRenderer implements Renderer {
 		output.write(Semicolon);
 	}
 
-	public void renderAllRecords(Writer output, String tableName, CompositeTypeValue table) throws IOException {
+	public void renderAllRecords(UncheckedWriter output, String tableName, CompositeTypeValue table) {
 		output.write(ParserConstant.NewLine);
 		List<Record> list = table.getRecords();
 		for (Record record : list) {
@@ -148,7 +148,7 @@ public class SqlRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderTypes(Writer output, String tableName, CompositeTypeValue table) throws IOException {
+	public void renderTypes(UncheckedWriter output, String tableName, CompositeTypeValue table) {
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
 		output.write(CreateTable + ParserConstant.Space);
 		output.write(tableName + ParserConstant.Space);
@@ -173,7 +173,7 @@ public class SqlRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderOrder(Writer output, String tableName, Table table) throws IOException {
+	public void renderOrder(UncheckedWriter output, String tableName, Table table) {
 		output.write(ParserConstant.NewLine);
 		output.write(SelectAllFrom);
 		output.write(ParserConstant.Space);
@@ -203,7 +203,7 @@ public class SqlRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderPrefix(Writer output) throws IOException {
+	public void renderPrefix(UncheckedWriter output) {
 		output.write(ParserConstant.NewLine);
 		output.write(CreateDatabase + ParserConstant.Space + DefaultDatabaseName + Semicolon);
 		output.write(ParserConstant.NewLine);
@@ -213,7 +213,7 @@ public class SqlRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void render(Writer output, TableMap tableMap) throws IOException {
+	public void render(UncheckedWriter output, TableMap tableMap) {
 		renderPrefix(output);
 		for (String tableName : tableMap.getTableIds()) {
 			Table table = tableMap.getTable(tableName);
@@ -227,11 +227,7 @@ public class SqlRenderer implements Renderer {
 
 	@Override
 	public void render(TableMap tableMap) {
-		try {
-			render(this.output, tableMap);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		render(new UncheckedWriterImpl(this.output), tableMap);
 	}
 
 }

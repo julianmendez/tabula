@@ -1,6 +1,5 @@
 package de.tudresden.inf.lat.tabula.ext.renderer;
 
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
@@ -13,6 +12,8 @@ import de.tudresden.inf.lat.tabula.datatype.StringValue;
 import de.tudresden.inf.lat.tabula.datatype.URIValue;
 import de.tudresden.inf.lat.tabula.parser.ParserConstant;
 import de.tudresden.inf.lat.tabula.renderer.Renderer;
+import de.tudresden.inf.lat.tabula.renderer.UncheckedWriter;
+import de.tudresden.inf.lat.tabula.renderer.UncheckedWriterImpl;
 import de.tudresden.inf.lat.tabula.table.Table;
 import de.tudresden.inf.lat.tabula.table.TableMap;
 
@@ -36,7 +37,7 @@ public class CsvRenderer implements Renderer {
 		return str.replace(Quotes, QuotesReplacement);
 	}
 
-	public boolean writeStringIfNotEmpty(Writer output, String field, StringValue value) throws IOException {
+	public boolean writeStringIfNotEmpty(UncheckedWriter output, String field, StringValue value) {
 		if (field != null && !field.trim().isEmpty() && value != null && !value.toString().trim().isEmpty()) {
 			output.write(Quotes);
 			output.write(sanitize(value.toString()));
@@ -48,8 +49,7 @@ public class CsvRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeParameterizedListIfNotEmpty(Writer output, String field, ParameterizedListValue list)
-			throws IOException {
+	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
 		if (list != null && !list.isEmpty()) {
 			output.write(Quotes);
 			for (PrimitiveTypeValue value : list) {
@@ -64,7 +64,7 @@ public class CsvRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeLinkIfNotEmpty(Writer output, String field, URIValue link) throws IOException {
+	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String field, URIValue link) {
 		if (link != null && !link.isEmpty()) {
 			output.write(Quotes);
 			output.write(sanitize(link.toString()));
@@ -76,7 +76,7 @@ public class CsvRenderer implements Renderer {
 		}
 	}
 
-	public void render(Writer output, Record record, List<String> fields) throws IOException {
+	public void render(UncheckedWriter output, Record record, List<String> fields) {
 
 		boolean first = true;
 		for (String field : fields) {
@@ -110,14 +110,14 @@ public class CsvRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderAllRecords(Writer output, CompositeTypeValue table) throws IOException {
+	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
 		List<Record> list = table.getRecords();
 		for (Record record : list) {
 			render(output, record, table.getType().getFields());
 		}
 	}
 
-	public void renderTypeSelection(Writer output, String tableName, CompositeTypeValue table) throws IOException {
+	public void renderTypeSelection(UncheckedWriter output, String tableName, CompositeTypeValue table) {
 		output.write(Quotes);
 		output.write(tableName);
 		output.write(Quotes);
@@ -129,7 +129,7 @@ public class CsvRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderTypeDefinition(Writer output, CompositeTypeValue table) throws IOException {
+	public void renderTypeDefinition(UncheckedWriter output, CompositeTypeValue table) {
 		boolean first = true;
 		for (String field : table.getType().getFields()) {
 			if (first) {
@@ -144,7 +144,7 @@ public class CsvRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void render(Writer output, TableMap tableMap) throws IOException {
+	public void render(UncheckedWriter output, TableMap tableMap) {
 		for (String tableName : tableMap.getTableIds()) {
 			Table table = tableMap.getTable(tableName);
 			renderTypeSelection(output, tableName, table);
@@ -156,11 +156,7 @@ public class CsvRenderer implements Renderer {
 
 	@Override
 	public void render(TableMap tableMap) {
-		try {
-			render(this.output, tableMap);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		render(new UncheckedWriterImpl(this.output), tableMap);
 	}
 
 }

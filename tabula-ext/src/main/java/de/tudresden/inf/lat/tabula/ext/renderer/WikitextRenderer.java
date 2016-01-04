@@ -1,6 +1,5 @@
 package de.tudresden.inf.lat.tabula.ext.renderer;
 
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
@@ -16,6 +15,8 @@ import de.tudresden.inf.lat.tabula.datatype.URIType;
 import de.tudresden.inf.lat.tabula.datatype.URIValue;
 import de.tudresden.inf.lat.tabula.parser.ParserConstant;
 import de.tudresden.inf.lat.tabula.renderer.Renderer;
+import de.tudresden.inf.lat.tabula.renderer.UncheckedWriter;
+import de.tudresden.inf.lat.tabula.renderer.UncheckedWriterImpl;
 import de.tudresden.inf.lat.tabula.table.TableMap;
 
 /**
@@ -29,7 +30,7 @@ public class WikitextRenderer implements Renderer {
 		output = output0;
 	}
 
-	public boolean writeStringIfNotEmpty(Writer output, String prefix, StringValue str) throws IOException {
+	public boolean writeStringIfNotEmpty(UncheckedWriter output, String prefix, StringValue str) {
 		if (str != null && !str.toString().trim().isEmpty()) {
 			output.write(prefix);
 			output.write(str.toString());
@@ -40,8 +41,8 @@ public class WikitextRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeParameterizedListIfNotEmpty(Writer output, String prefix, ParameterizedListValue list)
-			throws IOException {
+	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String prefix,
+			ParameterizedListValue list) {
 		if (list != null) {
 			output.write(prefix);
 			for (PrimitiveTypeValue value : list) {
@@ -59,7 +60,7 @@ public class WikitextRenderer implements Renderer {
 		}
 	}
 
-	public boolean writeLinkIfNotEmpty(Writer output, String prefix, URIValue link) throws IOException {
+	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String prefix, URIValue link) {
 		if (link != null && !link.isEmpty()) {
 			output.write(prefix);
 			output.write("[");
@@ -74,7 +75,7 @@ public class WikitextRenderer implements Renderer {
 		}
 	}
 
-	public void render(Writer output, Record record, List<String> fields) throws IOException {
+	public void render(UncheckedWriter output, Record record, List<String> fields) {
 
 		for (String field : fields) {
 			PrimitiveTypeValue value = record.get(field);
@@ -103,7 +104,7 @@ public class WikitextRenderer implements Renderer {
 		}
 	}
 
-	public void renderAllRecords(Writer output, CompositeTypeValue table) throws IOException {
+	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
 		List<Record> list = table.getRecords();
 		output.write("{|\n");
 		output.write("|-\n");
@@ -114,7 +115,7 @@ public class WikitextRenderer implements Renderer {
 		output.write("|}\n");
 	}
 
-	public void renderMap(Writer output, Map<String, String> map) throws IOException {
+	public void renderMap(UncheckedWriter output, Map<String, String> map) {
 		output.write("{| border=\"1\"\n");
 		output.write("|-\n");
 		for (String key : map.keySet()) {
@@ -131,7 +132,7 @@ public class WikitextRenderer implements Renderer {
 		output.write("\n");
 	}
 
-	public void render(Writer output, TableMap tableMap) throws IOException {
+	public void render(UncheckedWriter output, TableMap tableMap) {
 		output.write("\n");
 		for (String tableId : tableMap.getTableIds()) {
 			CompositeTypeValue table = tableMap.getTable(tableId);
@@ -144,11 +145,7 @@ public class WikitextRenderer implements Renderer {
 
 	@Override
 	public void render(TableMap tableMap) {
-		try {
-			render(this.output, tableMap);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		render(new UncheckedWriterImpl(this.output), tableMap);
 	}
 
 }

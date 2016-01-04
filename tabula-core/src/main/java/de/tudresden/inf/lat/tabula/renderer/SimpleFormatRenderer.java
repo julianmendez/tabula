@@ -1,6 +1,5 @@
 package de.tudresden.inf.lat.tabula.renderer;
 
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
@@ -26,7 +25,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output = output0;
 	}
 
-	public boolean writeIfNotEmpty(Writer output, String field, PrimitiveTypeValue value) throws IOException {
+	public boolean writeIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {
 		if (field != null && !field.trim().isEmpty() && value != null && !value.isEmpty()) {
 			output.write(ParserConstant.NewLine);
 			output.write(field);
@@ -51,7 +50,7 @@ public class SimpleFormatRenderer implements Renderer {
 		}
 	}
 
-	public void render(Writer output, Record record, List<String> fields) throws IOException {
+	public void render(UncheckedWriter output, Record record, List<String> fields) {
 
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
 		output.write(ParserConstant.NewRecordToken + ParserConstant.Space);
@@ -65,7 +64,7 @@ public class SimpleFormatRenderer implements Renderer {
 		}
 	}
 
-	public void renderAllRecords(Writer output, CompositeTypeValue table) throws IOException {
+	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
 		List<Record> list = table.getRecords();
 		for (Record record : list) {
 			render(output, record, table.getType().getFields());
@@ -74,7 +73,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderTypeSelection(Writer output, String tableName, CompositeTypeValue table) throws IOException {
+	public void renderTypeSelection(UncheckedWriter output, String tableName, CompositeTypeValue table) {
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
 		output.write(ParserConstant.TypeSelectionToken + ParserConstant.Space);
 		output.write(ParserConstant.EqualsSign);
@@ -83,7 +82,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderTypeDefinition(Writer output, CompositeTypeValue table) throws IOException {
+	public void renderTypeDefinition(UncheckedWriter output, CompositeTypeValue table) {
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
 		output.write(ParserConstant.TypeDefinitionToken + ParserConstant.Space);
 		output.write(ParserConstant.EqualsSign);
@@ -99,7 +98,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void renderOrder(Writer output, Table table) throws IOException {
+	public void renderOrder(UncheckedWriter output, Table table) {
 		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
 		output.write(ParserConstant.SortingOrderDeclarationToken + ParserConstant.Space);
 		output.write(ParserConstant.EqualsSign);
@@ -116,7 +115,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.NewLine);
 	}
 
-	public void render(Writer output, TableMap tableMap) throws IOException {
+	public void render(UncheckedWriter output, TableMap tableMap) {
 		output.write(Prefix);
 		for (String tableName : tableMap.getTableIds()) {
 			Table table = tableMap.getTable(tableName);
@@ -131,11 +130,7 @@ public class SimpleFormatRenderer implements Renderer {
 
 	@Override
 	public void render(TableMap tableMap) {
-		try {
-			render(this.output, tableMap);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		render(new UncheckedWriterImpl(this.output), tableMap);
 	}
 
 }
