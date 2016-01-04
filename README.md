@@ -6,7 +6,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.tu-dresden.inf.lat.tabula/tabula-parent/badge.svg)](http://search.maven.org/#search|ga|1|g%3A%22de.tu-dresden.inf.lat.tabula%22)
 
 
-Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](http://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-) file, but allows defining the same property for different objects.
+Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-) file, but allows defining the same property for different objects.
 
 
 ## Download
@@ -25,7 +25,7 @@ Tabula is a system to manage human-readable tables using files. It uses a specif
 
 ## Format
 
-The Tabula format has *primitive types* and *composite types*. Unless something different is stated in the [release notes](http://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md), the primitive types are:
+The Tabula format has *primitive types* and *composite types*. Unless something different is stated in the [release notes](https://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md), the primitive types are:
 * `String`: any string without any newline (`'\n'` 0x0A, `'\r'` 0x0D), and not ending in backslash (`'\'` 0x5C), neither in blanks (`'\t'` 0x08, `' '` 0x20)  
 * `URI`: any valid Uniform Resource Identifier
 * `List_String`: list of space-separated words
@@ -192,14 +192,15 @@ where *NEW_VERSION* is the new version.
 
 ## License
 
-This software is distributed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt).
+This software is distributed under the [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt).
 
 
 ## Release notes
 
-See [release notes](http://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md).
+See [release notes](https://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md).
 
 ## Contact
 
 In case you need more information, please contact @julianmendez .
+
 
