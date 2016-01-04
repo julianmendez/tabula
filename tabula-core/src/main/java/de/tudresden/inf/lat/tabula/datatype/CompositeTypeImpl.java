@@ -77,9 +77,7 @@ public class CompositeTypeImpl implements CompositeType {
 	@Override
 	public String toString() {
 		StringBuffer sbuf = new StringBuffer();
-		for (String field : this.fields) {
-			sbuf.append(field + ":" + this.fieldType.get(field) + " ");
-		}
+		this.fields.forEach(field -> sbuf.append(field + ":" + this.fieldType.get(field) + " "));
 		return sbuf.toString();
 	}
 
