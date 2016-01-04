@@ -251,9 +251,9 @@ public class CalendarParser implements Parser {
 		Record currentRecord = null;
 		String currentTableId = null;
 
-		Stack<String> tableIdStack = new Stack<String>();
-		Stack<Record> recordStack = new Stack<Record>();
-		Stack<TableImpl> tableStack = new Stack<TableImpl>();
+		Stack<String> tableIdStack = new Stack<>();
+		Stack<Record> recordStack = new Stack<>();
+		Stack<TableImpl> tableStack = new Stack<>();
 		List<Integer> generatedIds = new ArrayList<>();
 
 		List<Pair> lines = preload(input);
