@@ -16,7 +16,20 @@ public class RecordImpl implements Record {
 
 	private final Map<String, PrimitiveTypeValue> map = new TreeMap<>();
 
+	/**
+	 * Constructs a new record.
+	 */
 	public RecordImpl() {
+	}
+
+	/**
+	 * Constructs a new record using another one.
+	 * 
+	 * @param otherRecord
+	 *            other record
+	 */
+	public RecordImpl(Record otherRecord) {
+		otherRecord.getProperties().forEach(property -> set(property, otherRecord.get(property)));
 	}
 
 	@Override
