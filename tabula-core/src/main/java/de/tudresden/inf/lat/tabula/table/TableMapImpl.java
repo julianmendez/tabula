@@ -14,6 +14,22 @@ public class TableMapImpl implements TableMap {
 	private final Map<String, Table> map = new TreeMap<>();
 
 	/**
+	 * Constructs a new table map.
+	 */
+	public TableMapImpl() {
+	}
+
+	/**
+	 * Constructs a new table map using another one.
+	 * 
+	 * @param otherTableMap
+	 *            other table map
+	 */
+	public TableMapImpl(TableMap otherTableMap) {
+		otherTableMap.getTableIds().forEach(tableId -> put(tableId, otherTableMap.getTable(tableId)));
+	}
+
+	/**
 	 * Returns the identifiers of the stored tables.
 	 * 
 	 * @return the identifiers of the stored tables
