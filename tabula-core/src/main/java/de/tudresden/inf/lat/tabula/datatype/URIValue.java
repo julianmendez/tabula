@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This models a link.
+ * This models a URI.
  *
  */
 public class URIValue implements PrimitiveTypeValue {
@@ -16,8 +16,24 @@ public class URIValue implements PrimitiveTypeValue {
 
 	private URI uri = null;
 
+	/**
+	 * Constructs a new URI value using a string.
+	 * 
+	 * @param link
+	 *            URI
+	 */
 	public URIValue(String link) {
 		this.uri = createURI(link);
+	}
+
+	/**
+	 * Constructs a new URI value using another URI value.
+	 * 
+	 * @param other
+	 *            URI value
+	 */
+	public URIValue(URIValue other) {
+		this.uri = other.getUri();
 	}
 
 	@Override

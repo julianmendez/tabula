@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.datatype;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This models a list of elements with a parameterized type.
@@ -16,12 +17,29 @@ public class ParameterizedListValue extends ArrayList<PrimitiveTypeValue> implem
 
 	private final PrimitiveType parameter;
 
+	/**
+	 * Constructs a new parameterized list value.
+	 * 
+	 * @param parameter0
+	 *            primitive type
+	 */
 	public ParameterizedListValue(PrimitiveType parameter0) {
 		super();
-		if (parameter0 == null) {
-			throw new IllegalArgumentException("Null argument.");
-		}
+		Objects.requireNonNull(parameter0);
 		this.parameter = parameter0;
+	}
+
+	/**
+	 * Constructs a new parameterized list value using another parameterized
+	 * list value.
+	 * 
+	 * @param other
+	 *            parameterized list value
+	 */
+	public ParameterizedListValue(ParameterizedListValue other) {
+		super();
+		Objects.requireNonNull(other);
+		this.parameter = other.getParameter();
 	}
 
 	@Override

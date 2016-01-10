@@ -4,15 +4,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This models a string value.
+ * 
+ */
 public class StringValue implements PrimitiveTypeValue {
 
 	private String str = "";
 
+	/**
+	 * Constructs a new empty string value.
+	 */
 	public StringValue() {
 	}
 
+	/**
+	 * Constructs a new string value using a string.
+	 * 
+	 * @param str0
+	 *            string
+	 */
 	public StringValue(String str0) {
 		this.str = (str0 == null) ? "" : str0.trim();
+	}
+
+	/**
+	 * Constructs a new string value using another string value.
+	 * 
+	 * @param other
+	 *            a string value
+	 */
+	public StringValue(StringValue other) {
+		this.str = other.str;
 	}
 
 	@Override
