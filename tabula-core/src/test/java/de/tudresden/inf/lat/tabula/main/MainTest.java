@@ -27,9 +27,9 @@ public class MainTest {
 	public static final String INPUT_FILE_NAME = "src/test/resources/example.properties";
 	public static final String EXPECTED_OUTPUT_FILE_NAME = "src/test/resources/example-modified.properties";
 
-	public static final String FIELD_AUTHORS = "authors";
-	public static final String FIELD_RECORD = "record";
-	public static final String FIELD_NUMBER_OF_AUTHORS = "numberOfAuthors";
+	public static final String TYPE_NAME_RECORD = "record";
+	public static final String FIELD_NAME_AUTHORS = "authors";
+	public static final String FIELD_NAME_NUMBER_OF_AUTHORS = "numberOfAuthors";
 	public static final String TYPE_OF_NUMBER_OF_AUTHORS = "String";
 	public static final String NEW_LINE = "\n";
 
@@ -48,13 +48,13 @@ public class MainTest {
 		oldTableMap.getTableIds().forEach(tableId -> newTableMap.put(tableId, oldTableMap.getTable(tableId)));
 
 		// Get the main table
-		Table table = newTableMap.getTable(FIELD_RECORD);
+		Table table = newTableMap.getTable(TYPE_NAME_RECORD);
 
 		// Make a copy of the main table
 		TableImpl newTable = new TableImpl(table);
 
 		// Add the new table to the new table map
-		newTableMap.put(FIELD_RECORD, newTable);
+		newTableMap.put(TYPE_NAME_RECORD, newTable);
 
 		// Get type of main table
 		CompositeType oldType = table.getType();
@@ -65,8 +65,8 @@ public class MainTest {
 		oldType.getFields().forEach(field -> newType.declareField(field, oldType.getFieldType(field)));
 
 		// Add new declaration with number of authors
-		if (!newType.getFields().contains(FIELD_NUMBER_OF_AUTHORS)) {
-			newType.declareField(FIELD_NUMBER_OF_AUTHORS, TYPE_OF_NUMBER_OF_AUTHORS);
+		if (!newType.getFields().contains(FIELD_NAME_NUMBER_OF_AUTHORS)) {
+			newType.declareField(FIELD_NAME_NUMBER_OF_AUTHORS, TYPE_OF_NUMBER_OF_AUTHORS);
 		}
 
 		// Update type of table
@@ -74,9 +74,9 @@ public class MainTest {
 
 		// Compute the number of authors for each record
 		table.getRecords().forEach(record -> {
-			List<String> authors = record.get(FIELD_AUTHORS).renderAsList();
+			List<String> authors = record.get(FIELD_NAME_AUTHORS).renderAsList();
 			int numberOfAuthors = authors.size();
-			record.set(FIELD_NUMBER_OF_AUTHORS, new StringValue("" + numberOfAuthors));
+			record.set(FIELD_NAME_NUMBER_OF_AUTHORS, new StringValue("" + numberOfAuthors));
 		});
 
 		// Store the new table map
