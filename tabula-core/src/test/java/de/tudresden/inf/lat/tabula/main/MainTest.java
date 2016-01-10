@@ -43,6 +43,7 @@ public class MainTest {
 		TableMap oldTableMap = new SimpleFormatParser(new FileReader(INPUT_FILE_NAME)).parse();
 
 		// Make a copy of the tableMap
+		// TableMapImpl newTableMap = new TableMapImpl(oldTableMap);
 		TableMapImpl newTableMap = new TableMapImpl();
 		oldTableMap.getTableIds().forEach(tableId -> newTableMap.put(tableId, oldTableMap.getTable(tableId)));
 
@@ -59,6 +60,7 @@ public class MainTest {
 		CompositeType oldType = table.getType();
 
 		// Make a copy of type
+		// CompositeTypeImpl newType = new CompositeTypeImpl(oldType);
 		CompositeTypeImpl newType = new CompositeTypeImpl();
 		oldType.getFields().forEach(field -> newType.declareField(field, oldType.getFieldType(field)));
 
