@@ -16,9 +16,19 @@ public class CompositeTypeImpl implements CompositeType {
 	private final Map<String, String> fieldType = new TreeMap<>();
 
 	/**
-	 * Constructs a new default implementation of type.
+	 * Constructs a new composite type.
 	 */
 	public CompositeTypeImpl() {
+	}
+
+	/**
+	 * Constructs a new composite type using another one.
+	 * 
+	 * @param otherType
+	 *            other type
+	 */
+	public CompositeTypeImpl(CompositeType otherType) {
+		otherType.getFields().forEach(field -> declareField(field, otherType.getFieldType(field)));
 	}
 
 	@Override
