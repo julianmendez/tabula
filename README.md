@@ -143,6 +143,14 @@ documents = \
 
 ```
 
+An example like this one is used for the unit tests.
+
+For example, the [MainTest](https://github.com/julianmendez/tabula/blob/master/tabula-core/src/test/java/de/tudresden/inf/lat/tabula/main/MainTest.java) class does the following steps:
+* read the [example file](https://github.com/julianmendez/tabula/blob/master/tabula-core/src/test/resources/example.properties)
+* add a new field `numberOfAuthors`
+* add to each record the number of authors 
+* compare the [expected result](https://github.com/julianmendez/tabula/blob/master/tabula-core/src/test/resources/example-modified.properties)
+
 
 ## Source code
 
