@@ -4,13 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeType;
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeImpl;
+import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
+import de.tudresden.inf.lat.tabula.datatype.Record;
 import de.tudresden.inf.lat.tabula.datatype.StringValue;
 import de.tudresden.inf.lat.tabula.parser.SimpleFormatParser;
 import de.tudresden.inf.lat.tabula.renderer.SimpleFormatRenderer;
@@ -32,6 +33,19 @@ public class MainTest {
 	public static final String FIELD_NAME_NUMBER_OF_AUTHORS = "numberOfAuthors";
 	public static final String TYPE_OF_NUMBER_OF_AUTHORS = "String";
 	public static final String NEW_LINE = "\n";
+
+	/**
+	 * Returns the number of authors for a given record.
+	 * 
+	 * @param record
+	 *            record
+	 * @return the number of authors for a given record
+	 */
+	StringValue computeFieldValue(Record record) {
+		PrimitiveTypeValue value = record.get(FIELD_NAME_AUTHORS);
+		int size = (value == null) ? 0 : value.renderAsList().size();
+		return new StringValue("" + size);
+	}
 
 	@Test
 	public void addNewFieldOldTest() throws IOException {
@@ -73,11 +87,7 @@ public class MainTest {
 		newTable.setType(newType);
 
 		// Compute the number of authors for each record
-		table.getRecords().forEach(record -> {
-			List<String> authors = record.get(FIELD_NAME_AUTHORS).renderAsList();
-			int numberOfAuthors = authors.size();
-			record.set(FIELD_NAME_NUMBER_OF_AUTHORS, new StringValue("" + numberOfAuthors));
-		});
+		table.getRecords().forEach(record -> record.set(FIELD_NAME_NUMBER_OF_AUTHORS, computeFieldValue(record)));
 
 		// Store the new table map
 		StringWriter writer = new StringWriter();
