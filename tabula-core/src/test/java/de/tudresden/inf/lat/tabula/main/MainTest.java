@@ -31,7 +31,7 @@ public class MainTest {
 	public static final String FIELD_RECORD = "record";
 	public static final String FIELD_NUMBER_OF_AUTHORS = "numberOfAuthors";
 	public static final String TYPE_OF_NUMBER_OF_AUTHORS = "String";
-	public static final String NEWLINE = "\n";
+	public static final String NEW_LINE = "\n";
 
 	@Test
 	public void addNewFieldOldTest() throws IOException {
@@ -85,7 +85,7 @@ public class MainTest {
 		// Read the expected output
 		StringBuffer sbuf = new StringBuffer();
 		BufferedReader reader = new BufferedReader(new FileReader(EXPECTED_OUTPUT_FILE_NAME));
-		reader.lines().forEach(line -> sbuf.append(line + NEWLINE));
+		reader.lines().forEach(line -> sbuf.append(line + NEW_LINE));
 		reader.close();
 
 		// Compare the expected output with the actual output
