@@ -6,11 +6,11 @@ package de.tudresden.inf.lat.tabula.datatype;
  */
 public class URIType implements PrimitiveType {
 
-	public static final String TypeName = "URI";
+	public static final String TYPE_NAME = "URI";
 
 	@Override
 	public String getTypeName() {
-		return TypeName;
+		return TYPE_NAME;
 	}
 
 	@Override

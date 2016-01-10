@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
  */
 public class ParameterizedListType implements PrimitiveType {
 
-	public static final String TypePrefix = "List_";
+	public static final String TYPE_PREFIX = "List_";
 
 	private final PrimitiveType parameter;
 
@@ -21,7 +21,7 @@ public class ParameterizedListType implements PrimitiveType {
 
 	@Override
 	public String getTypeName() {
-		return TypePrefix + this.parameter.getTypeName();
+		return TYPE_PREFIX + this.parameter.getTypeName();
 	}
 
 	@Override

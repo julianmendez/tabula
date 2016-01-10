@@ -22,25 +22,25 @@ import de.tudresden.inf.lat.tabula.table.TableMap;
  */
 public class SqlRenderer implements Renderer {
 
-	public static final int DefaultSize = 0x800;
-	public static final String DefaultDatabaseName = "tabula";
-	public static final String CreateDatabase = "create database";
-	public static final String Use = "use";
-	public static final String CreateTable = "create table";
-	public static final String OpenPar = "(";
-	public static final String ClosePar = ")";
-	public static final String DefaultFieldType = "varchar(" + DefaultSize + ")";
-	public static final String Comma = ",";
-	public static final String Semicolon = ";";
-	public static final String Values = "values";
-	public static final String Null = "null";
-	public static final String Apostrophe = "'";
-	public static final String InsertInto = "insert into";
-	public static final String ApostropheReplacement = "%27";
-	public static final String Asc = "asc";
-	public static final String Desc = "desc";
-	public static final String SelectAllFrom = "select * from";
-	public static final String OrderBy = "order by";
+	public static final int DEFAULT_SIZE = 0x800;
+	public static final String DEFAULT_DATABASE_NAME = "tabula";
+	public static final String CREATE_DATABASE = "create database";
+	public static final String USE = "use";
+	public static final String CREATE_TABLE = "create table";
+	public static final String OPEN_PAR = "(";
+	public static final String CLOSE_PAR = ")";
+	public static final String DEFAULT_FIELD_TYPE = "varchar(" + DEFAULT_SIZE + ")";
+	public static final String COMMA = ",";
+	public static final String SEMICOLON = ";";
+	public static final String VALUES = "values";
+	public static final String NULL = "null";
+	public static final String APOSTROPHE = "'";
+	public static final String INSERT_INTO = "insert into";
+	public static final String APOSTROPHE_REPLACEMENT = "%27";
+	public static final String ASC = "asc";
+	public static final String DESC = "desc";
+	public static final String SELECT_ALL_FROM = "select * from";
+	public static final String ORDER_BY = "order by";
 
 	private Writer output = new OutputStreamWriter(System.out);
 
@@ -49,68 +49,68 @@ public class SqlRenderer implements Renderer {
 	}
 
 	public String sanitize(String str) {
-		return str.replace(Apostrophe, ApostropheReplacement);
+		return str.replace(APOSTROPHE, APOSTROPHE_REPLACEMENT);
 	}
 
 	public boolean writeStringIfNotEmpty(UncheckedWriter output, String field, StringValue value) {
 		if (field != null && !field.trim().isEmpty() && value != null && !value.toString().trim().isEmpty()) {
-			output.write(Apostrophe);
+			output.write(APOSTROPHE);
 			output.write(sanitize(value.toString()));
-			output.write(Apostrophe);
+			output.write(APOSTROPHE);
 			return true;
 		} else {
-			output.write(Null);
+			output.write(NULL);
 			return false;
 		}
 	}
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
 		if (list != null && !list.isEmpty()) {
-			output.write(Apostrophe);
+			output.write(APOSTROPHE);
 			list.forEach(strVal -> {
 				output.write(sanitize(strVal.toString()));
-				output.write(ParserConstant.Space);
+				output.write(ParserConstant.SPACE);
 			});
-			output.write(Apostrophe);
+			output.write(APOSTROPHE);
 			return true;
 		} else {
-			output.write(Null);
+			output.write(NULL);
 			return false;
 		}
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String field, URIValue link) {
 		if (link != null && !link.isEmpty()) {
-			output.write(Apostrophe);
+			output.write(APOSTROPHE);
 			output.write(sanitize(link.toString()));
-			output.write(Apostrophe);
+			output.write(APOSTROPHE);
 			return true;
 		} else {
-			output.write(Null);
+			output.write(NULL);
 			return false;
 		}
 	}
 
 	public void render(UncheckedWriter output, String tableName, Record record, List<String> fields) {
 
-		output.write(ParserConstant.NewLine);
-		output.write(InsertInto);
-		output.write(ParserConstant.Space);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(INSERT_INTO);
+		output.write(ParserConstant.SPACE);
 		output.write(tableName);
-		output.write(ParserConstant.Space);
-		output.write(Values);
-		output.write(ParserConstant.Space);
-		output.write(OpenPar);
-		output.write(ParserConstant.Space);
+		output.write(ParserConstant.SPACE);
+		output.write(VALUES);
+		output.write(ParserConstant.SPACE);
+		output.write(OPEN_PAR);
+		output.write(ParserConstant.SPACE);
 
 		boolean first = true;
 		for (String field : fields) {
 			if (first) {
 				first = false;
 			} else {
-				output.write(Comma);
+				output.write(COMMA);
 			}
-			output.write(ParserConstant.NewLine);
+			output.write(ParserConstant.NEW_LINE);
 			PrimitiveTypeValue value = record.get(field);
 			if (value != null) {
 				if (value instanceof StringValue) {
@@ -130,87 +130,87 @@ public class SqlRenderer implements Renderer {
 				}
 
 			} else {
-				output.write(Null);
+				output.write(NULL);
 			}
 		}
-		output.write(ParserConstant.NewLine);
-		output.write(ClosePar);
-		output.write(Semicolon);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(CLOSE_PAR);
+		output.write(SEMICOLON);
 	}
 
 	public void renderAllRecords(UncheckedWriter output, String tableName, CompositeTypeValue table) {
-		output.write(ParserConstant.NewLine);
+		output.write(ParserConstant.NEW_LINE);
 		List<Record> list = table.getRecords();
 		list.forEach(record -> {
 			render(output, tableName, record, table.getType().getFields());
-			output.write(ParserConstant.NewLine);
+			output.write(ParserConstant.NEW_LINE);
 		});
-		output.write(ParserConstant.NewLine);
+		output.write(ParserConstant.NEW_LINE);
 	}
 
 	public void renderTypes(UncheckedWriter output, String tableName, CompositeTypeValue table) {
-		output.write(ParserConstant.NewLine + ParserConstant.NewLine);
-		output.write(CreateTable + ParserConstant.Space);
-		output.write(tableName + ParserConstant.Space);
-		output.write(OpenPar);
-		output.write(ParserConstant.NewLine);
+		output.write(ParserConstant.NEW_LINE + ParserConstant.NEW_LINE);
+		output.write(CREATE_TABLE + ParserConstant.SPACE);
+		output.write(tableName + ParserConstant.SPACE);
+		output.write(OPEN_PAR);
+		output.write(ParserConstant.NEW_LINE);
 		boolean first = true;
 		for (String field : table.getType().getFields()) {
 			if (first) {
 				first = false;
 			} else {
-				output.write(Comma);
-				output.write(ParserConstant.NewLine);
+				output.write(COMMA);
+				output.write(ParserConstant.NEW_LINE);
 			}
 			output.write(field);
-			output.write(ParserConstant.Space);
-			output.write(DefaultFieldType);
+			output.write(ParserConstant.SPACE);
+			output.write(DEFAULT_FIELD_TYPE);
 		}
-		output.write(ParserConstant.NewLine);
-		output.write(ClosePar);
-		output.write(Semicolon);
-		output.write(ParserConstant.NewLine);
-		output.write(ParserConstant.NewLine);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(CLOSE_PAR);
+		output.write(SEMICOLON);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(ParserConstant.NEW_LINE);
 	}
 
 	public void renderOrder(UncheckedWriter output, String tableName, Table table) {
-		output.write(ParserConstant.NewLine);
-		output.write(SelectAllFrom);
-		output.write(ParserConstant.Space);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(SELECT_ALL_FROM);
+		output.write(ParserConstant.SPACE);
 		output.write(tableName);
-		output.write(ParserConstant.NewLine);
-		output.write(OrderBy);
-		output.write(ParserConstant.Space);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(ORDER_BY);
+		output.write(ParserConstant.SPACE);
 
 		boolean first = true;
 		for (String field : table.getSortingOrder()) {
 			if (first) {
 				first = false;
 			} else {
-				output.write(Comma);
-				output.write(ParserConstant.Space);
+				output.write(COMMA);
+				output.write(ParserConstant.SPACE);
 			}
 			output.write(field);
-			output.write(ParserConstant.Space);
+			output.write(ParserConstant.SPACE);
 			if (table.getFieldsWithReverseOrder().contains(field)) {
-				output.write(Desc);
+				output.write(DESC);
 			} else {
-				output.write(Asc);
+				output.write(ASC);
 			}
 		}
-		output.write(Semicolon);
-		output.write(ParserConstant.NewLine);
-		output.write(ParserConstant.NewLine);
+		output.write(SEMICOLON);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(ParserConstant.NEW_LINE);
 	}
 
 	public void renderPrefix(UncheckedWriter output) {
-		output.write(ParserConstant.NewLine);
-		output.write(CreateDatabase + ParserConstant.Space + DefaultDatabaseName + Semicolon);
-		output.write(ParserConstant.NewLine);
-		output.write(ParserConstant.NewLine);
-		output.write(Use + ParserConstant.Space + DefaultDatabaseName + Semicolon);
-		output.write(ParserConstant.NewLine);
-		output.write(ParserConstant.NewLine);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(CREATE_DATABASE + ParserConstant.SPACE + DEFAULT_DATABASE_NAME + SEMICOLON);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(USE + ParserConstant.SPACE + DEFAULT_DATABASE_NAME + SEMICOLON);
+		output.write(ParserConstant.NEW_LINE);
+		output.write(ParserConstant.NEW_LINE);
 	}
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
@@ -221,7 +221,7 @@ public class SqlRenderer implements Renderer {
 			renderAllRecords(output, tableName, table);
 			renderOrder(output, tableName, table);
 		});
-		output.write(ParserConstant.NewLine);
+		output.write(ParserConstant.NEW_LINE);
 		output.flush();
 	}
 

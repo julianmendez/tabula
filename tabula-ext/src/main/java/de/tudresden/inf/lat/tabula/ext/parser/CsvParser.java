@@ -24,13 +24,13 @@ import de.tudresden.inf.lat.tabula.table.TableMapImpl;
  */
 public class CsvParser implements Parser {
 
-	public static final char UnderscoreChar = '_';
-	public static final char CommaChar = ',';
-	public static final char QuotesChar = '"';
+	public static final char UNDERSCORE_CHAR = '_';
+	public static final char COMMA_CHAR = ',';
+	public static final char QUOTES_CHAR = '"';
 
-	public static final String DefaultTableName = "defaultType";
-	public static final String DefaultFieldType = "String";
-	public static final String Underscore = "" + UnderscoreChar;
+	public static final String DEFAULT_TABLE_NAME = "defaultType";
+	public static final String DEFAULT_FIELD_TYPE = "String";
+	public static final String UNDERSCORE = "" + UNDERSCORE_CHAR;
 
 	private Reader input = new InputStreamReader(System.in);
 
@@ -51,9 +51,9 @@ public class CsvParser implements Parser {
 		boolean betweenQuotes = false;
 		for (int index = 0; index < line.length(); index += 1) {
 			char ch = line.charAt(index);
-			if (ch == QuotesChar) {
+			if (ch == QUOTES_CHAR) {
 				betweenQuotes = !betweenQuotes;
-			} else if ((ch == CommaChar) && !betweenQuotes) {
+			} else if ((ch == COMMA_CHAR) && !betweenQuotes) {
 				ret.add(current.toString());
 				current = new StringBuffer();
 			} else {
@@ -68,7 +68,7 @@ public class CsvParser implements Parser {
 
 	private TableImpl createSortedTable(List<String> fields) {
 		CompositeTypeImpl tableType = new CompositeTypeImpl();
-		fields.forEach(fieldName -> tableType.declareField(fieldName, DefaultFieldType));
+		fields.forEach(fieldName -> tableType.declareField(fieldName, DEFAULT_FIELD_TYPE));
 
 		TableImpl ret = new TableImpl();
 		ret.setType(tableType);
@@ -76,14 +76,14 @@ public class CsvParser implements Parser {
 	}
 
 	public String normalize(String fieldName) {
-		String auxName = fieldName == null ? Underscore : fieldName.trim();
-		String name = auxName.isEmpty() ? Underscore : auxName;
+		String auxName = fieldName == null ? UNDERSCORE : fieldName.trim();
+		String name = auxName.isEmpty() ? UNDERSCORE : auxName;
 
 		StringBuffer ret = new StringBuffer();
 		IntStream.range(0, name.length()).forEach(index -> {
 			char ch = name.charAt(index);
 			if (!Character.isLetterOrDigit(ch)) {
-				ch = UnderscoreChar;
+				ch = UNDERSCORE_CHAR;
 			}
 			ret.append(ch);
 		});
@@ -95,11 +95,11 @@ public class CsvParser implements Parser {
 		int idCount = 0;
 		for (String header : headers) {
 			String fieldName = normalize(header);
-			if (fieldName.equals(ParserConstant.IdKeyword)) {
+			if (fieldName.equals(ParserConstant.ID_KEYWORD)) {
 				idCount += 1;
 			}
 			if (idCount > 1) {
-				throw new ParseException("This cannot have two identifiers (field '" + ParserConstant.IdKeyword
+				throw new ParseException("This cannot have two identifiers (field '" + ParserConstant.ID_KEYWORD
 						+ "') (line " + lineCounter + ")");
 			} else {
 				ret.add(fieldName);
@@ -131,7 +131,7 @@ public class CsvParser implements Parser {
 				int index = 0;
 				for (String column : columns) {
 					String field = fieldNames.get(index);
-					if (field.equals(ParserConstant.IdKeyword)) {
+					if (field.equals(ParserConstant.ID_KEYWORD)) {
 						currentId = column;
 					}
 					StringValue value = new StringValue(column);
@@ -147,7 +147,7 @@ public class CsvParser implements Parser {
 		}
 
 		TableMapImpl ret = new TableMapImpl();
-		ret.put(DefaultTableName, currentTable);
+		ret.put(DEFAULT_TABLE_NAME, currentTable);
 		return ret;
 	}
 

@@ -12,7 +12,7 @@ public class ParameterizedListValue extends ArrayList<PrimitiveTypeValue> implem
 
 	private static final long serialVersionUID = 6919072594014964617L;
 
-	public static final String Separator = " ";
+	public static final String SEPARATOR = " ";
 
 	private final PrimitiveType parameter;
 
@@ -42,7 +42,7 @@ public class ParameterizedListValue extends ArrayList<PrimitiveTypeValue> implem
 			if (first) {
 				first = false;
 			} else {
-				sbuf.append(Separator);
+				sbuf.append(SEPARATOR);
 			}
 			sbuf.append(str);
 		}

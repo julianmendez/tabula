@@ -11,11 +11,11 @@ import java.util.TreeMap;
  */
 public class ExtensionManager implements Extension {
 
-	public static final String Name = "ext";
-	public static final String Help = "extension manager";
-	public static final int RequiredArguments = 1;
-	public static final char NewLine = '\n';
-	public static final char Space = ' ';
+	public static final String NAME = "ext";
+	public static final String HELP = "extension manager";
+	public static final int REQUIRED_ARGUMENTS = 1;
+	public static final char NEW_LINE = '\n';
+	public static final char SPACE = ' ';
 
 	private final List<Extension> extensions = new ArrayList<>();
 	private final Map<String, Extension> extensionMap = new TreeMap<>();
@@ -42,7 +42,7 @@ public class ExtensionManager implements Extension {
 
 	@Override
 	public boolean process(List<String> arguments) {
-		if (arguments == null || arguments.size() < RequiredArguments) {
+		if (arguments == null || arguments.size() < REQUIRED_ARGUMENTS) {
 			return false;
 		} else {
 			String command = arguments.get(0);
@@ -61,7 +61,7 @@ public class ExtensionManager implements Extension {
 
 	@Override
 	public String getExtensionName() {
-		return Name;
+		return NAME;
 	}
 
 	@Override
@@ -69,16 +69,16 @@ public class ExtensionManager implements Extension {
 		StringBuffer sbuf = new StringBuffer();
 		this.extensions.forEach(extension -> {
 			sbuf.append(extension.getExtensionName());
-			sbuf.append(Space);
+			sbuf.append(SPACE);
 			sbuf.append(extension.getHelp());
-			sbuf.append(NewLine);
+			sbuf.append(NEW_LINE);
 		});
 		return sbuf.toString();
 	}
 
 	@Override
 	public int getRequiredArguments() {
-		return RequiredArguments;
+		return REQUIRED_ARGUMENTS;
 	}
 
 }

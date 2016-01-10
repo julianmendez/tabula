@@ -83,7 +83,7 @@ public class WikitextRenderer implements Renderer {
 			if (value == null) {
 				output.write("\n");
 			} else {
-				String prefix = field + ParserConstant.EqualsSign;
+				String prefix = field + ParserConstant.EQUALS_SIGN;
 				if (value instanceof StringValue) {
 					StringValue strVal = (StringValue) value;
 					writeStringIfNotEmpty(output, prefix, strVal);

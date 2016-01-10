@@ -185,11 +185,11 @@ public class CalendarParser implements Parser {
 		String key = getKey(line);
 		String valueStr = getValue(line);
 		PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
-		if (key.equals(ParserConstant.IdKeyword)) {
+		if (key.equals(ParserConstant.ID_KEYWORD)) {
 			if (currentTable.getIdentifiers().contains(valueStr)) {
 				throw new ParseException(
-						"Identifier '" + ParserConstant.IdKeyword + ParserConstant.Space + ParserConstant.EqualsSign
-								+ ParserConstant.Space + valueStr + "' is duplicated (line " + lineCounter + ").");
+						"Identifier '" + ParserConstant.ID_KEYWORD + ParserConstant.SPACE + ParserConstant.EQUALS_SIGN
+								+ ParserConstant.SPACE + valueStr + "' is duplicated (line " + lineCounter + ").");
 			}
 		}
 		record.set(key, value);

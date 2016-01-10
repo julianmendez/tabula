@@ -23,13 +23,13 @@ import de.tudresden.inf.lat.tabula.table.TableMap;
  */
 public class HtmlRenderer implements Renderer {
 
-	public static final String Prefix = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+	public static final String PREFIX = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 			+ "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">"
 			+ "\n" + "\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">" + "\n<head>"
 			+ "\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + "\n  <title></title>"
 			+ "\n</head>" + "\n<body>" + "\n  <div>" + "\n" + "\n<br />" + "\n" + "\n";
 
-	public static final String Suffix = "\n" + "\n" + "\n  </div>" + "\n</body>" + "\n</html>" + "\n";
+	public static final String SUFFIX = "\n" + "\n" + "\n  </div>" + "\n</body>" + "\n</html>" + "\n";
 
 	private Writer output = new OutputStreamWriter(System.out);
 
@@ -140,14 +140,14 @@ public class HtmlRenderer implements Renderer {
 	}
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
-		output.write(Prefix);
+		output.write(PREFIX);
 		tableMap.getTableIds().forEach(tableId -> {
 			CompositeTypeValue table = tableMap.getTable(tableId);
 			renderAllRecords(output, table);
 		});
 		output.write("\n");
 		output.write("\n");
-		output.write(Suffix);
+		output.write(SUFFIX);
 		output.flush();
 	}
 

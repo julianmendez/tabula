@@ -15,7 +15,7 @@ import de.tudresden.inf.lat.tabula.extension.NormalizationExtension;
  */
 public class Main {
 
-	private static final String Header = "Use: java -jar (jarname) (command) (input) (output)\n\n";
+	private static final String HEADER = "Use: java -jar (jarname) (command) (input) (output)\n\n";
 
 	private final ExtensionManager manager;
 
@@ -36,7 +36,7 @@ public class Main {
 			IntStream.range(0, args.length).forEach(index -> arguments.add(args[index]));
 			this.manager.process(arguments);
 		} else {
-			System.out.println(Header + this.manager.getHelp());
+			System.out.println(HEADER + this.manager.getHelp());
 		}
 	}
 

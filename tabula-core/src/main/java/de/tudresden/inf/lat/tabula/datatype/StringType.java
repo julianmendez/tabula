@@ -6,11 +6,11 @@ package de.tudresden.inf.lat.tabula.datatype;
  */
 public class StringType implements PrimitiveType {
 
-	public static final String TypeName = "String";
+	public static final String TYPE_NAME = "String";
 
 	@Override
 	public String getTypeName() {
-		return TypeName;
+		return TYPE_NAME;
 	}
 
 	@Override

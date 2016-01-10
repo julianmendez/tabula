@@ -17,13 +17,13 @@ import de.tudresden.inf.lat.tabula.table.TableMap;
  */
 public class WikitextExtension implements Extension {
 
-	public static final String Name = "wikitext";
-	public static final String Help = "(input) (output) : create output as Wiki text file";
-	public static final int RequiredArguments = 2;
+	public static final String NAME = "wikitext";
+	public static final String HELP = "(input) (output) : create output as Wiki text file";
+	public static final int REQUIRED_ARGUMENTS = 2;
 
 	@Override
 	public boolean process(List<String> arguments) {
-		if (arguments == null || arguments.size() != RequiredArguments) {
+		if (arguments == null || arguments.size() != REQUIRED_ARGUMENTS) {
 			return false;
 		} else {
 			try {
@@ -42,17 +42,17 @@ public class WikitextExtension implements Extension {
 
 	@Override
 	public String getExtensionName() {
-		return Name;
+		return NAME;
 	}
 
 	@Override
 	public String getHelp() {
-		return Help;
+		return HELP;
 	}
 
 	@Override
 	public int getRequiredArguments() {
-		return RequiredArguments;
+		return REQUIRED_ARGUMENTS;
 	}
 
 }

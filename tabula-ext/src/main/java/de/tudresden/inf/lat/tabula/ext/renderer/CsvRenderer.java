@@ -23,10 +23,10 @@ import de.tudresden.inf.lat.tabula.table.TableMap;
  */
 public class CsvRenderer implements Renderer {
 
-	public static final String Quotes = "\"";
-	public static final String QuotesReplacement = "''";
-	public static final String Null = "";
-	public static final String Comma = ",";
+	public static final String QUOTES = "\"";
+	public static final String QUOTES_REPLACEMENT = "''";
+	public static final String NULL = "";
+	public static final String COMMA = ",";
 
 	private Writer output = new OutputStreamWriter(System.out);
 
@@ -35,44 +35,44 @@ public class CsvRenderer implements Renderer {
 	}
 
 	public String sanitize(String str) {
-		return str.replace(Quotes, QuotesReplacement);
+		return str.replace(QUOTES, QUOTES_REPLACEMENT);
 	}
 
 	public boolean writeStringIfNotEmpty(UncheckedWriter output, String field, StringValue value) {
 		if (field != null && !field.trim().isEmpty() && value != null && !value.toString().trim().isEmpty()) {
-			output.write(Quotes);
+			output.write(QUOTES);
 			output.write(sanitize(value.toString()));
-			output.write(Quotes);
+			output.write(QUOTES);
 			return true;
 		} else {
-			output.write(Null);
+			output.write(NULL);
 			return false;
 		}
 	}
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
 		if (list != null && !list.isEmpty()) {
-			output.write(Quotes);
+			output.write(QUOTES);
 			list.forEach(value -> {
 				output.write(sanitize(value.toString()));
-				output.write(ParserConstant.Space);
+				output.write(ParserConstant.SPACE);
 			});
-			output.write(Quotes);
+			output.write(QUOTES);
 			return true;
 		} else {
-			output.write(Null);
+			output.write(NULL);
 			return false;
 		}
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String field, URIValue link) {
 		if (link != null && !link.isEmpty()) {
-			output.write(Quotes);
+			output.write(QUOTES);
 			output.write(sanitize(link.toString()));
-			output.write(Quotes);
+			output.write(QUOTES);
 			return true;
 		} else {
-			output.write(Null);
+			output.write(NULL);
 			return false;
 		}
 	}
@@ -84,7 +84,7 @@ public class CsvRenderer implements Renderer {
 			if (first) {
 				first = false;
 			} else {
-				output.write(Comma);
+				output.write(COMMA);
 			}
 			PrimitiveTypeValue value = record.get(field);
 			if (value != null) {
@@ -105,10 +105,10 @@ public class CsvRenderer implements Renderer {
 				}
 
 			} else {
-				output.write(Null);
+				output.write(NULL);
 			}
 		}
-		output.write(ParserConstant.NewLine);
+		output.write(ParserConstant.NEW_LINE);
 	}
 
 	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
@@ -119,15 +119,15 @@ public class CsvRenderer implements Renderer {
 	}
 
 	public void renderTypeSelection(UncheckedWriter output, String tableName, CompositeTypeValue table) {
-		output.write(Quotes);
+		output.write(QUOTES);
 		output.write(tableName);
-		output.write(Quotes);
+		output.write(QUOTES);
 		int n = table.getType().getFields().size();
 		IntStream.range(1, n).forEach(index -> {
-			output.write(Comma);
-			output.write(Null);
+			output.write(COMMA);
+			output.write(NULL);
 		});
-		output.write(ParserConstant.NewLine);
+		output.write(ParserConstant.NEW_LINE);
 	}
 
 	public void renderTypeDefinition(UncheckedWriter output, CompositeTypeValue table) {
@@ -136,13 +136,13 @@ public class CsvRenderer implements Renderer {
 			if (first) {
 				first = false;
 			} else {
-				output.write(Comma);
+				output.write(COMMA);
 			}
-			output.write(Quotes);
+			output.write(QUOTES);
 			output.write(field);
-			output.write(Quotes);
+			output.write(QUOTES);
 		}
-		output.write(ParserConstant.NewLine);
+		output.write(ParserConstant.NEW_LINE);
 	}
 
 	public void render(UncheckedWriter output, TableMap tableMap) {

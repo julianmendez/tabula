@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class URIValue implements PrimitiveTypeValue {
 
-	public static final String SpecialSymbol = "#";
+	public static final String SPECIAL_SYMBOL = "#";
 
 	private URI uri = null;
 
@@ -39,7 +39,7 @@ public class URIValue implements PrimitiveTypeValue {
 
 	public URI getUriNoLabel() {
 		String uriStr = this.uri.toASCIIString();
-		int pos = uriStr.lastIndexOf(SpecialSymbol);
+		int pos = uriStr.lastIndexOf(SPECIAL_SYMBOL);
 		if (pos == -1) {
 			return this.uri;
 		} else {
@@ -49,11 +49,11 @@ public class URIValue implements PrimitiveTypeValue {
 
 	public String getLabel() {
 		String uriStr = this.uri.toASCIIString();
-		int pos = uriStr.lastIndexOf(SpecialSymbol);
+		int pos = uriStr.lastIndexOf(SPECIAL_SYMBOL);
 		if (pos == -1) {
 			return "";
 		} else {
-			return uriStr.substring(pos + SpecialSymbol.length());
+			return uriStr.substring(pos + SPECIAL_SYMBOL.length());
 		}
 	}
 

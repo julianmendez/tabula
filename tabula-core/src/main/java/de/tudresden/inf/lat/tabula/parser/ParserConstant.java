@@ -5,18 +5,18 @@ package de.tudresden.inf.lat.tabula.parser;
  */
 public interface ParserConstant {
 
-	String CommentSymbol = "#";
-	String EqualsSign = "=";
-	String StandardOrderSign = "+";
-	String ReverseOrderSign = "-";
-	String IdKeyword = "id";
-	String LineContinuationSymbol = "\\";
-	String NewLine = "\n";
-	String NewRecordToken = "new";
-	String SortingOrderDeclarationToken = "order";
-	String Space = " ";
-	String TypeSelectionToken = "type";
-	String TypeDefinitionToken = "def";
-	String TypeSign = ":";
+	String COMMENT_SYMBOL = "#";
+	String EQUALS_SIGN = "=";
+	String STANDARD_ORDER_SIGN = "+";
+	String REVERSE_ORDER_SIGN = "-";
+	String ID_KEYWORD = "id";
+	String LINE_CONTINUATION_SYMBOL = "\\";
+	String NEW_LINE = "\n";
+	String NEW_RECORD_TOKEN = "new";
+	String SORTING_ORDER_DECLARATION_TOKEN = "order";
+	String SPACE = " ";
+	String TYPE_SELECTION_TOKEN = "type";
+	String TYPE_DEFINITION_TOKEN = "def";
+	String TYPE_SIGN = ":";
 
 }

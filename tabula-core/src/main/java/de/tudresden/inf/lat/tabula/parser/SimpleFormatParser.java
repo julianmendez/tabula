@@ -59,7 +59,7 @@ public class SimpleFormatParser implements Parser {
 		if (line == null) {
 			return null;
 		} else {
-			int pos = line.indexOf(ParserConstant.EqualsSign);
+			int pos = line.indexOf(ParserConstant.EQUALS_SIGN);
 			if (pos == -1) {
 				return line;
 			} else {
@@ -72,11 +72,11 @@ public class SimpleFormatParser implements Parser {
 		if (line == null) {
 			return null;
 		} else {
-			int pos = line.indexOf(ParserConstant.EqualsSign);
+			int pos = line.indexOf(ParserConstant.EQUALS_SIGN);
 			if (pos == -1) {
 				return "";
 			} else {
-				return line.substring(pos + ParserConstant.EqualsSign.length(), line.length()).trim();
+				return line.substring(pos + ParserConstant.EQUALS_SIGN.length(), line.length()).trim();
 			}
 		}
 	}
@@ -87,12 +87,12 @@ public class SimpleFormatParser implements Parser {
 		PrimitiveTypeFactory factory = new PrimitiveTypeFactory();
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
-			int pos = token.indexOf(ParserConstant.TypeSign);
+			int pos = token.indexOf(ParserConstant.TYPE_SIGN);
 			if (pos == -1) {
 				throw new ParseException("Field '" + line + "' does not have a type. (line " + lineCounter + ")");
 			} else {
 				String key = token.substring(0, pos);
-				String value = token.substring((pos + ParserConstant.TypeSign.length()), token.length());
+				String value = token.substring((pos + ParserConstant.TYPE_SIGN.length()), token.length());
 				if (factory.contains(value)) {
 					ret.declareField(key, value);
 				} else {
@@ -109,10 +109,10 @@ public class SimpleFormatParser implements Parser {
 		StringTokenizer stok = new StringTokenizer(getValue(line));
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
-			if (token.startsWith(ParserConstant.StandardOrderSign)) {
-				token = token.substring(ParserConstant.StandardOrderSign.length());
-			} else if (token.startsWith(ParserConstant.ReverseOrderSign)) {
-				token = token.substring(ParserConstant.ReverseOrderSign.length());
+			if (token.startsWith(ParserConstant.STANDARD_ORDER_SIGN)) {
+				token = token.substring(ParserConstant.STANDARD_ORDER_SIGN.length());
+			} else if (token.startsWith(ParserConstant.REVERSE_ORDER_SIGN)) {
+				token = token.substring(ParserConstant.REVERSE_ORDER_SIGN.length());
 				fieldsWithReverseOrder.add(token);
 			}
 			list.add(token);
@@ -122,19 +122,19 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public boolean isTypeSelection(String line) {
-		return (line != null) && line.trim().startsWith(ParserConstant.TypeSelectionToken);
+		return (line != null) && line.trim().startsWith(ParserConstant.TYPE_SELECTION_TOKEN);
 	}
 
 	public boolean isTypeDefinition(String line) {
-		return (line != null) && line.trim().startsWith(ParserConstant.TypeDefinitionToken);
+		return (line != null) && line.trim().startsWith(ParserConstant.TYPE_DEFINITION_TOKEN);
 	}
 
 	public boolean isSortingOrderDeclaration(String line) {
-		return (line != null) && line.trim().startsWith(ParserConstant.SortingOrderDeclarationToken);
+		return (line != null) && line.trim().startsWith(ParserConstant.SORTING_ORDER_DECLARATION_TOKEN);
 	}
 
 	public boolean isNewRecord(String line) {
-		return (line != null) && line.trim().startsWith(ParserConstant.NewRecordToken);
+		return (line != null) && line.trim().startsWith(ParserConstant.NEW_RECORD_TOKEN);
 	}
 
 	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, int lineCounter) {
@@ -162,13 +162,13 @@ public class SimpleFormatParser implements Parser {
 			return new Pair(lineCounter, null);
 		} else {
 			lineCounter += 1;
-			if (line.startsWith(ParserConstant.CommentSymbol)) {
+			if (line.startsWith(ParserConstant.COMMENT_SYMBOL)) {
 				return new Pair(lineCounter, "");
 			} else {
 				String multiLine = line;
-				while (multiLine.endsWith(ParserConstant.LineContinuationSymbol)) {
+				while (multiLine.endsWith(ParserConstant.LINE_CONTINUATION_SYMBOL)) {
 					multiLine = multiLine.substring(0,
-							multiLine.length() - ParserConstant.LineContinuationSymbol.length()) + ParserConstant.Space;
+							multiLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length()) + ParserConstant.SPACE;
 					line = input.readLine();
 					if (line != null) {
 						lineCounter += 1;
@@ -182,13 +182,13 @@ public class SimpleFormatParser implements Parser {
 
 	private boolean isIdProperty(String line) {
 		String key = getKey(line);
-		return key.equals(ParserConstant.IdKeyword);
+		return key.equals(ParserConstant.ID_KEYWORD);
 	}
 
 	private String getIdProperty(String line) {
 		String key = getKey(line);
 		String valueStr = getValue(line);
-		if (key.equals(ParserConstant.IdKeyword)) {
+		if (key.equals(ParserConstant.ID_KEYWORD)) {
 			return valueStr;
 		} else {
 			return null;
@@ -203,11 +203,11 @@ public class SimpleFormatParser implements Parser {
 		String key = getKey(line);
 		String valueStr = getValue(line);
 		PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
-		if (key.equals(ParserConstant.IdKeyword)) {
+		if (key.equals(ParserConstant.ID_KEYWORD)) {
 			if (currentTable.getIdentifiers().contains(valueStr)) {
 				throw new ParseException(
-						"Identifier '" + ParserConstant.IdKeyword + ParserConstant.Space + ParserConstant.EqualsSign
-								+ ParserConstant.Space + valueStr + "' is duplicated (line " + lineCounter + ").");
+						"Identifier '" + ParserConstant.ID_KEYWORD + ParserConstant.SPACE + ParserConstant.EQUALS_SIGN
+								+ ParserConstant.SPACE + valueStr + "' is duplicated (line " + lineCounter + ").");
 			}
 		}
 		record.set(key, value);

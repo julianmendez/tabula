@@ -18,13 +18,13 @@ import de.tudresden.inf.lat.tabula.table.TableMap;
  */
 public class CalendarParserExtension implements Extension {
 
-	public static final String Name = "parsecalendar";
-	public static final String Help = "(input) (output) : create output file with a simple text format parsing a calendar file";
-	public static final int RequiredArguments = 2;
+	public static final String NAME = "parsecalendar";
+	public static final String HELP = "(input) (output) : create output file with a simple text format parsing a calendar file";
+	public static final int REQUIRED_ARGUMENTS = 2;
 
 	@Override
 	public boolean process(List<String> arguments) {
-		if (arguments == null || arguments.size() != RequiredArguments) {
+		if (arguments == null || arguments.size() != REQUIRED_ARGUMENTS) {
 			return false;
 		} else {
 			try {
@@ -43,17 +43,17 @@ public class CalendarParserExtension implements Extension {
 
 	@Override
 	public String getExtensionName() {
-		return Name;
+		return NAME;
 	}
 
 	@Override
 	public String getHelp() {
-		return Help;
+		return HELP;
 	}
 
 	@Override
 	public int getRequiredArguments() {
-		return RequiredArguments;
+		return REQUIRED_ARGUMENTS;
 	}
 
 }

@@ -9,12 +9,12 @@ import java.util.List;
  */
 public class SimplifiedCompositeType implements CompositeType {
 
-	public static final String DefaultFieldType = "String";
+	public static final String DEFAULT_FIELD_TYPE = "String";
 
 	private CompositeTypeImpl dataType = new CompositeTypeImpl();
 
 	public SimplifiedCompositeType(String[] knownFields) {
-		Arrays.stream(knownFields).forEach(field -> this.dataType.declareField(field, DefaultFieldType));
+		Arrays.stream(knownFields).forEach(field -> this.dataType.declareField(field, DEFAULT_FIELD_TYPE));
 	}
 
 	@Override
