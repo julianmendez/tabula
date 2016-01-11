@@ -165,12 +165,14 @@ public class SimpleFormatParser implements Parser {
 			if (line.startsWith(ParserConstant.COMMENT_SYMBOL)) {
 				return new Pair(lineCounter, "");
 			} else {
-				String multiLine = line;
+				String multiLine = line.trim();
 				while (multiLine.endsWith(ParserConstant.LINE_CONTINUATION_SYMBOL)) {
 					multiLine = multiLine.substring(0,
-							multiLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length()) + ParserConstant.SPACE;
+							multiLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length())
+							+ ParserConstant.SPACE;
 					line = input.readLine();
 					if (line != null) {
+						line = line.trim();
 						lineCounter += 1;
 						multiLine += line;
 					}
