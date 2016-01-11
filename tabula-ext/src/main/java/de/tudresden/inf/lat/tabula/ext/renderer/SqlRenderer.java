@@ -27,8 +27,8 @@ public class SqlRenderer implements Renderer {
 	public static final String CREATE_DATABASE = "create database";
 	public static final String USE = "use";
 	public static final String CREATE_TABLE = "create table";
-	public static final String OPEN_PAR = "(";
-	public static final String CLOSE_PAR = ")";
+	public static final String LEFT_PAR = "(";
+	public static final String RIGHT_PAR = ")";
 	public static final String DEFAULT_FIELD_TYPE = "varchar(" + DEFAULT_SIZE + ")";
 	public static final String COMMA = ",";
 	public static final String SEMICOLON = ";";
@@ -100,7 +100,7 @@ public class SqlRenderer implements Renderer {
 		output.write(ParserConstant.SPACE);
 		output.write(VALUES);
 		output.write(ParserConstant.SPACE);
-		output.write(OPEN_PAR);
+		output.write(LEFT_PAR);
 		output.write(ParserConstant.SPACE);
 
 		boolean first = true;
@@ -134,7 +134,7 @@ public class SqlRenderer implements Renderer {
 			}
 		}
 		output.write(ParserConstant.NEW_LINE);
-		output.write(CLOSE_PAR);
+		output.write(RIGHT_PAR);
 		output.write(SEMICOLON);
 	}
 
@@ -152,7 +152,7 @@ public class SqlRenderer implements Renderer {
 		output.write(ParserConstant.NEW_LINE + ParserConstant.NEW_LINE);
 		output.write(CREATE_TABLE + ParserConstant.SPACE);
 		output.write(tableName + ParserConstant.SPACE);
-		output.write(OPEN_PAR);
+		output.write(LEFT_PAR);
 		output.write(ParserConstant.NEW_LINE);
 		boolean first = true;
 		for (String field : table.getType().getFields()) {
@@ -167,7 +167,7 @@ public class SqlRenderer implements Renderer {
 			output.write(DEFAULT_FIELD_TYPE);
 		}
 		output.write(ParserConstant.NEW_LINE);
-		output.write(CLOSE_PAR);
+		output.write(RIGHT_PAR);
 		output.write(SEMICOLON);
 		output.write(ParserConstant.NEW_LINE);
 		output.write(ParserConstant.NEW_LINE);
