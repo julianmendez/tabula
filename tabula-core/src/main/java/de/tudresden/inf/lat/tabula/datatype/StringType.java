@@ -1,5 +1,7 @@
 package de.tudresden.inf.lat.tabula.datatype;
 
+import java.util.Objects;
+
 /**
  * This models the primitive data type String.
  *
@@ -36,7 +38,7 @@ public class StringType implements PrimitiveType {
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
-		} else if (obj == null) {
+		} else if (Objects.isNull(obj)) {
 			return false;
 		} else {
 			return (obj instanceof StringType);

@@ -1,5 +1,6 @@
 package de.tudresden.inf.lat.tabula.datatype;
 
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
@@ -56,7 +57,7 @@ public class ParameterizedListType implements PrimitiveType {
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
-		} else if (obj == null) {
+		} else if (Objects.isNull(obj)) {
 			return false;
 		} else if (obj instanceof ParameterizedListType) {
 			ParameterizedListType other = (ParameterizedListType) obj;
