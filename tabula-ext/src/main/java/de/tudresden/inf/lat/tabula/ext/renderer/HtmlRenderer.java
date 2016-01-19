@@ -33,8 +33,8 @@ public class HtmlRenderer implements Renderer {
 
 	private Writer output = new OutputStreamWriter(System.out);
 
-	public HtmlRenderer(Writer output0) {
-		output = output0;
+	public HtmlRenderer(Writer output) {
+		this.output = output;
 	}
 
 	public boolean writeStringIfNotEmpty(UncheckedWriter output, StringValue str) {

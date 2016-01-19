@@ -19,13 +19,13 @@ public class RecordComparator implements Comparator<Record> {
 	private final List<String> sortingOrder = new ArrayList<>();
 	private final Set<String> fieldsWithReverseOrder = new TreeSet<>();
 
-	public RecordComparator(List<String> sortingOrder0) {
-		this.sortingOrder.addAll(sortingOrder0);
+	public RecordComparator(List<String> sortingOrder) {
+		this.sortingOrder.addAll(sortingOrder);
 	}
 
-	public RecordComparator(List<String> sortingOrder0, Set<String> reverseOrder0) {
-		this.sortingOrder.addAll(sortingOrder0);
-		this.fieldsWithReverseOrder.addAll(reverseOrder0);
+	public RecordComparator(List<String> sortingOrder, Set<String> reverseOrder) {
+		this.sortingOrder.addAll(sortingOrder);
+		this.fieldsWithReverseOrder.addAll(reverseOrder);
 	}
 
 	public List<String> getSortingOrder() {

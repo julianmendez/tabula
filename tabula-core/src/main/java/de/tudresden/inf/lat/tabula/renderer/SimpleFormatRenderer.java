@@ -21,8 +21,8 @@ public class SimpleFormatRenderer implements Renderer {
 
 	private Writer output = new OutputStreamWriter(System.out);
 
-	public SimpleFormatRenderer(Writer output0) {
-		output = output0;
+	public SimpleFormatRenderer(Writer output) {
+		this.output = output;
 	}
 
 	public boolean writeIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {

@@ -21,11 +21,11 @@ public class StringValue implements PrimitiveTypeValue {
 	/**
 	 * Constructs a new string value using a string.
 	 * 
-	 * @param str0
+	 * @param str
 	 *            string
 	 */
-	public StringValue(String str0) {
-		this.str = (str0 == null) ? "" : str0.trim();
+	public StringValue(String str) {
+		this.str = (str == null) ? "" : str.trim();
 	}
 
 	/**

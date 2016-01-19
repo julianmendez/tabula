@@ -26,8 +26,8 @@ public class WikitextRenderer implements Renderer {
 
 	private Writer output = new OutputStreamWriter(System.out);
 
-	public WikitextRenderer(Writer output0) {
-		output = output0;
+	public WikitextRenderer(Writer output) {
+		this.output = output;
 	}
 
 	public boolean writeStringIfNotEmpty(UncheckedWriter output, String prefix, StringValue str) {

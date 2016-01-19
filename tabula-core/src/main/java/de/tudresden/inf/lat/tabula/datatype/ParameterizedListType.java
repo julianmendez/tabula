@@ -13,11 +13,11 @@ public class ParameterizedListType implements PrimitiveType {
 
 	private final PrimitiveType parameter;
 
-	public ParameterizedListType(PrimitiveType parameter0) {
-		if (parameter0 == null) {
+	public ParameterizedListType(PrimitiveType parameter) {
+		if (parameter == null) {
 			throw new IllegalArgumentException("Null argument.");
 		}
-		this.parameter = parameter0;
+		this.parameter = parameter;
 	}
 
 	@Override

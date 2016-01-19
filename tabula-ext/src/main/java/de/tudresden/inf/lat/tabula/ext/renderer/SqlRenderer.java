@@ -44,8 +44,8 @@ public class SqlRenderer implements Renderer {
 
 	private Writer output = new OutputStreamWriter(System.out);
 
-	public SqlRenderer(Writer output0) {
-		output = output0;
+	public SqlRenderer(Writer output) {
+		this.output = output;
 	}
 
 	public String sanitize(String str) {

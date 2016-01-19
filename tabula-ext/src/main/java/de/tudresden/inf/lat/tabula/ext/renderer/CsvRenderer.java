@@ -30,8 +30,8 @@ public class CsvRenderer implements Renderer {
 
 	private Writer output = new OutputStreamWriter(System.out);
 
-	public CsvRenderer(Writer output0) {
-		output = output0;
+	public CsvRenderer(Writer output) {
+		this.output = output;
 	}
 
 	public String sanitize(String str) {

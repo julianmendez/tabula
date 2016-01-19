@@ -60,10 +60,10 @@ public class TableImpl implements Table {
 		return this.sortingOrder;
 	}
 
-	public void setSortingOrder(List<String> sortingOrder0) {
+	public void setSortingOrder(List<String> sortingOrder) {
 		this.sortingOrder.clear();
-		if (sortingOrder0 != null) {
-			this.sortingOrder.addAll(sortingOrder0);
+		if (sortingOrder != null) {
+			this.sortingOrder.addAll(sortingOrder);
 		}
 	}
 
@@ -71,10 +71,10 @@ public class TableImpl implements Table {
 		return this.fieldsWithReverseOrder;
 	}
 
-	public void setFieldsWithReverseOrder(Set<String> fieldsWithReverseOrder0) {
+	public void setFieldsWithReverseOrder(Set<String> fieldsWithReverseOrder) {
 		this.fieldsWithReverseOrder.clear();
-		if (fieldsWithReverseOrder0 != null) {
-			this.fieldsWithReverseOrder.addAll(fieldsWithReverseOrder0);
+		if (fieldsWithReverseOrder != null) {
+			this.fieldsWithReverseOrder.addAll(fieldsWithReverseOrder);
 		}
 	}
 

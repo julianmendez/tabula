@@ -37,11 +37,11 @@ public class CsvParser implements Parser {
 	/**
 	 * Constructs a new parser.
 	 *
-	 * @param input0
+	 * @param input
 	 *            input
 	 */
-	public CsvParser(Reader input0) {
-		this.input = input0;
+	public CsvParser(Reader input) {
+		this.input = input;
 	}
 
 	public List<String> getColumns(String line0) {

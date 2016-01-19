@@ -20,13 +20,13 @@ public class ParameterizedListValue extends ArrayList<PrimitiveTypeValue> implem
 	/**
 	 * Constructs a new parameterized list value.
 	 * 
-	 * @param parameter0
+	 * @param parameter
 	 *            primitive type
 	 */
-	public ParameterizedListValue(PrimitiveType parameter0) {
+	public ParameterizedListValue(PrimitiveType parameter) {
 		super();
-		Objects.requireNonNull(parameter0);
-		this.parameter = parameter0;
+		Objects.requireNonNull(parameter);
+		this.parameter = parameter;
 	}
 
 	/**
