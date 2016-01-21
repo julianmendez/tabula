@@ -37,9 +37,9 @@ public class SimpleFormatParser implements Parser {
 		private String line;
 		private int lineCounter;
 
-		public Pair(int lineCounter, String line) {
-			this.line = line;
-			this.lineCounter = lineCounter;
+		public Pair(int lineCounter0, String line0) {
+			this.line = line0;
+			this.lineCounter = lineCounter0;
 		}
 
 		public String getLine() {
