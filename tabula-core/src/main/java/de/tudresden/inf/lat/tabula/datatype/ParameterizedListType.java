@@ -14,9 +14,7 @@ public class ParameterizedListType implements PrimitiveType {
 	private final PrimitiveType parameter;
 
 	public ParameterizedListType(PrimitiveType parameter) {
-		if (parameter == null) {
-			throw new IllegalArgumentException("Null argument.");
-		}
+		Objects.requireNonNull(parameter);
 		this.parameter = parameter;
 	}
 
