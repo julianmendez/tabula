@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This models a URI.
@@ -19,11 +20,12 @@ public class URIValue implements PrimitiveTypeValue {
 	/**
 	 * Constructs a new URI value using a string.
 	 * 
-	 * @param link
+	 * @param uriStr
 	 *            URI
 	 */
-	public URIValue(String link) {
-		this.uri = createURI(link);
+	public URIValue(String uriStr) {
+		Objects.requireNonNull(uriStr);
+		this.uri = createURI(uriStr);
 	}
 
 	/**
@@ -41,11 +43,11 @@ public class URIValue implements PrimitiveTypeValue {
 		return new URIType();
 	}
 
-	public URI createURI(String uri0) {
+	public URI createURI(String uriStr) {
 		try {
-			return new URI(uri0);
+			return new URI(uriStr);
 		} catch (URISyntaxException e) {
-			throw new ParseException("Invalid URI '" + uri0 + "'.", e);
+			throw new ParseException("Invalid URI '" + uriStr + "'.", e);
 		}
 	}
 
@@ -75,7 +77,7 @@ public class URIValue implements PrimitiveTypeValue {
 
 	@Override
 	public boolean isEmpty() {
-		return (getUri() == null) || getUri().toASCIIString().trim().isEmpty();
+		return getUri().toASCIIString().trim().isEmpty();
 	}
 
 	@Override

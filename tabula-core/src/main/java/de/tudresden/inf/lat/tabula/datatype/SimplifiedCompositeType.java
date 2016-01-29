@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.datatype;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * This models a simplified composite type where the fields have the same type.
@@ -24,7 +25,7 @@ public class SimplifiedCompositeType implements CompositeType {
 	}
 
 	@Override
-	public String getFieldType(String field) {
+	public Optional<String> getFieldType(String field) {
 		return this.dataType.getFieldType(field);
 	}
 

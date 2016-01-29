@@ -93,7 +93,7 @@ public class SimpleFormatRenderer implements Renderer {
 			output.write(ParserConstant.SPACE);
 			output.write(field);
 			output.write(ParserConstant.TYPE_SIGN);
-			output.write(table.getType().getFieldType(field));
+			output.write(table.getType().getFieldType(field).get());
 		});
 		output.write(ParserConstant.NEW_LINE);
 	}

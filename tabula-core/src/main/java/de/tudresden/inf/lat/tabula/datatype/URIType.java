@@ -26,6 +26,7 @@ public class URIType implements PrimitiveType {
 	}
 
 	public URIValue castInstance(PrimitiveTypeValue value) {
+		Objects.requireNonNull(value);
 		return parse(value.render());
 	}
 

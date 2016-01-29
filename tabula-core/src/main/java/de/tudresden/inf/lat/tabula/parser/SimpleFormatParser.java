@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -142,12 +143,11 @@ public class SimpleFormatParser implements Parser {
 			return new StringValue();
 		} else {
 			try {
-				String typeStr = type0.getFieldType(key);
-				if (typeStr == null) {
-					throw new ParseException("Key '" + key + "' has an undefined type.");
+				Optional<String> optTypeStr = type0.getFieldType(key);
+				if (optTypeStr.isPresent()) {
+					return (new PrimitiveTypeFactory()).newInstance(optTypeStr.get(), value);
 				} else {
-					PrimitiveTypeValue ret = (new PrimitiveTypeFactory()).newInstance(typeStr, value);
-					return ret;
+					throw new ParseException("Key '" + key + "' has an undefined type.");
 				}
 			} catch (ParseException e) {
 				throw new ParseException(e.getMessage() + " (line " + lineCounter + ")", e.getCause());

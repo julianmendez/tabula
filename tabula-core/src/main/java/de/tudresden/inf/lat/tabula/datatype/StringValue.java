@@ -86,4 +86,5 @@ public class StringValue implements PrimitiveTypeValue {
 	public String toString() {
 		return this.str;
 	}
+
 }

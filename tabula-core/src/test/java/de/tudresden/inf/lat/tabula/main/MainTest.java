@@ -76,7 +76,7 @@ public class MainTest {
 		// Make a copy of type
 		// CompositeTypeImpl newType = new CompositeTypeImpl(oldType);
 		CompositeTypeImpl newType = new CompositeTypeImpl();
-		oldType.getFields().forEach(field -> newType.declareField(field, oldType.getFieldType(field)));
+		oldType.getFields().forEach(field -> newType.declareField(field, oldType.getFieldType(field).get()));
 
 		// Add new declaration with number of authors
 		if (!newType.getFields().contains(FIELD_NAME_NUMBER_OF_AUTHORS)) {

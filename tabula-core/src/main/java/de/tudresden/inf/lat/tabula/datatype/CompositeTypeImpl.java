@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeMap;
 
 /**
@@ -28,7 +30,8 @@ public class CompositeTypeImpl implements CompositeType {
 	 *            other type
 	 */
 	public CompositeTypeImpl(CompositeType otherType) {
-		otherType.getFields().forEach(field -> declareField(field, otherType.getFieldType(field)));
+		Objects.requireNonNull(otherType);
+		otherType.getFields().forEach(field -> declareField(field, otherType.getFieldType(field).get()));
 	}
 
 	@Override
@@ -37,11 +40,13 @@ public class CompositeTypeImpl implements CompositeType {
 	}
 
 	@Override
-	public String getFieldType(String field) {
-		if (field == null) {
-			return null;
+	public Optional<String> getFieldType(String field) {
+		Objects.requireNonNull(field);
+		String value = this.fieldType.get(field);
+		if (Objects.isNull(value)) {
+			return Optional.empty();
 		} else {
-			return this.fieldType.get(field);
+			return Optional.of(value);
 		}
 	}
 
