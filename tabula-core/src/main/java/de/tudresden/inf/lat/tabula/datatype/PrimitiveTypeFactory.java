@@ -1,6 +1,7 @@
 package de.tudresden.inf.lat.tabula.datatype;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -48,7 +49,7 @@ public class PrimitiveTypeFactory {
 	 */
 	public PrimitiveTypeValue newInstance(String typeName, String value) {
 		PrimitiveType primType = this.map.get(typeName);
-		if (primType == null) {
+		if (Objects.isNull(primType)) {
 			throw new ParseException("Type '" + typeName + "' is undefined.");
 		} else {
 			return primType.parse(value);

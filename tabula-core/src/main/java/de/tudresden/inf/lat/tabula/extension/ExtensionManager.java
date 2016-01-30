@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.extension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -42,7 +43,7 @@ public class ExtensionManager implements Extension {
 
 	@Override
 	public boolean process(List<String> arguments) {
-		if (arguments == null || arguments.size() < REQUIRED_ARGUMENTS) {
+		if (Objects.isNull(arguments) || arguments.size() < REQUIRED_ARGUMENTS) {
 			return false;
 		} else {
 			String command = arguments.get(0);
@@ -50,7 +51,7 @@ public class ExtensionManager implements Extension {
 			newArguments.addAll(arguments);
 			newArguments.remove(0);
 			Extension extension = this.extensionMap.get(command);
-			if (extension == null) {
+			if (Objects.isNull(extension)) {
 				throw new ExtensionException("Extension '" + command + "' was not found.");
 			} else {
 				extension.process(newArguments);

@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import de.tudresden.inf.lat.tabula.parser.SimpleFormatParser;
 import de.tudresden.inf.lat.tabula.renderer.SimpleFormatRenderer;
@@ -22,7 +23,7 @@ public class DefaultExtension implements Extension {
 
 	@Override
 	public boolean process(List<String> arguments) {
-		if (arguments == null || arguments.size() != REQUIRED_ARGUMENTS) {
+		if (Objects.isNull(arguments) || arguments.size() != REQUIRED_ARGUMENTS) {
 			return false;
 		} else {
 			try {

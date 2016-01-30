@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.datatype;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This models a string value.
@@ -25,7 +26,7 @@ public class StringValue implements PrimitiveTypeValue {
 	 *            string
 	 */
 	public StringValue(String str) {
-		this.str = (str == null) ? "" : str.trim();
+		this.str = Objects.isNull(str) ? "" : str.trim();
 	}
 
 	/**
