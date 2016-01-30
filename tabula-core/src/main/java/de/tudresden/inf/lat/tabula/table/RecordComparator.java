@@ -52,7 +52,7 @@ public class RecordComparator implements Comparator<Record> {
 				Iterator<String> it = this.sortingOrder.iterator();
 				while (it.hasNext() && (ret == 0)) {
 					String token = it.next();
-					ret = compareValues(record0.get(token), record1.get(token),
+					ret = compareValues(record0.get(token).get(), record1.get(token).get(),
 							this.fieldsWithReverseOrder.contains(token));
 				}
 				return ret;

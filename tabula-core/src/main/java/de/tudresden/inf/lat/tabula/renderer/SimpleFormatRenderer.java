@@ -57,7 +57,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.EQUALS_SIGN + ParserConstant.SPACE);
 
 		fields.forEach(field -> {
-			PrimitiveTypeValue value = record.get(field);
+			PrimitiveTypeValue value = record.get(field).get();
 			if (value != null) {
 				writeIfNotEmpty(output, field, value);
 			}

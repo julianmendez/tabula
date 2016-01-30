@@ -42,7 +42,7 @@ public class MainTest {
 	 * @return the number of authors for a given record
 	 */
 	StringValue computeFieldValue(Record record) {
-		PrimitiveTypeValue value = record.get(FIELD_NAME_AUTHORS);
+		PrimitiveTypeValue value = record.get(FIELD_NAME_AUTHORS).get();
 		int size = (value == null) ? 0 : value.renderAsList().size();
 		return new StringValue("" + size);
 	}

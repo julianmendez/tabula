@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.ext.renderer;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
@@ -86,8 +87,9 @@ public class CsvRenderer implements Renderer {
 			} else {
 				output.write(COMMA);
 			}
-			PrimitiveTypeValue value = record.get(field);
-			if (value != null) {
+			Optional<PrimitiveTypeValue> optValue = record.get(field);
+			if (optValue.isPresent()) {
+				PrimitiveTypeValue value = optValue.get();
 				if (value instanceof StringValue) {
 					StringValue strVal = (StringValue) value;
 					writeStringIfNotEmpty(output, field, strVal);

@@ -101,32 +101,32 @@ public class CalendarParser implements Parser {
 		this.input = input;
 	}
 
-	public String getKey(String line) {
+	public Optional<String> getKey(String line) {
 		if (line == null) {
-			return null;
+			return Optional.empty();
 		} else {
 			int pos = line.indexOf(ColonChar);
 			if (pos == -1) {
-				return line;
+				return Optional.of(line);
 			} else {
 				int pos2 = line.indexOf(SemicolonChar);
 				if (pos2 >= 0 && pos2 < pos) {
 					pos = pos2;
 				}
-				return line.substring(0, pos).trim();
+				return Optional.of(line.substring(0, pos).trim());
 			}
 		}
 	}
 
-	public String getValue(String line) {
+	public Optional<String> getValue(String line) {
 		if (line == null) {
-			return null;
+			return Optional.empty();
 		} else {
 			int pos = line.indexOf(ColonChar);
 			if (pos == -1) {
-				return "";
+				return Optional.of("");
 			} else {
-				return line.substring(pos + 1, line.length()).trim();
+				return Optional.of(line.substring(pos + 1, line.length()).trim());
 			}
 		}
 	}
@@ -182,17 +182,21 @@ public class CalendarParser implements Parser {
 			throw new ParseException("New record was not declared (line " + lineCounter + ")");
 		}
 
-		String key = getKey(line);
-		String valueStr = getValue(line);
-		PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
-		if (key.equals(ParserConstant.ID_KEYWORD)) {
-			if (currentTable.getIdentifiers().contains(valueStr)) {
-				throw new ParseException(
-						"Identifier '" + ParserConstant.ID_KEYWORD + ParserConstant.SPACE + ParserConstant.EQUALS_SIGN
-								+ ParserConstant.SPACE + valueStr + "' is duplicated (line " + lineCounter + ").");
+		Optional<String> optKey = getKey(line);
+		Optional<String> optValueStr = getValue(line);
+		if (optKey.isPresent() && optValueStr.isPresent()) {
+			String key = optKey.get();
+			String valueStr = optValueStr.get();
+			PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
+			if (key.equals(ParserConstant.ID_KEYWORD)) {
+				if (currentTable.getIdentifiers().contains(valueStr)) {
+					throw new ParseException("Identifier '" + ParserConstant.ID_KEYWORD + ParserConstant.SPACE
+							+ ParserConstant.EQUALS_SIGN + ParserConstant.SPACE + valueStr + "' is duplicated (line "
+							+ lineCounter + ").");
+				}
 			}
+			record.set(key, value);
 		}
-		record.set(key, value);
 	}
 
 	public String getGeneratedId(List<Integer> generatedIds, int level) {
@@ -244,7 +248,7 @@ public class CalendarParser implements Parser {
 			lineCounter = pair.getLineCounter();
 			if (line != null && !line.trim().isEmpty()) {
 				if (isBeginLine(line)) {
-					String value = getValue(line);
+					String value = getValue(line).get();
 					if (firstTime) {
 						firstTime = false;
 					} else {
@@ -263,9 +267,9 @@ public class CalendarParser implements Parser {
 					currentTable = refTable;
 
 				} else if (isEndLine(line)) {
-					String foreignKey = currentRecord.get(GeneratedIdFieldName).render();
+					String foreignKey = currentRecord.get(GeneratedIdFieldName).get().render();
 					currentTable.add(currentRecord);
-					String value = getValue(line);
+					String value = getValue(line).get();
 					TableImpl refTable = map.get(value);
 					if (refTable == null) {
 						throw new ParseException("Unknown type '" + value + "' (line " + lineCounter + ").");
@@ -279,13 +283,13 @@ public class CalendarParser implements Parser {
 					currentTableId = tableIdStack.pop();
 					currentTable = tableStack.pop();
 					currentRecord = recordStack.pop();
-					PrimitiveTypeValue subItems = currentRecord.get(SubItemsFieldName);
-					if (subItems == null) {
-						subItems = new StringValue(foreignKey);
+					Optional<PrimitiveTypeValue> optSubItems = currentRecord.get(SubItemsFieldName);
+					if (optSubItems.isPresent()) {
+						currentRecord.set(SubItemsFieldName,
+								new StringValue(optSubItems.get().render() + SpaceChar + foreignKey));
 					} else {
-						subItems = new StringValue(subItems.render() + SpaceChar + foreignKey);
+						currentRecord.set(SubItemsFieldName, new StringValue(foreignKey));
 					}
-					currentRecord.set(SubItemsFieldName, subItems);
 
 				} else {
 					parseProperty(line, currentTable, currentRecord, lineCounter);

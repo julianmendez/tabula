@@ -4,6 +4,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
@@ -78,11 +79,10 @@ public class WikitextRenderer implements Renderer {
 	public void render(UncheckedWriter output, Record record, List<String> fields) {
 
 		fields.forEach(field -> {
-			PrimitiveTypeValue value = record.get(field);
+			Optional<PrimitiveTypeValue> optValue = record.get(field);
 			output.write("|");
-			if (value == null) {
-				output.write("\n");
-			} else {
+			if (optValue.isPresent()) {
+				PrimitiveTypeValue value = optValue.get();
 				String prefix = field + ParserConstant.EQUALS_SIGN;
 				if (value instanceof StringValue) {
 					StringValue strVal = (StringValue) value;
@@ -100,6 +100,8 @@ public class WikitextRenderer implements Renderer {
 					throw new IllegalStateException("Invalid value '" + value.toString() + "'.");
 				}
 
+			} else {
+				output.write("\n");
 			}
 		});
 	}

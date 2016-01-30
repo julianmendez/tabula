@@ -56,35 +56,35 @@ public class SimpleFormatParser implements Parser {
 		this.input = input;
 	}
 
-	public String getKey(String line) {
+	public Optional<String> getKey(String line) {
 		if (line == null) {
-			return null;
+			return Optional.empty();
 		} else {
 			int pos = line.indexOf(ParserConstant.EQUALS_SIGN);
 			if (pos == -1) {
-				return line;
+				return Optional.of(line);
 			} else {
-				return line.substring(0, pos).trim();
+				return Optional.of(line.substring(0, pos).trim());
 			}
 		}
 	}
 
-	public String getValue(String line) {
+	public Optional<String> getValue(String line) {
 		if (line == null) {
-			return null;
+			return Optional.empty();
 		} else {
 			int pos = line.indexOf(ParserConstant.EQUALS_SIGN);
 			if (pos == -1) {
-				return "";
+				return Optional.of("");
 			} else {
-				return line.substring(pos + ParserConstant.EQUALS_SIGN.length(), line.length()).trim();
+				return Optional.of(line.substring(pos + ParserConstant.EQUALS_SIGN.length(), line.length()).trim());
 			}
 		}
 	}
 
 	private CompositeTypeImpl parseTypes(String line, int lineCounter) {
 		CompositeTypeImpl ret = new CompositeTypeImpl();
-		StringTokenizer stok = new StringTokenizer(getValue(line));
+		StringTokenizer stok = new StringTokenizer(getValue(line).get());
 		PrimitiveTypeFactory factory = new PrimitiveTypeFactory();
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
@@ -107,7 +107,7 @@ public class SimpleFormatParser implements Parser {
 	private void setSortingOrder(String line, TableImpl table) {
 		Set<String> fieldsWithReverseOrder = new TreeSet<>();
 		List<String> list = new ArrayList<>();
-		StringTokenizer stok = new StringTokenizer(getValue(line));
+		StringTokenizer stok = new StringTokenizer(getValue(line).get());
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
 			if (token.startsWith(ParserConstant.STANDARD_ORDER_SIGN)) {
@@ -183,17 +183,21 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	private boolean isIdProperty(String line) {
-		String key = getKey(line);
-		return key.equals(ParserConstant.ID_KEYWORD);
+		Optional<String> optKey = getKey(line);
+		if (optKey.isPresent()) {
+			return optKey.get().equals(ParserConstant.ID_KEYWORD);
+		} else {
+			return false;
+		}
 	}
 
-	private String getIdProperty(String line) {
-		String key = getKey(line);
-		String valueStr = getValue(line);
-		if (key.equals(ParserConstant.ID_KEYWORD)) {
-			return valueStr;
+	private Optional<String> getIdProperty(String line) {
+		Optional<String> optKey = getKey(line);
+		Optional<String> optValueStr = getValue(line);
+		if (optKey.isPresent() && optValueStr.isPresent() && optKey.get().equals(ParserConstant.ID_KEYWORD)) {
+			return Optional.of(optValueStr.get());
 		} else {
-			return null;
+			return Optional.empty();
 		}
 	}
 
@@ -202,17 +206,21 @@ public class SimpleFormatParser implements Parser {
 			throw new ParseException("New record was not declared (line " + lineCounter + ")");
 		}
 
-		String key = getKey(line);
-		String valueStr = getValue(line);
-		PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
-		if (key.equals(ParserConstant.ID_KEYWORD)) {
-			if (currentTable.getIdentifiers().contains(valueStr)) {
-				throw new ParseException(
-						"Identifier '" + ParserConstant.ID_KEYWORD + ParserConstant.SPACE + ParserConstant.EQUALS_SIGN
-								+ ParserConstant.SPACE + valueStr + "' is duplicated (line " + lineCounter + ").");
+		Optional<String> optKey = getKey(line);
+		Optional<String> optValueStr = getValue(line);
+		if (optKey.isPresent() && optValueStr.isPresent()) {
+			String key = optKey.get();
+			String valueStr = optValueStr.get();
+			PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
+			if (key.equals(ParserConstant.ID_KEYWORD)) {
+				if (currentTable.getIdentifiers().contains(valueStr)) {
+					throw new ParseException("Identifier '" + ParserConstant.ID_KEYWORD + ParserConstant.SPACE
+							+ ParserConstant.EQUALS_SIGN + ParserConstant.SPACE + optValueStr.get()
+							+ "' is duplicated (line " + lineCounter + ").");
+				}
 			}
+			record.set(key, value);
 		}
-		record.set(key, value);
 	}
 
 	public TableMap parseMap(BufferedReader input) throws IOException {
@@ -229,11 +237,15 @@ public class SimpleFormatParser implements Parser {
 			lineCounter = pair.getLineCounter();
 			if (line != null && !line.trim().isEmpty()) {
 				if (isTypeSelection(line)) {
-					String tableName = getValue(line);
-					if (!map.containsKey(tableName)) {
-						map.put(tableName, new TableImpl());
+
+					Optional<String> optTableName = getValue(line);
+					if (optTableName.isPresent()) {
+						String tableName = optTableName.get();
+						if (!map.containsKey(tableName)) {
+							map.put(tableName, new TableImpl());
+						}
+						currentTable = map.get(tableName);
 					}
-					currentTable = map.get(tableName);
 
 				} else if (isTypeDefinition(line)) {
 					currentTable.setType(parseTypes(line, lineCounter));
@@ -251,8 +263,11 @@ public class SimpleFormatParser implements Parser {
 					if (isIdProperty(line)) {
 						boolean successful = false;
 						if (currentId == null) {
-							currentId = getIdProperty(line);
-							successful = currentTable.addId(currentId);
+							Optional<String> optCurrentId = getIdProperty(line);
+							if (optCurrentId.isPresent()) {
+								currentId = optCurrentId.get();
+								successful = currentTable.addId(currentId);
+							}
 						}
 						if (!successful) {
 							throw new ParseException("Identifier has been already defined ('" + currentId + "') (line "

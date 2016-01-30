@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.ext.renderer;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Optional;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
@@ -111,8 +112,9 @@ public class SqlRenderer implements Renderer {
 				output.write(COMMA);
 			}
 			output.write(ParserConstant.NEW_LINE);
-			PrimitiveTypeValue value = record.get(field);
-			if (value != null) {
+			Optional<PrimitiveTypeValue> optValue = record.get(field);
+			if (optValue.isPresent()) {
+				PrimitiveTypeValue value = optValue.get();
 				if (value instanceof StringValue) {
 					StringValue strVal = (StringValue) value;
 					writeStringIfNotEmpty(output, field, strVal);

@@ -3,6 +3,8 @@ package de.tudresden.inf.lat.tabula.table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
@@ -29,21 +31,26 @@ public class RecordImpl implements Record {
 	 *            other record
 	 */
 	public RecordImpl(Record otherRecord) {
-		otherRecord.getProperties().forEach(property -> set(property, otherRecord.get(property)));
+		otherRecord.getProperties().forEach(property -> set(property, otherRecord.get(property).get()));
 	}
 
 	@Override
-	public PrimitiveTypeValue get(String key) {
-		if (key == null) {
-			return null;
+	public Optional<PrimitiveTypeValue> get(String key) {
+		if (Objects.isNull(key)) {
+			return Optional.empty();
 		} else {
-			return this.map.get(key);
+			PrimitiveTypeValue value = this.map.get(key);
+			if (Objects.isNull(value)) {
+				return Optional.empty();
+			} else {
+				return Optional.of(value);
+			}
 		}
 	}
 
 	@Override
 	public void set(String key, PrimitiveTypeValue value) {
-		if (key != null) {
+		if (Objects.nonNull(key)) {
 			this.map.put(key, value);
 		}
 	}

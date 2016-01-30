@@ -1,6 +1,7 @@
 package de.tudresden.inf.lat.tabula.datatype;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This models a record.
@@ -9,13 +10,15 @@ import java.util.List;
 public interface Record {
 
 	/**
-	 * Returns the value of a given property.
+	 * Returns an optional containing the value of a given property, if this
+	 * value is present, or an empty optional otherwise.
 	 * 
 	 * @param key
 	 *            property name
-	 * @return the value of a given property
+	 * @return an optional containing the value of a given property, if this
+	 *         value is present, or an empty optional otherwise
 	 */
-	PrimitiveTypeValue get(String key);
+	Optional<PrimitiveTypeValue> get(String key);
 
 	/**
 	 * Sets the value of a given property.
