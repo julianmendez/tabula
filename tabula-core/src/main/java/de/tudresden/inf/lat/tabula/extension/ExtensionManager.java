@@ -28,7 +28,7 @@ public class ExtensionManager implements Extension {
 	 *            list of extensions
 	 */
 	public ExtensionManager(List<Extension> extensions) {
-		if (extensions != null) {
+		if (Objects.nonNull(extensions)) {
 			this.extensions.addAll(extensions);
 			extensions.forEach(extension -> {
 				String key = extension.getExtensionName();

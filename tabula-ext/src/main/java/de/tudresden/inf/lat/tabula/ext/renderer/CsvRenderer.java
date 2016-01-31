@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.ext.renderer;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -40,7 +41,8 @@ public class CsvRenderer implements Renderer {
 	}
 
 	public boolean writeStringIfNotEmpty(UncheckedWriter output, String field, StringValue value) {
-		if (field != null && !field.trim().isEmpty() && value != null && !value.toString().trim().isEmpty()) {
+		if (Objects.nonNull(field) && !field.trim().isEmpty() && Objects.nonNull(value)
+				&& !value.toString().trim().isEmpty()) {
 			output.write(QUOTES);
 			output.write(sanitize(value.toString()));
 			output.write(QUOTES);
@@ -52,7 +54,7 @@ public class CsvRenderer implements Renderer {
 	}
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
-		if (list != null && !list.isEmpty()) {
+		if (Objects.nonNull(list) && !list.isEmpty()) {
 			output.write(QUOTES);
 			list.forEach(value -> {
 				output.write(sanitize(value.toString()));
@@ -67,7 +69,7 @@ public class CsvRenderer implements Renderer {
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String field, URIValue link) {
-		if (link != null && !link.isEmpty()) {
+		if (Objects.nonNull(link) && !link.isEmpty()) {
 			output.write(QUOTES);
 			output.write(sanitize(link.toString()));
 			output.write(QUOTES);

@@ -4,6 +4,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
@@ -32,7 +33,7 @@ public class WikitextRenderer implements Renderer {
 	}
 
 	public boolean writeStringIfNotEmpty(UncheckedWriter output, String prefix, StringValue str) {
-		if (str != null && !str.toString().trim().isEmpty()) {
+		if (Objects.nonNull(str) && !str.toString().trim().isEmpty()) {
 			output.write(prefix);
 			output.write(str.toString());
 			output.write("\n");
@@ -44,7 +45,7 @@ public class WikitextRenderer implements Renderer {
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String prefix,
 			ParameterizedListValue list) {
-		if (list != null) {
+		if (Objects.nonNull(list)) {
 			output.write(prefix);
 			list.forEach(value -> {
 				if (value.getType().equals(new URIType())) {
@@ -62,7 +63,7 @@ public class WikitextRenderer implements Renderer {
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String prefix, URIValue link) {
-		if (link != null && !link.isEmpty()) {
+		if (Objects.nonNull(link) && !link.isEmpty()) {
 			output.write(prefix);
 			output.write("[");
 			output.write(link.getUriNoLabel().toASCIIString());

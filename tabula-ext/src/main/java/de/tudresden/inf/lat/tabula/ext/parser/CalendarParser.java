@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -102,7 +103,7 @@ public class CalendarParser implements Parser {
 	}
 
 	public Optional<String> getKey(String line) {
-		if (line == null) {
+		if (Objects.isNull(line)) {
 			return Optional.empty();
 		} else {
 			int pos = line.indexOf(ColonChar);
@@ -119,7 +120,7 @@ public class CalendarParser implements Parser {
 	}
 
 	public Optional<String> getValue(String line) {
-		if (line == null) {
+		if (Objects.isNull(line)) {
 			return Optional.empty();
 		} else {
 			int pos = line.indexOf(ColonChar);
@@ -132,15 +133,15 @@ public class CalendarParser implements Parser {
 	}
 
 	public boolean isBeginLine(String line) {
-		return (line != null) && line.trim().startsWith(BeginKeyword);
+		return Objects.nonNull(line) && line.trim().startsWith(BeginKeyword);
 	}
 
 	public boolean isEndLine(String line) {
-		return (line != null) && line.trim().startsWith(EndKeyword);
+		return Objects.nonNull(line) && line.trim().startsWith(EndKeyword);
 	}
 
 	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, int lineCounter) {
-		if (key == null) {
+		if (Objects.isNull(key)) {
 			return new StringValue();
 		} else {
 			try {
@@ -163,7 +164,7 @@ public class CalendarParser implements Parser {
 		int lineCounter = 0;
 		while (!finish) {
 			String line = input.readLine();
-			if (line == null) {
+			if (Objects.isNull(line)) {
 				finish = true;
 			} else if (line.startsWith("" + SpaceChar)) {
 				sbuf.append(line);
@@ -178,7 +179,7 @@ public class CalendarParser implements Parser {
 	}
 
 	private void parseProperty(String line, TableImpl currentTable, Record record, int lineCounter) {
-		if (currentTable == null) {
+		if (Objects.isNull(currentTable)) {
 			throw new ParseException("New record was not declared (line " + lineCounter + ")");
 		}
 
@@ -246,7 +247,7 @@ public class CalendarParser implements Parser {
 		for (Pair pair : lines) {
 			String line = pair.getLine();
 			lineCounter = pair.getLineCounter();
-			if (line != null && !line.trim().isEmpty()) {
+			if (Objects.nonNull(line) && !line.trim().isEmpty()) {
 				if (isBeginLine(line)) {
 					String value = getValue(line).get();
 					if (firstTime) {
@@ -260,7 +261,7 @@ public class CalendarParser implements Parser {
 					currentRecord.set(GeneratedIdFieldName,
 							new StringValue(getGeneratedId(generatedIds, tableIdStack.size())));
 					TableImpl refTable = map.get(value);
-					if (refTable == null) {
+					if (Objects.isNull(refTable)) {
 						throw new ParseException("Unknown type '" + value + "' (line " + lineCounter + ").");
 					}
 					currentTableId = value;
@@ -271,7 +272,7 @@ public class CalendarParser implements Parser {
 					currentTable.add(currentRecord);
 					String value = getValue(line).get();
 					TableImpl refTable = map.get(value);
-					if (refTable == null) {
+					if (Objects.isNull(refTable)) {
 						throw new ParseException("Unknown type '" + value + "' (line " + lineCounter + ").");
 					}
 					if (!value.equals(currentTableId)) {
@@ -298,7 +299,7 @@ public class CalendarParser implements Parser {
 			}
 		}
 
-		if (currentTable != null && currentRecord != null) {
+		if (Objects.nonNull(currentTable) && Objects.nonNull(currentRecord)) {
 			currentTable.add(currentRecord);
 		}
 

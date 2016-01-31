@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.ext.renderer;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
@@ -54,7 +55,8 @@ public class SqlRenderer implements Renderer {
 	}
 
 	public boolean writeStringIfNotEmpty(UncheckedWriter output, String field, StringValue value) {
-		if (field != null && !field.trim().isEmpty() && value != null && !value.toString().trim().isEmpty()) {
+		if (Objects.nonNull(field) && !field.trim().isEmpty() && Objects.nonNull(value)
+				&& !value.toString().trim().isEmpty()) {
 			output.write(APOSTROPHE);
 			output.write(sanitize(value.toString()));
 			output.write(APOSTROPHE);
@@ -66,7 +68,7 @@ public class SqlRenderer implements Renderer {
 	}
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
-		if (list != null && !list.isEmpty()) {
+		if (Objects.nonNull(list) && !list.isEmpty()) {
 			output.write(APOSTROPHE);
 			list.forEach(strVal -> {
 				output.write(sanitize(strVal.toString()));
@@ -81,7 +83,7 @@ public class SqlRenderer implements Renderer {
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String field, URIValue link) {
-		if (link != null && !link.isEmpty()) {
+		if (Objects.nonNull(link) && !link.isEmpty()) {
 			output.write(APOSTROPHE);
 			output.write(sanitize(link.toString()));
 			output.write(APOSTROPHE);

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeImpl;
@@ -46,7 +47,7 @@ public class CsvParser implements Parser {
 
 	public List<String> getColumns(String line0) {
 		List<String> ret = new ArrayList<>();
-		String line = (line0 == null) ? "" : line0.trim();
+		String line = Objects.isNull(line0) ? "" : line0.trim();
 		StringBuffer current = new StringBuffer();
 		boolean betweenQuotes = false;
 		for (int index = 0; index < line.length(); index += 1) {
@@ -76,7 +77,7 @@ public class CsvParser implements Parser {
 	}
 
 	public String normalize(String fieldName) {
-		String auxName = fieldName == null ? UNDERSCORE : fieldName.trim();
+		String auxName = Objects.isNull(fieldName) ? UNDERSCORE : fieldName.trim();
 		String name = auxName.isEmpty() ? UNDERSCORE : auxName;
 
 		StringBuffer ret = new StringBuffer();
@@ -116,10 +117,10 @@ public class CsvParser implements Parser {
 		List<String> fieldNames = normalizeHeaders(headers, lineCounter);
 		TableImpl currentTable = createSortedTable(fieldNames);
 
-		while (line != null) {
+		while (Objects.nonNull(line)) {
 			line = input.readLine();
 			lineCounter += 1;
-			if ((line != null) && !line.trim().isEmpty()) {
+			if (Objects.nonNull(line) && !line.trim().isEmpty()) {
 				List<String> columns = getColumns(line);
 				if (columns.size() > fieldNames.size()) {
 					throw new ParseException("Too many fields in line: " + columns.size() + " instead of "
@@ -140,7 +141,7 @@ public class CsvParser implements Parser {
 				}
 
 				currentTable.add(record);
-				if (currentId != null) {
+				if (Objects.nonNull(currentId)) {
 					currentTable.addId(currentId);
 				}
 			}

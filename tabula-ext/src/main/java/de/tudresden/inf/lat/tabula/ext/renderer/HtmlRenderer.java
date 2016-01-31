@@ -4,6 +4,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
@@ -39,7 +40,7 @@ public class HtmlRenderer implements Renderer {
 	}
 
 	public boolean writeStringIfNotEmpty(UncheckedWriter output, StringValue str) {
-		if (str != null && !str.toString().trim().isEmpty()) {
+		if (Objects.nonNull(str) && !str.toString().trim().isEmpty()) {
 			output.write(str.toString());
 			output.write("\n");
 			return true;
@@ -49,7 +50,7 @@ public class HtmlRenderer implements Renderer {
 	}
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, ParameterizedListValue list) {
-		if (list != null) {
+		if (Objects.nonNull(list)) {
 			list.forEach(value -> {
 				if (value.getType().equals(new URIType())) {
 					URIValue link = (new URIType()).castInstance(value);
@@ -66,7 +67,7 @@ public class HtmlRenderer implements Renderer {
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, URIValue link) {
-		if (link != null && !link.isEmpty()) {
+		if (Objects.nonNull(link) && !link.isEmpty()) {
 			output.write("<a href=\"");
 			output.write(link.getUriNoLabel().toASCIIString());
 			output.write("\">(");

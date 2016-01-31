@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.renderer;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.Objects;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
@@ -26,7 +27,7 @@ public class SimpleFormatRenderer implements Renderer {
 	}
 
 	public boolean writeIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {
-		if (field != null && !field.trim().isEmpty() && value != null && !value.isEmpty()) {
+		if (Objects.nonNull(field) && !field.trim().isEmpty() && Objects.nonNull(value) && !value.isEmpty()) {
 			output.write(ParserConstant.NEW_LINE);
 			output.write(field);
 			output.write(ParserConstant.SPACE + ParserConstant.EQUALS_SIGN);
@@ -58,7 +59,7 @@ public class SimpleFormatRenderer implements Renderer {
 
 		fields.forEach(field -> {
 			PrimitiveTypeValue value = record.get(field).get();
-			if (value != null) {
+			if (Objects.nonNull(value)) {
 				writeIfNotEmpty(output, field, value);
 			}
 		});

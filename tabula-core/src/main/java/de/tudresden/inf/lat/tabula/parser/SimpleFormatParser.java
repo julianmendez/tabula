@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -57,7 +58,7 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public Optional<String> getKey(String line) {
-		if (line == null) {
+		if (Objects.isNull(line)) {
 			return Optional.empty();
 		} else {
 			int pos = line.indexOf(ParserConstant.EQUALS_SIGN);
@@ -70,7 +71,7 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public Optional<String> getValue(String line) {
-		if (line == null) {
+		if (Objects.isNull(line)) {
 			return Optional.empty();
 		} else {
 			int pos = line.indexOf(ParserConstant.EQUALS_SIGN);
@@ -123,23 +124,23 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public boolean isTypeSelection(String line) {
-		return (line != null) && line.trim().startsWith(ParserConstant.TYPE_SELECTION_TOKEN);
+		return Objects.nonNull(line) && line.trim().startsWith(ParserConstant.TYPE_SELECTION_TOKEN);
 	}
 
 	public boolean isTypeDefinition(String line) {
-		return (line != null) && line.trim().startsWith(ParserConstant.TYPE_DEFINITION_TOKEN);
+		return Objects.nonNull(line) && line.trim().startsWith(ParserConstant.TYPE_DEFINITION_TOKEN);
 	}
 
 	public boolean isSortingOrderDeclaration(String line) {
-		return (line != null) && line.trim().startsWith(ParserConstant.SORTING_ORDER_DECLARATION_TOKEN);
+		return Objects.nonNull(line) && line.trim().startsWith(ParserConstant.SORTING_ORDER_DECLARATION_TOKEN);
 	}
 
 	public boolean isNewRecord(String line) {
-		return (line != null) && line.trim().startsWith(ParserConstant.NEW_RECORD_TOKEN);
+		return Objects.nonNull(line) && line.trim().startsWith(ParserConstant.NEW_RECORD_TOKEN);
 	}
 
 	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, int lineCounter) {
-		if (key == null) {
+		if (Objects.isNull(key)) {
 			return new StringValue();
 		} else {
 			try {
@@ -158,7 +159,7 @@ public class SimpleFormatParser implements Parser {
 	private Pair readMultiLine(BufferedReader input, int lineCounter0) throws IOException {
 		int lineCounter = lineCounter0;
 		String line = input.readLine();
-		if (line == null) {
+		if (Objects.isNull(line)) {
 			return new Pair(lineCounter, null);
 		} else {
 			lineCounter += 1;
@@ -171,7 +172,7 @@ public class SimpleFormatParser implements Parser {
 							multiLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length())
 							+ ParserConstant.SPACE;
 					line = input.readLine();
-					if (line != null) {
+					if (Objects.nonNull(line)) {
 						line = line.trim();
 						lineCounter += 1;
 						multiLine += line;
@@ -202,7 +203,7 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	private void parseProperty(String line, TableImpl currentTable, Record record, int lineCounter) {
-		if (currentTable == null) {
+		if (Objects.isNull(currentTable)) {
 			throw new ParseException("New record was not declared (line " + lineCounter + ")");
 		}
 
@@ -231,11 +232,11 @@ public class SimpleFormatParser implements Parser {
 		String currentId = null;
 		Record record = null;
 		int lineCounter = 0;
-		while (line != null) {
+		while (Objects.nonNull(line)) {
 			Pair pair = readMultiLine(input, lineCounter);
 			line = pair.getLine();
 			lineCounter = pair.getLineCounter();
-			if (line != null && !line.trim().isEmpty()) {
+			if (Objects.nonNull(line) && !line.trim().isEmpty()) {
 				if (isTypeSelection(line)) {
 
 					Optional<String> optTableName = getValue(line);
@@ -262,7 +263,7 @@ public class SimpleFormatParser implements Parser {
 					parseProperty(line, currentTable, record, lineCounter);
 					if (isIdProperty(line)) {
 						boolean successful = false;
-						if (currentId == null) {
+						if (Objects.isNull(currentId)) {
 							Optional<String> optCurrentId = getIdProperty(line);
 							if (optCurrentId.isPresent()) {
 								currentId = optCurrentId.get();

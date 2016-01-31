@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -38,14 +39,14 @@ public class RecordComparator implements Comparator<Record> {
 
 	@Override
 	public int compare(Record record0, Record record1) {
-		if (record0 == null) {
-			if (record1 == null) {
+		if (Objects.isNull(record0)) {
+			if (Objects.isNull(record1)) {
 				return 0;
 			} else {
 				return (-1);
 			}
 		} else {
-			if (record1 == null) {
+			if (Objects.isNull(record1)) {
 				return 1;
 			} else {
 				int ret = 0;
@@ -64,14 +65,14 @@ public class RecordComparator implements Comparator<Record> {
 		if (hasReverseOrder) {
 			return compareValues(value1, value0, false);
 		} else {
-			if (value0 == null) {
-				if (value1 == null) {
+			if (Objects.isNull(value0)) {
+				if (Objects.isNull(value1)) {
 					return 0;
 				} else {
 					return (-1);
 				}
 			} else {
-				if (value1 == null) {
+				if (Objects.isNull(value1)) {
 					return 1;
 				} else {
 					return value0.compareTo(value1);

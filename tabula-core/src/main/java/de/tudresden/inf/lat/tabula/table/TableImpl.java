@@ -3,6 +3,7 @@ package de.tudresden.inf.lat.tabula.table;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -45,7 +46,7 @@ public class TableImpl implements Table {
 	}
 
 	public boolean add(Record record) {
-		if (record == null) {
+		if (Objects.isNull(record)) {
 			return false;
 		} else {
 			return this.list.add(record);
@@ -62,7 +63,7 @@ public class TableImpl implements Table {
 
 	public void setSortingOrder(List<String> sortingOrder) {
 		this.sortingOrder.clear();
-		if (sortingOrder != null) {
+		if (Objects.nonNull(sortingOrder)) {
 			this.sortingOrder.addAll(sortingOrder);
 		}
 	}
@@ -73,7 +74,7 @@ public class TableImpl implements Table {
 
 	public void setFieldsWithReverseOrder(Set<String> fieldsWithReverseOrder) {
 		this.fieldsWithReverseOrder.clear();
-		if (fieldsWithReverseOrder != null) {
+		if (Objects.nonNull(fieldsWithReverseOrder)) {
 			this.fieldsWithReverseOrder.addAll(fieldsWithReverseOrder);
 		}
 	}

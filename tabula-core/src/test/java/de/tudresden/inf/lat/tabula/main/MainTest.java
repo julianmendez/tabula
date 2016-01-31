@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Objects;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,7 +44,7 @@ public class MainTest {
 	 */
 	StringValue computeFieldValue(Record record) {
 		PrimitiveTypeValue value = record.get(FIELD_NAME_AUTHORS).get();
-		int size = (value == null) ? 0 : value.renderAsList().size();
+		int size = Objects.isNull(value) ? 0 : value.renderAsList().size();
 		return new StringValue("" + size);
 	}
 
