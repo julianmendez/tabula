@@ -51,50 +51,51 @@ public class CalendarParser implements Parser {
 		}
 	}
 
-	public static final String GeneratedIdFieldName = "generatedId";
-	public static final String SubItemsFieldName = "subItems";
-	public static final String CalendarTypeLabel = "VCALENDAR";
-	public static final String TimeZoneTypeLabel = "VTIMEZONE";
-	public static final String DaylightTypeLabel = "DAYLIGHT";
-	public static final String StandardTypeLabel = "STANDARD";
-	public static final String EventTypeLabel = "VEVENT";
-	public static final String AlarmTypeLabel = "VALARM";
+	public static final String GENERATED_ID_FIELD_NAME = "generatedId";
+	public static final String SUB_ITEMS_FIELD_NAME = "subItems";
+	public static final String CALENDAR_TYPE_LABEL = "VCALENDAR";
+	public static final String TIME_ZONE_TYPE_LABEL = "VTIMEZONE";
+	public static final String DAYLIGHT_TYPE_LABEL = "DAYLIGHT";
+	public static final String STANDARD_TYPE_LABEL = "STANDARD";
+	public static final String EVENT_TYPE_LABEL = "VEVENT";
+	public static final String ALARM_TYPE_LABEL = "VALARM";
 
-	public static final String[] CalendarTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "PRODID", "VERSION",
-			"CALSCALE", "METHOD", "X-WR-CALNAME", "X-WR-TIMEZONE", };
+	public static final String[] CALENDAR_TYPE_FIELDS = { GENERATED_ID_FIELD_NAME, SUB_ITEMS_FIELD_NAME, "PRODID",
+			"VERSION", "CALSCALE", "METHOD", "X-WR-CALNAME", "X-WR-TIMEZONE", };
 
-	public static final String[] TimeZoneTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "TZID",
+	public static final String[] TIME_ZONE_TYPE_FIELDS = { GENERATED_ID_FIELD_NAME, SUB_ITEMS_FIELD_NAME, "TZID",
 			"X-LIC-LOCATION" };
 
-	public static final String[] DaylightTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "TZOFFSETFROM",
+	public static final String[] DAYLIGHT_TYPE_FIELDS = { GENERATED_ID_FIELD_NAME, SUB_ITEMS_FIELD_NAME, "TZOFFSETFROM",
 			"TZOFFSETTO", "TZNAME", "DTSTART", "RRULE" };
 
-	public static final String[] StandardTypeFields = DaylightTypeFields;
+	public static final String[] STANDARD_TYPE_FIELDS = DAYLIGHT_TYPE_FIELDS;
 
-	public static final String[] EventTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "DTSTART", "DTEND",
-			"RRULE", "ORGANIZER", "DTSTAMP", "UID", "ATTENDEE", "CREATED", "DESCRIPTION", "LAST-MODIFIED", "LOCATION",
-			"SEQUENCE", "STATUS", "SUMMARY", "TRANSP", "X-ALT-DESC", "X-MICROSOFT-CDO-BUSYSTATUS", "CLASS" };
+	public static final String[] EVENT_TYPE_FIELDS = { GENERATED_ID_FIELD_NAME, SUB_ITEMS_FIELD_NAME, "DTSTART",
+			"DTEND", "RRULE", "ORGANIZER", "DTSTAMP", "UID", "ATTENDEE", "CREATED", "DESCRIPTION", "LAST-MODIFIED",
+			"LOCATION", "SEQUENCE", "STATUS", "SUMMARY", "TRANSP", "X-ALT-DESC", "X-MICROSOFT-CDO-BUSYSTATUS",
+			"CLASS" };
 
-	public static final String[] AlarmTypeFields = { GeneratedIdFieldName, SubItemsFieldName, "ACTION", "DESCRIPTION",
-			"SUMMARY", "ATTENDEE", "TRIGGER" };
+	public static final String[] ALARM_TYPE_FIELDS = { GENERATED_ID_FIELD_NAME, SUB_ITEMS_FIELD_NAME, "ACTION",
+			"DESCRIPTION", "SUMMARY", "ATTENDEE", "TRIGGER" };
 
 	public static final SimplifiedCompositeType EventTyp = null;
 
-	public static final char UnderscoreChar = '_';
-	public static final char CommaChar = ',';
-	public static final char QuotesChar = '"';
-	public static final char ColonChar = ':';
-	public static final char SemicolonChar = ';';
-	public static final char SpaceChar = ' ';
-	public static final char NewLineChar = '\n';
-	public static final char GeneratedIdSeparatorChar = '.';
-	public static final int FirstGeneratedIndex = 0;
+	public static final char UNDERSCORE_CHAR = '_';
+	public static final char COMMA_CHAR = ',';
+	public static final char QUOTES_CHAR = '"';
+	public static final char COLON_CHAR = ':';
+	public static final char SEMICOLON_CHAR = ';';
+	public static final char SPACE_CHAR = ' ';
+	public static final char NEW_LINE_CHAR = '\n';
+	public static final char GENERATED_ID_SEPARATOR_CHAR = '.';
+	public static final int FIRST_GENERATED_INDEX = 0;
 
-	public static final String Underscore = "" + UnderscoreChar;
+	public static final String UNDERSCORE = "" + UNDERSCORE_CHAR;
 
-	public static final String NewEvent = "BEGIN:" + EventTypeLabel;
-	public static final String BeginKeyword = "BEGIN";
-	public static final String EndKeyword = "END";
+	public static final String NEW_EVENT = "BEGIN:" + EVENT_TYPE_LABEL;
+	public static final String BEGIN_KEYWORD = "BEGIN";
+	public static final String END_KEYWORD = "END";
 
 	private Reader input = new InputStreamReader(System.in);
 
@@ -106,11 +107,11 @@ public class CalendarParser implements Parser {
 		if (Objects.isNull(line)) {
 			return Optional.empty();
 		} else {
-			int pos = line.indexOf(ColonChar);
+			int pos = line.indexOf(COLON_CHAR);
 			if (pos == -1) {
 				return Optional.of(line);
 			} else {
-				int pos2 = line.indexOf(SemicolonChar);
+				int pos2 = line.indexOf(SEMICOLON_CHAR);
 				if (pos2 >= 0 && pos2 < pos) {
 					pos = pos2;
 				}
@@ -123,7 +124,7 @@ public class CalendarParser implements Parser {
 		if (Objects.isNull(line)) {
 			return Optional.empty();
 		} else {
-			int pos = line.indexOf(ColonChar);
+			int pos = line.indexOf(COLON_CHAR);
 			if (pos == -1) {
 				return Optional.of("");
 			} else {
@@ -133,11 +134,11 @@ public class CalendarParser implements Parser {
 	}
 
 	public boolean isBeginLine(String line) {
-		return Objects.nonNull(line) && line.trim().startsWith(BeginKeyword);
+		return Objects.nonNull(line) && line.trim().startsWith(BEGIN_KEYWORD);
 	}
 
 	public boolean isEndLine(String line) {
-		return Objects.nonNull(line) && line.trim().startsWith(EndKeyword);
+		return Objects.nonNull(line) && line.trim().startsWith(END_KEYWORD);
 	}
 
 	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, int lineCounter) {
@@ -166,7 +167,7 @@ public class CalendarParser implements Parser {
 			String line = input.readLine();
 			if (Objects.isNull(line)) {
 				finish = true;
-			} else if (line.startsWith("" + SpaceChar)) {
+			} else if (line.startsWith("" + SPACE_CHAR)) {
 				sbuf.append(line);
 			} else {
 				ret.add(new Pair(lineCounter, sbuf.toString()));
@@ -202,7 +203,7 @@ public class CalendarParser implements Parser {
 
 	public String getGeneratedId(List<Integer> generatedIds, int level) {
 		while (level >= generatedIds.size()) {
-			generatedIds.add(FirstGeneratedIndex);
+			generatedIds.add(FIRST_GENERATED_INDEX);
 		}
 		int newValue = generatedIds.get(level) + 1;
 		while (level < generatedIds.size()) {
@@ -215,7 +216,7 @@ public class CalendarParser implements Parser {
 			if (firstTime) {
 				firstTime = false;
 			} else {
-				sbuf.append(GeneratedIdSeparatorChar);
+				sbuf.append(GENERATED_ID_SEPARATOR_CHAR);
 			}
 			sbuf.append(counter);
 		}
@@ -225,12 +226,12 @@ public class CalendarParser implements Parser {
 	public TableMap parseMap(BufferedReader input) throws IOException {
 		Map<String, TableImpl> map = new TreeMap<>();
 
-		map.put(CalendarTypeLabel, new TableImpl(new SimplifiedCompositeType(CalendarTypeFields)));
-		map.put(TimeZoneTypeLabel, new TableImpl(new SimplifiedCompositeType(TimeZoneTypeFields)));
-		map.put(DaylightTypeLabel, new TableImpl(new SimplifiedCompositeType(DaylightTypeFields)));
-		map.put(StandardTypeLabel, new TableImpl(new SimplifiedCompositeType(StandardTypeFields)));
-		map.put(EventTypeLabel, new TableImpl(new SimplifiedCompositeType(EventTypeFields)));
-		map.put(AlarmTypeLabel, new TableImpl(new SimplifiedCompositeType(AlarmTypeFields)));
+		map.put(CALENDAR_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(CALENDAR_TYPE_FIELDS)));
+		map.put(TIME_ZONE_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(TIME_ZONE_TYPE_FIELDS)));
+		map.put(DAYLIGHT_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(DAYLIGHT_TYPE_FIELDS)));
+		map.put(STANDARD_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(STANDARD_TYPE_FIELDS)));
+		map.put(EVENT_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(EVENT_TYPE_FIELDS)));
+		map.put(ALARM_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(ALARM_TYPE_FIELDS)));
 
 		TableImpl currentTable = null;
 		Record currentRecord = null;
@@ -258,7 +259,7 @@ public class CalendarParser implements Parser {
 						recordStack.push(currentRecord);
 					}
 					currentRecord = new RecordImpl();
-					currentRecord.set(GeneratedIdFieldName,
+					currentRecord.set(GENERATED_ID_FIELD_NAME,
 							new StringValue(getGeneratedId(generatedIds, tableIdStack.size())));
 					TableImpl refTable = map.get(value);
 					if (Objects.isNull(refTable)) {
@@ -268,7 +269,7 @@ public class CalendarParser implements Parser {
 					currentTable = refTable;
 
 				} else if (isEndLine(line)) {
-					String foreignKey = currentRecord.get(GeneratedIdFieldName).get().render();
+					String foreignKey = currentRecord.get(GENERATED_ID_FIELD_NAME).get().render();
 					currentTable.add(currentRecord);
 					String value = getValue(line).get();
 					TableImpl refTable = map.get(value);
@@ -279,17 +280,17 @@ public class CalendarParser implements Parser {
 						throw new ParseException("Closing wrong type '" + value + "' (line " + lineCounter + ").");
 					}
 					if (tableStack.isEmpty()) {
-						throw new ParseException("Too many " + EndKeyword + " keywords  (line " + lineCounter + ").");
+						throw new ParseException("Too many " + END_KEYWORD + " keywords  (line " + lineCounter + ").");
 					}
 					currentTableId = tableIdStack.pop();
 					currentTable = tableStack.pop();
 					currentRecord = recordStack.pop();
-					Optional<PrimitiveTypeValue> optSubItems = currentRecord.get(SubItemsFieldName);
+					Optional<PrimitiveTypeValue> optSubItems = currentRecord.get(SUB_ITEMS_FIELD_NAME);
 					if (optSubItems.isPresent()) {
-						currentRecord.set(SubItemsFieldName,
-								new StringValue(optSubItems.get().render() + SpaceChar + foreignKey));
+						currentRecord.set(SUB_ITEMS_FIELD_NAME,
+								new StringValue(optSubItems.get().render() + SPACE_CHAR + foreignKey));
 					} else {
-						currentRecord.set(SubItemsFieldName, new StringValue(foreignKey));
+						currentRecord.set(SUB_ITEMS_FIELD_NAME, new StringValue(foreignKey));
 					}
 
 				} else {
@@ -304,7 +305,7 @@ public class CalendarParser implements Parser {
 		}
 
 		if (!tableStack.isEmpty()) {
-			throw new ParseException("Too few " + EndKeyword + " keywords  (line " + lineCounter + ").");
+			throw new ParseException("Too few " + END_KEYWORD + " keywords  (line " + lineCounter + ").");
 		}
 
 		TableMapImpl ret = new TableMapImpl();
