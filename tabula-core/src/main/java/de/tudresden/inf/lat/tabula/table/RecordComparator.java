@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -53,7 +54,7 @@ public class RecordComparator implements Comparator<Record> {
 				Iterator<String> it = this.sortingOrder.iterator();
 				while (it.hasNext() && (ret == 0)) {
 					String token = it.next();
-					ret = compareValues(record0.get(token).get(), record1.get(token).get(),
+					ret = compareValues(record0.get(token), record1.get(token),
 							this.fieldsWithReverseOrder.contains(token));
 				}
 				return ret;
@@ -61,21 +62,22 @@ public class RecordComparator implements Comparator<Record> {
 		}
 	}
 
-	public int compareValues(PrimitiveTypeValue value0, PrimitiveTypeValue value1, boolean hasReverseOrder) {
+	public int compareValues(Optional<PrimitiveTypeValue> optValue0, Optional<PrimitiveTypeValue> optValue1,
+			boolean hasReverseOrder) {
 		if (hasReverseOrder) {
-			return compareValues(value1, value0, false);
+			return compareValues(optValue1, optValue0, false);
 		} else {
-			if (Objects.isNull(value0)) {
-				if (Objects.isNull(value1)) {
-					return 0;
+			if (optValue0.isPresent()) {
+				if (optValue1.isPresent()) {
+					return optValue0.get().compareTo(optValue1.get());
 				} else {
-					return (-1);
+					return 1;
 				}
 			} else {
-				if (Objects.isNull(value1)) {
-					return 1;
+				if (optValue1.isPresent()) {
+					return (-1);
 				} else {
-					return value0.compareTo(value1);
+					return 0;
 				}
 			}
 		}
