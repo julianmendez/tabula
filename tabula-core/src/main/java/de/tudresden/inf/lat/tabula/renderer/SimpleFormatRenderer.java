@@ -4,6 +4,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
@@ -58,9 +59,9 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.EQUALS_SIGN + ParserConstant.SPACE);
 
 		fields.forEach(field -> {
-			PrimitiveTypeValue value = record.get(field).get();
-			if (Objects.nonNull(value)) {
-				writeIfNotEmpty(output, field, value);
+			Optional<PrimitiveTypeValue> optValue = record.get(field);
+			if (optValue.isPresent()) {
+				writeIfNotEmpty(output, field, optValue.get());
 			}
 		});
 	}
