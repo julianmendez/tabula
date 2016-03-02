@@ -156,11 +156,11 @@ public class SimpleFormatParser implements Parser {
 		}
 	}
 
-	private boolean isMultiLine(String line) {
+	public boolean isMultiLine(String line) {
 		return line.trim().endsWith(ParserConstant.LINE_CONTINUATION_SYMBOL);
 	}
 
-	private String getCleanLine(String line) {
+	public String getCleanLine(String line) {
 		String trimmedLine = line.trim();
 		if (isMultiLine(line)) {
 			return trimmedLine.substring(0, trimmedLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length());
@@ -169,7 +169,7 @@ public class SimpleFormatParser implements Parser {
 		}
 	}
 
-	private Pair readMultiLine(BufferedReader input, int lineCounter0) throws IOException {
+	public Pair readMultiLine(BufferedReader input, int lineCounter0) throws IOException {
 		int lineCounter = lineCounter0;
 		String line = input.readLine();
 		if (Objects.isNull(line)) {
