@@ -156,6 +156,19 @@ public class SimpleFormatParser implements Parser {
 		}
 	}
 
+	private boolean isMultiLine(String line) {
+		return line.trim().endsWith(ParserConstant.LINE_CONTINUATION_SYMBOL);
+	}
+
+	private String getCleanLine(String line) {
+		String trimmedLine = line.trim();
+		if (isMultiLine(line)) {
+			return trimmedLine.substring(0, trimmedLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length());
+		} else {
+			return trimmedLine;
+		}
+	}
+
 	private Pair readMultiLine(BufferedReader input, int lineCounter0) throws IOException {
 		int lineCounter = lineCounter0;
 		String line = input.readLine();
@@ -166,19 +179,18 @@ public class SimpleFormatParser implements Parser {
 			if (line.startsWith(ParserConstant.COMMENT_SYMBOL)) {
 				return new Pair(lineCounter, "");
 			} else {
-				String multiLine = line.trim();
-				while (multiLine.endsWith(ParserConstant.LINE_CONTINUATION_SYMBOL)) {
-					multiLine = multiLine.substring(0,
-							multiLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length())
-							+ ParserConstant.SPACE;
+				StringBuilder sb = new StringBuilder();
+				while (isMultiLine(line)) {
+					sb.append(getCleanLine(line));
+					sb.append(ParserConstant.SPACE);
 					line = input.readLine();
 					if (Objects.nonNull(line)) {
-						line = line.trim();
 						lineCounter += 1;
-						multiLine += line;
 					}
 				}
-				return new Pair(lineCounter, multiLine);
+				sb.append(getCleanLine(line));
+
+				return new Pair(lineCounter, sb.toString());
 			}
 		}
 	}
