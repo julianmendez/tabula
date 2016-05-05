@@ -3,11 +3,8 @@ package de.tudresden.inf.lat.tabula.renderer;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
-import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.Record;
 import de.tudresden.inf.lat.tabula.parser.ParserConstant;
 import de.tudresden.inf.lat.tabula.table.Table;
@@ -27,49 +24,12 @@ public class SimpleFormatRenderer implements Renderer {
 		this.output = output;
 	}
 
-	public boolean writeIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {
-		if (Objects.nonNull(field) && !field.trim().isEmpty() && Objects.nonNull(value) && !value.isEmpty()) {
-			output.write(ParserConstant.NEW_LINE);
-			output.write(field);
-			output.write(ParserConstant.SPACE + ParserConstant.EQUALS_SIGN);
-			if (value.getType().isList()) {
-				List<String> list = value.renderAsList();
-				list.forEach(link -> {
-					output.write(ParserConstant.SPACE + ParserConstant.LINE_CONTINUATION_SYMBOL);
-					output.write(ParserConstant.NEW_LINE);
-					output.write(ParserConstant.SPACE);
-					output.write(link.toString());
-				});
-
-			} else {
-				output.write(ParserConstant.SPACE);
-				output.write(value.toString());
-
-			}
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public void render(UncheckedWriter output, Record record, List<String> fields) {
-
-		output.write(ParserConstant.NEW_LINE + ParserConstant.NEW_LINE);
-		output.write(ParserConstant.NEW_RECORD_TOKEN + ParserConstant.SPACE);
-		output.write(ParserConstant.EQUALS_SIGN + ParserConstant.SPACE);
-
-		fields.forEach(field -> {
-			Optional<PrimitiveTypeValue> optValue = record.get(field);
-			if (optValue.isPresent()) {
-				writeIfNotEmpty(output, field, optValue.get());
-			}
-		});
-	}
-
 	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
+		SimpleFormatRecordRenderer recordRenderer = new SimpleFormatRecordRenderer(output);
+		output.write(ParserConstant.NEW_LINE);
 		List<Record> list = table.getRecords();
 		list.forEach(record -> {
-			render(output, record, table.getType().getFields());
+			recordRenderer.render(output, record, table.getType().getFields());
 			output.write(ParserConstant.NEW_LINE);
 		});
 		output.write(ParserConstant.NEW_LINE);
@@ -126,7 +86,6 @@ public class SimpleFormatRenderer implements Renderer {
 			renderOrder(output, table);
 			renderAllRecords(output, table);
 		});
-		output.write(ParserConstant.NEW_LINE);
 		output.flush();
 	}
 
