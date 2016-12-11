@@ -27,7 +27,8 @@ import de.tudresden.inf.lat.tabula.table.TableMapImpl;
 public class MainTest {
 
 	public static final String INPUT_FILE_NAME = "src/test/resources/example.properties";
-	public static final String EXPECTED_OUTPUT_FILE_NAME = "src/test/resources/example-modified.properties";
+	public static final String EXPECTED_OUTPUT_FILE_NAME = "src/test/resources/example-expected.properties";
+	public static final String MODIFIED_EXPECTED_OUTPUT_FILE_NAME = "src/test/resources/example-modified.properties";
 
 	public static final String TYPE_NAME_RECORD = "record";
 	public static final String FIELD_NAME_AUTHORS = "authors";
@@ -48,6 +49,22 @@ public class MainTest {
 		return new StringValue("" + size);
 	}
 
+	void assertContent(TableMap tableMap, String fileName) throws IOException {
+		// Store the new table map
+		StringWriter writer = new StringWriter();
+		SimpleFormatRenderer renderer = new SimpleFormatRenderer(writer);
+		renderer.render(tableMap);
+
+		// Read the expected output
+		StringBuffer sbuf = new StringBuffer();
+		BufferedReader reader = new BufferedReader(new FileReader(fileName));
+		reader.lines().forEach(line -> sbuf.append(line + NEW_LINE));
+		reader.close();
+
+		// Compare the expected output with the actual output
+		Assert.assertEquals(sbuf.toString(), writer.toString());
+	}
+
 	@Test
 	public void addNewFieldOldTest() throws IOException {
 
@@ -61,6 +78,8 @@ public class MainTest {
 		// TableMapImpl newTableMap = new TableMapImpl(oldTableMap);
 		TableMapImpl newTableMap = new TableMapImpl();
 		oldTableMap.getTableIds().forEach(tableId -> newTableMap.put(tableId, oldTableMap.getTable(tableId)));
+
+		assertContent(newTableMap, EXPECTED_OUTPUT_FILE_NAME);
 
 		// Get the main table
 		Table table = newTableMap.getTable(TYPE_NAME_RECORD);
@@ -90,19 +109,7 @@ public class MainTest {
 		// Compute the number of authors for each record
 		table.getRecords().forEach(record -> record.set(FIELD_NAME_NUMBER_OF_AUTHORS, computeFieldValue(record)));
 
-		// Store the new table map
-		StringWriter writer = new StringWriter();
-		SimpleFormatRenderer renderer = new SimpleFormatRenderer(writer);
-		renderer.render(newTableMap);
-
-		// Read the expected output
-		StringBuffer sbuf = new StringBuffer();
-		BufferedReader reader = new BufferedReader(new FileReader(EXPECTED_OUTPUT_FILE_NAME));
-		reader.lines().forEach(line -> sbuf.append(line + NEW_LINE));
-		reader.close();
-
-		// Compare the expected output with the actual output
-		Assert.assertEquals(sbuf.toString(), writer.toString());
+		assertContent(newTableMap, MODIFIED_EXPECTED_OUTPUT_FILE_NAME);
 	}
 
 }
