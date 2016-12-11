@@ -28,7 +28,7 @@ public class MainTest {
 
 	public static final String INPUT_FILE_NAME = "src/test/resources/example.properties";
 	public static final String EXPECTED_OUTPUT_FILE_NAME = "src/test/resources/example-expected.properties";
-	public static final String MODIFIED_EXPECTED_OUTPUT_FILE_NAME = "src/test/resources/example-modified.properties";
+	public static final String MODIFIED_OUTPUT_FILE_NAME = "src/test/resources/example-modified.properties";
 
 	public static final String TYPE_NAME_RECORD = "record";
 	public static final String FIELD_NAME_AUTHORS = "authors";
@@ -50,7 +50,7 @@ public class MainTest {
 	}
 
 	void assertContent(TableMap tableMap, String fileName) throws IOException {
-		// Store the new table map
+		// Store the table map
 		StringWriter writer = new StringWriter();
 		SimpleFormatRenderer renderer = new SimpleFormatRenderer(writer);
 		renderer.render(tableMap);
@@ -109,7 +109,7 @@ public class MainTest {
 		// Compute the number of authors for each record
 		table.getRecords().forEach(record -> record.set(FIELD_NAME_NUMBER_OF_AUTHORS, computeFieldValue(record)));
 
-		assertContent(newTableMap, MODIFIED_EXPECTED_OUTPUT_FILE_NAME);
+		assertContent(newTableMap, MODIFIED_OUTPUT_FILE_NAME);
 	}
 
 }
