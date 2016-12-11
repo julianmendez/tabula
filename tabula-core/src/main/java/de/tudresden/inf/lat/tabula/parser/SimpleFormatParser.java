@@ -163,7 +163,8 @@ public class SimpleFormatParser implements Parser {
 	public String getCleanLine(String line) {
 		String trimmedLine = line.trim();
 		if (isMultiLine(line)) {
-			return trimmedLine.substring(0, trimmedLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length());
+			return trimmedLine.substring(0, trimmedLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length())
+					.trim();
 		} else {
 			return trimmedLine;
 		}
