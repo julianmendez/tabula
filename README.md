@@ -11,14 +11,14 @@ Tabula is a system to manage human-readable tables using files. It uses a specif
 
 ## Download
 
-* [executable JAR file](https://sourceforge.net/projects/latitude/files/tabula/0.1.0/tabula-0.1.0.jar/download)
+* [executable JAR file](https://sourceforge.net/projects/latitude/files/tabula/0.2.0/tabula-0.2.0.jar/download)
 * [The Central Repository](https://repo1.maven.org/maven2/de/tu-dresden/inf/lat/tabula/)
 * as dependency:
 ```xml
 <dependency>
   <groupId>de.tu-dresden.inf.lat.tabula</groupId>
   <artifactId>tabula-ext</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
