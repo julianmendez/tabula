@@ -158,24 +158,22 @@ public class CalendarParser implements Parser {
 		}
 	}
 
-	private List<Pair> preload(BufferedReader input) throws IOException {
+	private List<Pair> preload(BufferedReader input) {
 		List<Pair> ret = new ArrayList<>();
-		StringBuffer sbuf = new StringBuffer();
-		boolean finish = false;
-		int lineCounter = 0;
-		while (!finish) {
-			String line = input.readLine();
-			if (Objects.isNull(line)) {
-				finish = true;
-			} else if (line.startsWith("" + SPACE_CHAR)) {
-				sbuf.append(line);
+		StringBuffer[] sbuf = new StringBuffer[1];
+		sbuf[0] = new StringBuffer();
+		int[] lineCounter = new int[1];
+		lineCounter[0] = 0;
+		input.lines().forEach(line -> {
+			if (line.startsWith("" + SPACE_CHAR)) {
+				sbuf[0].append(line);
 			} else {
-				ret.add(new Pair(lineCounter, sbuf.toString()));
-				sbuf = new StringBuffer();
-				sbuf.append(line);
+				ret.add(new Pair(lineCounter[0], sbuf[0].toString()));
+				sbuf[0] = new StringBuffer();
+				sbuf[0].append(line);
 			}
-			lineCounter += 1;
-		}
+			lineCounter[0] += 1;
+		});
 		return ret;
 	}
 
