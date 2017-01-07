@@ -18,10 +18,10 @@ public interface CompositeTypeValue {
 	/**
 	 * Sets the type of this composite type value.
 	 * 
-	 * @param type
+	 * @param newType
 	 *            type
 	 */
-	void setType(CompositeType type);
+	void setType(CompositeType newType);
 
 	/**
 	 * Returns all the records.
