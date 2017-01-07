@@ -12,11 +12,19 @@ import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 public interface Table extends CompositeTypeValue {
 
 	/**
-	 * Returns the sorting order of the fields.
+	 * Returns the sorting order for the fields.
 	 * 
-	 * @return the sorting order of the fields
+	 * @return the sorting order for the fields
 	 */
 	List<String> getSortingOrder();
+
+	/**
+	 * Sets the sorting order for the fields.
+	 * 
+	 * @param sortingOrder
+	 *            sorting order
+	 */
+	void setSortingOrder(List<String> sortingOrder);
 
 	/**
 	 * Returns the fields that are supposed to be sorted in reverse order.
@@ -26,10 +34,12 @@ public interface Table extends CompositeTypeValue {
 	Set<String> getFieldsWithReverseOrder();
 
 	/**
-	 * Returns the identifiers of all added records.
+	 * Sets the fields that are supposed to be sorted in reverse order.
 	 * 
-	 * @return the identifiers of all added records
+	 * @param fieldsWithReverseOrder
+	 *            fields with reverse order
+	 *
 	 */
-	Set<String> getIdentifiers();
+	void setFieldsWithReverseOrder(Set<String> fieldsWithReverseOrder);
 
 }

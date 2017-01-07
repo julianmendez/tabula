@@ -20,7 +20,6 @@ public class TableImpl implements Table {
 
 	private CompositeType tableType = new CompositeTypeImpl();
 	private final List<Record> list = new ArrayList<>();
-	private final Set<String> identifiers = new TreeSet<>();
 	private final List<String> sortingOrder = new ArrayList<>();
 	private final Set<String> fieldsWithReverseOrder = new TreeSet<>();
 
@@ -41,10 +40,12 @@ public class TableImpl implements Table {
 		return this.tableType;
 	}
 
+	@Override
 	public void setType(CompositeType newType) {
 		this.tableType = newType;
 	}
 
+	@Override
 	public boolean add(Record record) {
 		if (Objects.isNull(record)) {
 			return false;
@@ -53,14 +54,12 @@ public class TableImpl implements Table {
 		}
 	}
 
-	public boolean addId(String id) {
-		return this.identifiers.add(id);
-	}
-
+	@Override
 	public List<String> getSortingOrder() {
 		return this.sortingOrder;
 	}
 
+	@Override
 	public void setSortingOrder(List<String> sortingOrder) {
 		this.sortingOrder.clear();
 		if (Objects.nonNull(sortingOrder)) {
@@ -68,10 +67,12 @@ public class TableImpl implements Table {
 		}
 	}
 
+	@Override
 	public Set<String> getFieldsWithReverseOrder() {
 		return this.fieldsWithReverseOrder;
 	}
 
+	@Override
 	public void setFieldsWithReverseOrder(Set<String> fieldsWithReverseOrder) {
 		this.fieldsWithReverseOrder.clear();
 		if (Objects.nonNull(fieldsWithReverseOrder)) {
@@ -88,11 +89,6 @@ public class TableImpl implements Table {
 	}
 
 	@Override
-	public Set<String> getIdentifiers() {
-		return this.identifiers;
-	}
-
-	@Override
 	public int hashCode() {
 		return this.sortingOrder.hashCode() + 0x1F * (this.fieldsWithReverseOrder.hashCode()
 				+ 0x1F * (this.list.hashCode() + 0x1F * this.tableType.hashCode()));
@@ -106,8 +102,7 @@ public class TableImpl implements Table {
 			Table other = (Table) obj;
 			return getSortingOrder().equals(other.getSortingOrder())
 					&& getFieldsWithReverseOrder().equals(other.getFieldsWithReverseOrder())
-					&& getType().equals(other.getType()) && getRecords().equals(other.getRecords())
-					&& getIdentifiers().equals(other.getIdentifiers());
+					&& getType().equals(other.getType()) && getRecords().equals(other.getRecords());
 		} else {
 			return false;
 		}

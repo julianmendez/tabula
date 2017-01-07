@@ -128,22 +128,15 @@ public class CsvParser implements Parser {
 				}
 
 				RecordImpl record = new RecordImpl();
-				String currentId = null;
 				int index = 0;
 				for (String column : columns) {
 					String field = fieldNames.get(index);
-					if (field.equals(ParserConstant.ID_KEYWORD)) {
-						currentId = column;
-					}
 					StringValue value = new StringValue(column);
 					record.set(field, value);
 					index += 1;
 				}
 
 				currentTable.add(record);
-				if (Objects.nonNull(currentId)) {
-					currentTable.addId(currentId);
-				}
 			}
 		}
 

@@ -215,7 +215,8 @@ public class SimpleFormatParser implements Parser {
 		}
 	}
 
-	private void parseProperty(String line, TableImpl currentTable, Record record, int lineCounter) {
+	private void parseProperty(String line, TableImpl currentTable, Set<String> recordIdsOfCurrentTable, Record record,
+			int lineCounter) {
 		if (Objects.isNull(currentTable)) {
 			throw new ParseException("New record was not declared (line " + lineCounter + ")");
 		}
@@ -227,7 +228,7 @@ public class SimpleFormatParser implements Parser {
 			String valueStr = optValueStr.get();
 			PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
 			if (key.equals(ParserConstant.ID_KEYWORD)) {
-				if (currentTable.getIdentifiers().contains(valueStr)) {
+				if (recordIdsOfCurrentTable.contains(valueStr)) {
 					throw new ParseException("Identifier '" + ParserConstant.ID_KEYWORD + ParserConstant.SPACE
 							+ ParserConstant.EQUALS_SIGN + ParserConstant.SPACE + optValueStr.get()
 							+ "' is duplicated (line " + lineCounter + ").");
@@ -238,13 +239,16 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public TableMap parseMap(BufferedReader input) throws IOException {
-		Map<String, TableImpl> map = new TreeMap<>();
+		Map<String, TableImpl> mapOfTables = new TreeMap<>();
+		Map<String, Set<String>> mapOfRecordIdsOfTables = new TreeMap<>();
 
 		String line = "";
 		TableImpl currentTable = null;
+		Set<String> recordIdsOfCurrentTable = null;
 		String currentId = null;
 		Record record = null;
 		int lineCounter = 0;
+
 		while (Objects.nonNull(line)) {
 			Pair pair = readMultiLine(input, lineCounter);
 			line = pair.getLine();
@@ -255,10 +259,12 @@ public class SimpleFormatParser implements Parser {
 					Optional<String> optTableName = getValue(line);
 					if (optTableName.isPresent()) {
 						String tableName = optTableName.get();
-						if (!map.containsKey(tableName)) {
-							map.put(tableName, new TableImpl());
+						if (!mapOfTables.containsKey(tableName)) {
+							mapOfTables.put(tableName, new TableImpl());
+							mapOfRecordIdsOfTables.put(tableName, new TreeSet<>());
 						}
-						currentTable = map.get(tableName);
+						currentTable = mapOfTables.get(tableName);
+						recordIdsOfCurrentTable = mapOfRecordIdsOfTables.get(tableName);
 					}
 
 				} else if (isTypeDefinition(line)) {
@@ -273,14 +279,14 @@ public class SimpleFormatParser implements Parser {
 					currentId = null;
 
 				} else {
-					parseProperty(line, currentTable, record, lineCounter);
+					parseProperty(line, currentTable, recordIdsOfCurrentTable, record, lineCounter);
 					if (isIdProperty(line)) {
 						boolean successful = false;
 						if (Objects.isNull(currentId)) {
 							Optional<String> optCurrentId = getIdProperty(line);
 							if (optCurrentId.isPresent()) {
 								currentId = optCurrentId.get();
-								successful = currentTable.addId(currentId);
+								successful = recordIdsOfCurrentTable.add(currentId);
 							}
 						}
 						if (!successful) {
@@ -294,7 +300,7 @@ public class SimpleFormatParser implements Parser {
 		}
 
 		TableMapImpl ret = new TableMapImpl();
-		map.keySet().forEach(key -> ret.put(key, map.get(key)));
+		mapOfTables.keySet().forEach(key -> ret.put(key, mapOfTables.get(key)));
 		return ret;
 	}
 

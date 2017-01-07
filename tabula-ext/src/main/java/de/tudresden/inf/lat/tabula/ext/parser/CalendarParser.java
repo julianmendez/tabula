@@ -20,7 +20,6 @@ import de.tudresden.inf.lat.tabula.datatype.Record;
 import de.tudresden.inf.lat.tabula.datatype.SimplifiedCompositeType;
 import de.tudresden.inf.lat.tabula.datatype.StringValue;
 import de.tudresden.inf.lat.tabula.parser.Parser;
-import de.tudresden.inf.lat.tabula.parser.ParserConstant;
 import de.tudresden.inf.lat.tabula.table.RecordImpl;
 import de.tudresden.inf.lat.tabula.table.TableImpl;
 import de.tudresden.inf.lat.tabula.table.TableMap;
@@ -188,13 +187,6 @@ public class CalendarParser implements Parser {
 			String key = optKey.get();
 			String valueStr = optValueStr.get();
 			PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), lineCounter);
-			if (key.equals(ParserConstant.ID_KEYWORD)) {
-				if (currentTable.getIdentifiers().contains(valueStr)) {
-					throw new ParseException("Identifier '" + ParserConstant.ID_KEYWORD + ParserConstant.SPACE
-							+ ParserConstant.EQUALS_SIGN + ParserConstant.SPACE + valueStr + "' is duplicated (line "
-							+ lineCounter + ").");
-				}
-			}
 			record.set(key, value);
 		}
 	}
@@ -259,19 +251,17 @@ public class CalendarParser implements Parser {
 					currentRecord = new RecordImpl();
 					currentRecord.set(GENERATED_ID_FIELD_NAME,
 							new StringValue(getGeneratedId(generatedIds, tableIdStack.size())));
-					TableImpl refTable = map.get(value);
-					if (Objects.isNull(refTable)) {
+					currentTableId = value;
+					currentTable = map.get(value);
+					if (Objects.isNull(currentTable)) {
 						throw new ParseException("Unknown type '" + value + "' (line " + lineCounter + ").");
 					}
-					currentTableId = value;
-					currentTable = refTable;
 
 				} else if (isEndLine(line)) {
 					String foreignKey = currentRecord.get(GENERATED_ID_FIELD_NAME).get().render();
 					currentTable.add(currentRecord);
 					String value = getValue(line).get();
-					TableImpl refTable = map.get(value);
-					if (Objects.isNull(refTable)) {
+					if (Objects.isNull(map.get(value))) {
 						throw new ParseException("Unknown type '" + value + "' (line " + lineCounter + ").");
 					}
 					if (!value.equals(currentTableId)) {
