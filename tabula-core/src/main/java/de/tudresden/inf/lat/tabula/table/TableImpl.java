@@ -33,6 +33,11 @@ public class TableImpl implements Table {
 	public TableImpl(CompositeTypeValue other) {
 		this.tableType = other.getType();
 		this.list.addAll(other.getRecords());
+		if (other instanceof Table) {
+			Table otherTable = (Table) other;
+			this.sortingOrder.addAll(otherTable.getSortingOrder());
+			this.fieldsWithReverseOrder.addAll(otherTable.getFieldsWithReverseOrder());
+		}
 	}
 
 	@Override
@@ -86,6 +91,11 @@ public class TableImpl implements Table {
 		ret.addAll(this.list);
 		Collections.sort(ret, new RecordComparator(this.sortingOrder, this.fieldsWithReverseOrder));
 		return ret;
+	}
+
+	@Override
+	public void clear() {
+		this.list.clear();
 	}
 
 	@Override

@@ -41,4 +41,9 @@ public interface CompositeTypeValue {
 	 */
 	boolean add(Record record);
 
+	/**
+	 * Removes all of the records from this composite type value.
+	 */
+	void clear();
+
 }
