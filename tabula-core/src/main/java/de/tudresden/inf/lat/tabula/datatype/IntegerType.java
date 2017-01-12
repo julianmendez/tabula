@@ -3,7 +3,7 @@ package de.tudresden.inf.lat.tabula.datatype;
 import java.util.Objects;
 
 /**
- * This models the primitive data type String.
+ * This models the primitive data type Integer.
  *
  */
 public class IntegerType implements PrimitiveType {

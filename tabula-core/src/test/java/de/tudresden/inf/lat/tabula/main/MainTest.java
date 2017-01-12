@@ -49,7 +49,7 @@ public class MainTest {
 		return new StringValue("" + size);
 	}
 
-	static String readFile(String fileName) throws IOException {
+	String readFile(String fileName) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		BufferedReader reader = new BufferedReader(new FileReader(fileName));
 		reader.lines().forEach(line -> sb.append(line + NEW_LINE));

@@ -26,7 +26,7 @@ public class NormalizationTest {
 
 	void testNormalizationOfFile(String inputFileName, String expectedFileName) throws IOException {
 		TableMap tableMap = new SimpleFormatParser(new FileReader(inputFileName)).parse();
-		String expectedResult = MainTest.readFile(expectedFileName);
+		String expectedResult = (new MainTest()).readFile(expectedFileName);
 		StringWriter writer = new StringWriter();
 		SimpleFormatRenderer renderer = new SimpleFormatRenderer(writer);
 		renderer.render(tableMap);
