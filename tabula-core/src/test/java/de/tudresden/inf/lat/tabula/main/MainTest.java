@@ -71,7 +71,7 @@ public class MainTest {
 	}
 
 	@Test
-	public void addNewFieldOldTest() throws IOException {
+	public void testAddNewField() throws IOException {
 
 		// This is an example of source code where the number of authors is
 		// a computed value
