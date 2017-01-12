@@ -49,6 +49,14 @@ public class MainTest {
 		return new StringValue("" + size);
 	}
 
+	static String readFile(String fileName) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		BufferedReader reader = new BufferedReader(new FileReader(fileName));
+		reader.lines().forEach(line -> sb.append(line + NEW_LINE));
+		reader.close();
+		return sb.toString();
+	}
+
 	void assertContent(TableMap tableMap, String fileName) throws IOException {
 		// Store the table map
 		StringWriter writer = new StringWriter();
@@ -56,13 +64,10 @@ public class MainTest {
 		renderer.render(tableMap);
 
 		// Read the expected output
-		StringBuffer sbuf = new StringBuffer();
-		BufferedReader reader = new BufferedReader(new FileReader(fileName));
-		reader.lines().forEach(line -> sbuf.append(line + NEW_LINE));
-		reader.close();
+		String expectedOutput = readFile(fileName);
 
 		// Compare the expected output with the actual output
-		Assert.assertEquals(sbuf.toString(), writer.toString());
+		Assert.assertEquals(expectedOutput, writer.toString());
 	}
 
 	@Test
