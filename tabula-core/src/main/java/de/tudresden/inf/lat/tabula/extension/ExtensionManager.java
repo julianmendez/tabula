@@ -1,10 +1,13 @@
 package de.tudresden.inf.lat.tabula.extension;
 
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+
+import de.tudresden.inf.lat.tabula.datatype.ParseException;
 
 /**
  * This models an extension that can execute other extensions.
@@ -43,8 +46,9 @@ public class ExtensionManager implements Extension {
 
 	@Override
 	public boolean process(List<String> arguments) {
-		if (Objects.isNull(arguments) || arguments.size() < REQUIRED_ARGUMENTS) {
-			return false;
+		Objects.requireNonNull(arguments);
+		if (arguments.size() < REQUIRED_ARGUMENTS) {
+			throw new ExtensionException("No extension name was given.");
 		} else {
 			String command = arguments.get(0);
 			List<String> newArguments = new ArrayList<>();
@@ -53,9 +57,14 @@ public class ExtensionManager implements Extension {
 			Extension extension = this.extensionMap.get(command);
 			if (Objects.isNull(extension)) {
 				throw new ExtensionException("Extension '" + command + "' was not found.");
+			} else if (newArguments.size() < extension.getRequiredArguments()) {
+				throw new ExtensionException("Insufficient number of arguments for extension '" + command + "'.");
 			} else {
-				extension.process(newArguments);
-				return true;
+				try {
+					return extension.process(newArguments);
+				} catch (ParseException | UncheckedIOException e) {
+					throw new ExtensionException(e);
+				}
 			}
 		}
 	}
