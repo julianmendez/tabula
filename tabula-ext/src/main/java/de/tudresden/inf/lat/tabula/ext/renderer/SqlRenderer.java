@@ -10,7 +10,6 @@ import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.Record;
-import de.tudresden.inf.lat.tabula.datatype.StringValue;
 import de.tudresden.inf.lat.tabula.datatype.URIValue;
 import de.tudresden.inf.lat.tabula.parser.ParserConstant;
 import de.tudresden.inf.lat.tabula.renderer.Renderer;
@@ -54,7 +53,7 @@ public class SqlRenderer implements Renderer {
 		return str.replace(APOSTROPHE, APOSTROPHE_REPLACEMENT);
 	}
 
-	public boolean writeStringIfNotEmpty(UncheckedWriter output, String field, StringValue value) {
+	public boolean writeAsStringIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {
 		if (Objects.nonNull(field) && !field.trim().isEmpty() && Objects.nonNull(value)
 				&& !value.toString().trim().isEmpty()) {
 			output.write(APOSTROPHE);
@@ -117,11 +116,7 @@ public class SqlRenderer implements Renderer {
 			Optional<PrimitiveTypeValue> optValue = record.get(field);
 			if (optValue.isPresent()) {
 				PrimitiveTypeValue value = optValue.get();
-				if (value instanceof StringValue) {
-					StringValue strVal = (StringValue) value;
-					writeStringIfNotEmpty(output, field, strVal);
-
-				} else if (value instanceof ParameterizedListValue) {
+				if (value instanceof ParameterizedListValue) {
 					ParameterizedListValue list = (ParameterizedListValue) value;
 					writeParameterizedListIfNotEmpty(output, field, list);
 
@@ -130,7 +125,8 @@ public class SqlRenderer implements Renderer {
 					writeLinkIfNotEmpty(output, field, link);
 
 				} else {
-					throw new IllegalStateException("Invalid value '" + value.toString() + "'.");
+					writeAsStringIfNotEmpty(output, field, value);
+
 				}
 
 			} else {

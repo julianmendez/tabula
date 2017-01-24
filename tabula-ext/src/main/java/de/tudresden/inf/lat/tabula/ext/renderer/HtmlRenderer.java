@@ -39,9 +39,9 @@ public class HtmlRenderer implements Renderer {
 		this.output = output;
 	}
 
-	public boolean writeStringIfNotEmpty(UncheckedWriter output, StringValue str) {
-		if (Objects.nonNull(str) && !str.toString().trim().isEmpty()) {
-			output.write(str.toString());
+	public boolean writeAsStringIfNotEmpty(UncheckedWriter output, PrimitiveTypeValue value) {
+		if (Objects.nonNull(value) && !value.toString().trim().isEmpty()) {
+			output.write(value.toString());
 			output.write("\n");
 			return true;
 		} else {
@@ -57,7 +57,7 @@ public class HtmlRenderer implements Renderer {
 					writeLinkIfNotEmpty(output, link);
 				} else {
 					StringValue strVal = (new StringType()).castInstance(value);
-					writeStringIfNotEmpty(output, strVal);
+					writeAsStringIfNotEmpty(output, strVal);
 				}
 			});
 			return true;
@@ -85,13 +85,7 @@ public class HtmlRenderer implements Renderer {
 			Optional<PrimitiveTypeValue> optValue = record.get(field);
 			if (optValue.isPresent()) {
 				PrimitiveTypeValue value = optValue.get();
-				if (value instanceof StringValue) {
-					output.write("<td> ");
-					StringValue strVal = (StringValue) value;
-					writeStringIfNotEmpty(output, strVal);
-					output.write(" </td>\n");
-
-				} else if (value instanceof ParameterizedListValue) {
+				if (value instanceof ParameterizedListValue) {
 					output.write("<td> ");
 					ParameterizedListValue list = (ParameterizedListValue) value;
 					writeParameterizedListIfNotEmpty(output, list);
@@ -104,7 +98,10 @@ public class HtmlRenderer implements Renderer {
 					output.write(" </td>\n");
 
 				} else {
-					throw new IllegalStateException("Invalid value '" + value.toString() + "'.");
+					output.write("<td> ");
+					writeAsStringIfNotEmpty(output, value);
+					output.write(" </td>\n");
+
 				}
 
 			} else {

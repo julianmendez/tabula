@@ -32,10 +32,10 @@ public class WikitextRenderer implements Renderer {
 		this.output = output;
 	}
 
-	public boolean writeStringIfNotEmpty(UncheckedWriter output, String prefix, StringValue str) {
-		if (Objects.nonNull(str) && !str.toString().trim().isEmpty()) {
+	public boolean writeAsStringIfNotEmpty(UncheckedWriter output, String prefix, PrimitiveTypeValue value) {
+		if (Objects.nonNull(value) && !value.toString().trim().isEmpty()) {
 			output.write(prefix);
-			output.write(str.toString());
+			output.write(value.toString());
 			output.write("\n");
 			return true;
 		} else {
@@ -53,7 +53,7 @@ public class WikitextRenderer implements Renderer {
 					writeLinkIfNotEmpty(output, "", link);
 				} else {
 					StringValue strVal = (new StringType()).castInstance(value);
-					writeStringIfNotEmpty(output, "", strVal);
+					writeAsStringIfNotEmpty(output, "", strVal);
 				}
 			});
 			return true;
@@ -85,11 +85,7 @@ public class WikitextRenderer implements Renderer {
 			if (optValue.isPresent()) {
 				PrimitiveTypeValue value = optValue.get();
 				String prefix = field + ParserConstant.EQUALS_SIGN;
-				if (value instanceof StringValue) {
-					StringValue strVal = (StringValue) value;
-					writeStringIfNotEmpty(output, prefix, strVal);
-
-				} else if (value instanceof ParameterizedListValue) {
+				if (value instanceof ParameterizedListValue) {
 					ParameterizedListValue list = (ParameterizedListValue) value;
 					writeParameterizedListIfNotEmpty(output, prefix, list);
 
@@ -98,7 +94,8 @@ public class WikitextRenderer implements Renderer {
 					writeLinkIfNotEmpty(output, prefix, link);
 
 				} else {
-					throw new IllegalStateException("Invalid value '" + value.toString() + "'.");
+					writeAsStringIfNotEmpty(output, prefix, value);
+
 				}
 
 			} else {
