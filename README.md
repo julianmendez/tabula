@@ -169,6 +169,8 @@ For example, the [MainTest](https://github.com/julianmendez/tabula/blob/master/t
 * compare the [expected result](https://github.com/julianmendez/tabula/blob/master/tabula-core/src/test/resources/example-modified.properties)
 
 
+This [Bash script](https://github.com/julianmendez/tabula/blob/master/docs/examples/tabula.sh.txt) shows how to start Tabula from the command line.
+
 ## Source code
 
 To clone and compile the project:
