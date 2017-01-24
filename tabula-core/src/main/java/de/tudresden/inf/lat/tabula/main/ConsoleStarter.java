@@ -15,16 +15,26 @@ import de.tudresden.inf.lat.tabula.extension.NormalizationExtension;
  */
 public class ConsoleStarter {
 
-	public static final String USAGE = "\nusage: java -jar (jarname) (extension) (input) (output)\n" //
+	private static final String ERROR_PREFIX = "ERROR: ";
+
+	private String help = "\nusage: java -jar (jarname) (extension) (input) (output)\n" //
 			+ "\nIf the extension is ommitted, the '" + NormalizationExtension.NAME + "' extension is executed." //
 			+ "\n\nThe available extensions are:" + "\n";
-
-	public static final String ERROR_PREFIX = "ERROR: ";
 
 	/**
 	 * Constructs a new console starter.
 	 */
 	public ConsoleStarter() {
+	}
+
+	/**
+	 * Constructs a new console starter.
+	 * 
+	 * @param help
+	 *            help about usage
+	 */
+	public ConsoleStarter(String help) {
+		this.help = help;
 	}
 
 	/**
@@ -51,7 +61,7 @@ public class ConsoleStarter {
 			manager.process(arguments);
 		} catch (ExtensionException e) {
 			System.out.println(ERROR_PREFIX + e.getMessage());
-			System.out.println(USAGE + manager.getHelp());
+			System.out.println(help + manager.getHelp());
 		}
 	}
 
