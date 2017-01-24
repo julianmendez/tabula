@@ -11,9 +11,9 @@ import de.tudresden.inf.lat.tabula.extension.ExtensionManager;
 import de.tudresden.inf.lat.tabula.extension.NormalizationExtension;
 
 /**
- * This is the main class.
+ * An object of this class runs the application with the given arguments.
  */
-public class CommandLineStarter {
+public class ConsoleStarter {
 
 	public static final String USAGE = "\nusage: java -jar (jarname) (extension) (input) (output)\n" //
 			+ "\nIf the extension is ommitted, the '" + NormalizationExtension.NAME + "' extension is executed." //
@@ -22,19 +22,19 @@ public class CommandLineStarter {
 	public static final String ERROR_PREFIX = "ERROR: ";
 
 	/**
-	 * Constructs a new main class.
+	 * Constructs a new console starter.
 	 */
-	public CommandLineStarter() {
+	public ConsoleStarter() {
 	}
 
 	/**
-	 * Executes the program.
+	 * Executes the application
 	 * 
 	 * @param extensions
 	 *            extensions
 	 * 
 	 * @param args
-	 *            command-line arguments
+	 *            console arguments
 	 */
 	public void run(List<Extension> extensions, String[] args) {
 		Objects.requireNonNull(extensions);

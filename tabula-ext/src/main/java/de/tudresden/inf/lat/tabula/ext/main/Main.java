@@ -12,7 +12,7 @@ import de.tudresden.inf.lat.tabula.ext.renderer.WikitextExtension;
 import de.tudresden.inf.lat.tabula.extension.DefaultExtension;
 import de.tudresden.inf.lat.tabula.extension.Extension;
 import de.tudresden.inf.lat.tabula.extension.NormalizationExtension;
-import de.tudresden.inf.lat.tabula.main.CommandLineStarter;
+import de.tudresden.inf.lat.tabula.main.ConsoleStarter;
 
 /**
  * This is the main class.
@@ -26,10 +26,10 @@ public class Main {
 	}
 
 	/**
-	 * Entry point for the command line.
+	 * Entry point for the console.
 	 * 
 	 * @param args
-	 *            command-line arguments
+	 *            console arguments
 	 */
 	public static void main(String args[]) {
 		List<Extension> extensions = new ArrayList<>();
@@ -42,7 +42,7 @@ public class Main {
 		extensions.add(new HtmlExtension());
 		extensions.add(new NormalizationExtension());
 
-		CommandLineStarter instance = new CommandLineStarter();
+		ConsoleStarter instance = new ConsoleStarter();
 		instance.run(extensions, args);
 	}
 

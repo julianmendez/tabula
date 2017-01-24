@@ -19,17 +19,17 @@ public class Main {
 	}
 
 	/**
-	 * Entry point for the command line.
+	 * Entry point for the console.
 	 * 
 	 * @param args
-	 *            command-line arguments
+	 *            console arguments
 	 */
 	public static void main(String args[]) {
 		List<Extension> extensions = new ArrayList<>();
 		extensions.add(new DefaultExtension());
 		extensions.add(new NormalizationExtension());
 
-		CommandLineStarter instance = new CommandLineStarter();
+		ConsoleStarter instance = new ConsoleStarter();
 		instance.run(extensions, args);
 	}
 
