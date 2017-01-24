@@ -12,11 +12,11 @@ public class ExtensionException extends RuntimeException {
 	}
 
 	public ExtensionException(String message) {
-		this(message, null);
+		super(message);
 	}
 
 	public ExtensionException(Throwable cause) {
-		this(null, cause);
+		super(cause);
 	}
 
 }

@@ -12,11 +12,11 @@ public class ParseException extends RuntimeException {
 	}
 
 	public ParseException(String message) {
-		this(message, null);
+		super(message);
 	}
 
 	public ParseException(Throwable cause) {
-		this(null, cause);
+		super(cause);
 	}
 
 }
