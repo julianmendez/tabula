@@ -1,10 +1,7 @@
 package de.tudresden.inf.lat.tabula.ext.main;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.IntStream;
 
 import de.tudresden.inf.lat.tabula.ext.parser.CalendarParserExtension;
 import de.tudresden.inf.lat.tabula.ext.parser.CsvParserExtension;
@@ -14,22 +11,27 @@ import de.tudresden.inf.lat.tabula.ext.renderer.SqlExtension;
 import de.tudresden.inf.lat.tabula.ext.renderer.WikitextExtension;
 import de.tudresden.inf.lat.tabula.extension.DefaultExtension;
 import de.tudresden.inf.lat.tabula.extension.Extension;
-import de.tudresden.inf.lat.tabula.extension.ExtensionManager;
 import de.tudresden.inf.lat.tabula.extension.NormalizationExtension;
+import de.tudresden.inf.lat.tabula.main.CommandLineStarter;
 
 /**
  * This is the main class.
  */
 public class Main {
 
-	private static final String HEADER = "Use: java -jar (jarname) (command) [(field)] (input) (output)\n\n";
-
-	private final ExtensionManager manager;
-
 	/**
 	 * Constructs a new main class.
 	 */
 	public Main() {
+	}
+
+	/**
+	 * Entry point for the command line.
+	 * 
+	 * @param args
+	 *            command-line arguments
+	 */
+	public static void main(String args[]) {
 		List<Extension> extensions = new ArrayList<>();
 		extensions.add(new DefaultExtension());
 		extensions.add(new CsvParserExtension());
@@ -40,22 +42,8 @@ public class Main {
 		extensions.add(new HtmlExtension());
 		extensions.add(new NormalizationExtension());
 
-		this.manager = new ExtensionManager(extensions);
-	}
-
-	public void run(String args[]) {
-		if (Objects.nonNull(args) && ((args.length == 2) || (args.length == 3) || (args.length == 4))) {
-			List<String> arguments = new ArrayList<>();
-			IntStream.range(0, args.length).forEach(index -> arguments.add(args[index]));
-			this.manager.process(arguments);
-		} else {
-			System.out.println(HEADER + this.manager.getHelp());
-		}
-	}
-
-	public static void main(String args[]) throws IOException {
-		Main instance = new Main();
-		instance.run(args);
+		CommandLineStarter instance = new CommandLineStarter();
+		instance.run(extensions, args);
 	}
 
 }
