@@ -40,10 +40,10 @@ public class DecimalValue implements PrimitiveTypeValue {
 	}
 
 	/**
-	 * Constructs a new decimal value using another integer value.
+	 * Constructs a new decimal value using another decimal value.
 	 * 
 	 * @param other
-	 *            a string value
+	 *            a decimal value
 	 */
 	public DecimalValue(DecimalValue other) {
 		this.number = other.number;

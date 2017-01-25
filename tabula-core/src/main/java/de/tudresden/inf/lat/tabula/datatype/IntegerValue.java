@@ -43,7 +43,7 @@ public class IntegerValue implements PrimitiveTypeValue {
 	 * Constructs a new integer value using another integer value.
 	 * 
 	 * @param other
-	 *            a string value
+	 *            an integer value
 	 */
 	public IntegerValue(IntegerValue other) {
 		this.number = other.number;
