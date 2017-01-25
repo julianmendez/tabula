@@ -12,6 +12,12 @@
 ### v0.3.0
 *(unreleased)*
 * runs on Java 8
+* includes more primitive types:
+  * Integer
+  * List_Integer
+  * Decimal
+  * List_Decimal
+* executes 'normalize' extension, if no extension is given 
 * build command:
 
 ```
@@ -38,19 +44,19 @@ $ mvn clean install
 * runs on Java 7
 * primitive types:
   * String
-  * URI
   * List_String
+  * URI
   * List_URI
-* readers:
-  * tabula format
-  * comma-separated values
-  * calendar
-* writers:
-  * tabula format
-  * comma-separated values
-  * HTML
-  * WikiText
-  * SQL
+* readers (extension names between parentheses):
+  * (`simple` / `normalize`) tabula format
+  * (`parsecsv`) comma-separated values
+  * (`parsecalendar`) calendar
+* writers (extension names between parentheses):
+  * (`simple` / `normalize`) tabula format
+  * (`csv`) comma-separated values
+  * (`html`) HTML
+  * (`wikitext`) WikiText
+  * (`sql`) SQL
 * build command:
 
 ```
