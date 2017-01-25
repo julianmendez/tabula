@@ -26,7 +26,9 @@ public interface PrimitiveType extends DataType {
 	 * @param str
 	 *            string
 	 * @return a value based on the given string
+	 * @throws ParseException
+	 *             if something went wrong during parsing
 	 */
-	PrimitiveTypeValue parse(String str);
+	PrimitiveTypeValue parse(String str) throws ParseException;
 
 }

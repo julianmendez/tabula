@@ -25,14 +25,18 @@ public class IntegerValue implements PrimitiveTypeValue {
 	 * 
 	 * @param str
 	 *            string
-	 * @throws NumberFormatException
+	 * @throws ParseException
 	 *             <code>str</code> is not a valid representation of an integer
 	 *             value.
 	 * 
 	 */
-	public IntegerValue(String str) {
+	public IntegerValue(String str) throws ParseException {
 		Objects.requireNonNull(str);
-		this.number = new BigInteger(str);
+		try {
+			this.number = new BigInteger(str);
+		} catch (NumberFormatException e) {
+			throw new ParseException(e);
+		}
 	}
 
 	/**
