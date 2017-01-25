@@ -26,6 +26,8 @@ public class PrimitiveTypeFactory {
 		add(new ParameterizedListType(new URIType()));
 		add(new IntegerType());
 		add(new ParameterizedListType(new IntegerType()));
+		add(new DecimalType());
+		add(new ParameterizedListType(new DecimalType()));
 	}
 
 	/**
