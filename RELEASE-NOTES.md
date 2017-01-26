@@ -17,6 +17,7 @@
   * List_Integer
   * Decimal
   * List_Decimal
+  * Empty
 * executes `normalize` extension, if no extension is given 
 * build command:
 
