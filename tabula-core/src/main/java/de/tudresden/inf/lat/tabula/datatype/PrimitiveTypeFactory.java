@@ -20,6 +20,7 @@ public class PrimitiveTypeFactory {
 	 * Constructs a new primitive type factory.
 	 */
 	public PrimitiveTypeFactory() {
+		add(new EmptyType());
 		add(new StringType());
 		add(new ParameterizedListType(new StringType()));
 		add(new URIType());
