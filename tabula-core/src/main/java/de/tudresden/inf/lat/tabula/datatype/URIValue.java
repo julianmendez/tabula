@@ -29,6 +29,17 @@ public class URIValue implements PrimitiveTypeValue {
 	}
 
 	/**
+	 * Constructs a new URI value using a URI.
+	 * 
+	 * @param uri
+	 *            URI
+	 */
+	public URIValue(URI uri) {
+		Objects.requireNonNull(uri);
+		this.uri = uri;
+	}
+
+	/**
 	 * Constructs a new URI value using another URI value.
 	 * 
 	 * @param other
