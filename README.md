@@ -3,7 +3,7 @@
 
 
 [![Build Status](https://travis-ci.org/julianmendez/tabula.png?branch=master)](https://travis-ci.org/julianmendez/tabula)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.tu-dresden.inf.lat.tabula/tabula-parent/badge.svg)](http://search.maven.org/#search|ga|1|g%3A%22de.tu-dresden.inf.lat.tabula%22)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.tu-dresden.inf.lat.tabula/tabula-parent/badge.svg)](https://search.maven.org/#search|ga|1|g%3A%22de.tu-dresden.inf.lat.tabula%22)
 
 
 Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-) file, but allows defining the same property for different objects.
@@ -140,11 +140,11 @@ title = A topological approach to non-Archimedean Mathematics
 authors = \
  Vieri_Benci \
  Lorenzo_Luperi_Baglini
-web = http://arxiv.org/abs/1412.2223
+web = https://arxiv.org/abs/1412.2223
 documents = \
- http://arxiv.org/pdf/1412.2223#pdf \
- http://arxiv.org/ps/1412.2223#ps \
- http://arxiv.org/format/1412.2223#other
+ https://arxiv.org/pdf/1412.2223#pdf \
+ https://arxiv.org/ps/1412.2223#ps \
+ https://arxiv.org/format/1412.2223#other
 
 
 new = 
@@ -152,11 +152,11 @@ id = arXiv:1412.3313
 title = Infinitary stability theory
 authors = \
  Sebastien_Vasey
-web = http://arxiv.org/abs/1412.3313
+web = https://arxiv.org/abs/1412.3313
 documents = \
- http://arxiv.org/pdf/1412.3313#pdf \
- http://arxiv.org/ps/1412.3313#ps \
- http://arxiv.org/format/1412.3313#other
+ https://arxiv.org/pdf/1412.3313#pdf \
+ https://arxiv.org/ps/1412.3313#ps \
+ https://arxiv.org/format/1412.3313#other
 
 
 ```
@@ -228,7 +228,7 @@ where *NEW_VERSION* is the new version.
 
 ## Author
 
-[Julian Mendez](http://lat.inf.tu-dresden.de/~mendez/)
+[Julian Mendez](https://lat.inf.tu-dresden.de/~mendez/)
 
 
 ## License

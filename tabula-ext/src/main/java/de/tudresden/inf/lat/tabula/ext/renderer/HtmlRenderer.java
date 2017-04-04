@@ -26,8 +26,8 @@ import de.tudresden.inf.lat.tabula.table.TableMap;
 public class HtmlRenderer implements Renderer {
 
 	public static final String PREFIX = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-			+ "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">"
-			+ "\n" + "\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">" + "\n<head>"
+			+ "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"https://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">"
+			+ "\n" + "\n<html xmlns=\"https://www.w3.org/1999/xhtml\" lang=\"en\">" + "\n<head>"
 			+ "\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" + "\n  <title></title>"
 			+ "\n</head>" + "\n<body>" + "\n  <div>" + "\n" + "\n<br />" + "\n" + "\n";
 
