@@ -26,15 +26,19 @@ import de.tudresden.inf.lat.tabula.table.TableMapImpl;
  */
 public class MainTest {
 
-	public static final String INPUT_FILE_NAME = "src/test/resources/example.properties";
-	public static final String EXPECTED_OUTPUT_FILE_NAME = "src/test/resources/example-expected.properties";
-	public static final String MODIFIED_OUTPUT_FILE_NAME = "src/test/resources/example-modified.properties";
+	public static final String INPUT_FILE_NAME = "example.properties";
+	public static final String EXPECTED_OUTPUT_FILE_NAME = "example-expected.properties";
+	public static final String MODIFIED_OUTPUT_FILE_NAME = "example-modified.properties";
 
 	public static final String TYPE_NAME_RECORD = "record";
 	public static final String FIELD_NAME_AUTHORS = "authors";
 	public static final String FIELD_NAME_NUMBER_OF_AUTHORS = "numberOfAuthors";
 	public static final String TYPE_OF_NUMBER_OF_AUTHORS = "String";
 	public static final String NEW_LINE = "\n";
+
+	String getPath(String fileName) {
+		return getClass().getClassLoader().getResource(fileName).getFile();
+	}
 
 	/**
 	 * Returns the number of authors for a given record.
@@ -51,7 +55,7 @@ public class MainTest {
 
 	String readFile(String fileName) throws IOException {
 		StringBuilder sb = new StringBuilder();
-		BufferedReader reader = new BufferedReader(new FileReader(fileName));
+		BufferedReader reader = new BufferedReader(new FileReader(getPath(fileName)));
 		reader.lines().forEach(line -> sb.append(line + NEW_LINE));
 		reader.close();
 		return sb.toString();
@@ -77,7 +81,7 @@ public class MainTest {
 		// a computed value
 
 		// Read the table map
-		TableMap oldTableMap = new SimpleFormatParser(new FileReader(INPUT_FILE_NAME)).parse();
+		TableMap oldTableMap = new SimpleFormatParser(new FileReader(getPath(INPUT_FILE_NAME))).parse();
 
 		// Make a copy of the tableMap
 		// TableMapImpl newTableMap = new TableMapImpl(oldTableMap);

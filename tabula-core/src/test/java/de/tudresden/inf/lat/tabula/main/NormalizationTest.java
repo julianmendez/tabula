@@ -16,16 +16,20 @@ import de.tudresden.inf.lat.tabula.table.TableMap;
  */
 public class NormalizationTest {
 
-	public static final String INPUT_FILE_NAME_0 = "src/test/resources/example.properties";
-	public static final String EXPECTED_OUTPUT_FILE_NAME_0 = "src/test/resources/example-expected.properties";
+	public static final String INPUT_FILE_NAME_0 = "example.properties";
+	public static final String EXPECTED_OUTPUT_FILE_NAME_0 = "example-expected.properties";
 
-	public static final String INPUT_FILE_NAME_1 = "src/test/resources/multiple_tables.properties";
-	public static final String EXPECTED_OUTPUT_FILE_NAME_1 = "src/test/resources/multiple_tables-expected.properties";
+	public static final String INPUT_FILE_NAME_1 = "multiple_tables.properties";
+	public static final String EXPECTED_OUTPUT_FILE_NAME_1 = "multiple_tables-expected.properties";
 
 	public static final String NEW_LINE = "\n";
 
+	String getPath(String fileName) {
+		return getClass().getClassLoader().getResource(fileName).getFile();
+	}
+
 	void testNormalizationOfFile(String inputFileName, String expectedFileName) throws IOException {
-		TableMap tableMap = new SimpleFormatParser(new FileReader(inputFileName)).parse();
+		TableMap tableMap = new SimpleFormatParser(new FileReader(getPath(inputFileName))).parse();
 		String expectedResult = (new MainTest()).readFile(expectedFileName);
 		StringWriter writer = new StringWriter();
 		SimpleFormatRenderer renderer = new SimpleFormatRenderer(writer);
