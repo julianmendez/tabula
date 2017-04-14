@@ -40,7 +40,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.TYPE_SELECTION_TOKEN + ParserConstant.SPACE);
 		output.write(ParserConstant.EQUALS_SIGN);
 		output.write(ParserConstant.SPACE);
-		output.write(tableName + ParserConstant.SPACE);
+		output.write(tableName);
 		output.write(ParserConstant.NEW_LINE);
 	}
 
