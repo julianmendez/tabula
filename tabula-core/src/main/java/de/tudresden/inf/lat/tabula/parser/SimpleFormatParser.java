@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -243,10 +244,10 @@ public class SimpleFormatParser implements Parser {
 		Map<String, Set<String>> mapOfRecordIdsOfTables = new TreeMap<>();
 
 		String line = "";
-		TableImpl currentTable = null;
-		Set<String> recordIdsOfCurrentTable = null;
-		String currentId = null;
-		Record record = null;
+		TableImpl currentTable = new TableImpl();
+		Set<String> recordIdsOfCurrentTable = Collections.emptySet();
+		Optional<String> optCurrentId = Optional.empty();
+		Record record = new RecordImpl();
 		int lineCounter = 0;
 
 		while (Objects.nonNull(line)) {
@@ -276,22 +277,21 @@ public class SimpleFormatParser implements Parser {
 				} else if (isNewRecord(line)) {
 					record = new RecordImpl();
 					currentTable.add(record);
-					currentId = null;
+					optCurrentId = Optional.empty();
 
 				} else {
 					parseProperty(line, currentTable, recordIdsOfCurrentTable, record, lineCounter);
 					if (isIdProperty(line)) {
 						boolean successful = false;
-						if (Objects.isNull(currentId)) {
-							Optional<String> optCurrentId = getIdProperty(line);
+						if (!optCurrentId.isPresent()) {
+							optCurrentId = getIdProperty(line);
 							if (optCurrentId.isPresent()) {
-								currentId = optCurrentId.get();
-								successful = recordIdsOfCurrentTable.add(currentId);
+								successful = recordIdsOfCurrentTable.add(optCurrentId.get());
 							}
 						}
 						if (!successful) {
-							throw new ParseException("Identifier has been already defined ('" + currentId + "') (line "
-									+ lineCounter + ")");
+							throw new ParseException("Identifier has been already defined ('" + optCurrentId.get()
+									+ "') (line " + lineCounter + ")");
 						}
 					}
 
