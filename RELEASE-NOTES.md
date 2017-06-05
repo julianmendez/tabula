@@ -18,7 +18,8 @@
   * Decimal
   * List_Decimal
   * Empty
-* executes `normalize` extension, if no extension is given 
+* executes `normalize` extension, if no extension is given
+* includes a `prefix` map to shorten URIs
 * build command:
 
 ```
