@@ -44,7 +44,9 @@ public class SimpleFormatRecordRenderer implements RecordRenderer {
 			String expansion = prefixMap.get(key).toASCIIString();
 			if (!found[0] && uriStr.startsWith(expansion)) {
 				String keyStr = key.toASCIIString();
-				if (!keyStr.isEmpty()) {
+				if (keyStr.isEmpty()) {
+					ret[0] = "";
+				} else {
 					ret[0] = ParserConstant.PREFIX_AMPERSAND + keyStr + ParserConstant.PREFIX_SEMICOLON;
 				}
 				ret[0] += uriStr.substring(expansion.length());
