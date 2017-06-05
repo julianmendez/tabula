@@ -115,6 +115,9 @@ public class MainTest {
 		// Update type of table
 		newTable.setType(newType);
 
+		// Update the map of URI prefixes
+		newTable.setPrefixMap(table.getPrefixMap());
+
 		// Compute the number of authors for each record
 		table.getRecords().forEach(record -> record.set(FIELD_NAME_NUMBER_OF_AUTHORS, computeFieldValue(record)));
 

@@ -24,8 +24,8 @@ public class SimpleFormatRenderer implements Renderer {
 		this.output = output;
 	}
 
-	public void renderAllRecords(UncheckedWriter output, CompositeTypeValue table) {
-		SimpleFormatRecordRenderer recordRenderer = new SimpleFormatRecordRenderer(output);
+	public void renderAllRecords(UncheckedWriter output, Table table) {
+		SimpleFormatRecordRenderer recordRenderer = new SimpleFormatRecordRenderer(output, table.getPrefixMap());
 		output.write(ParserConstant.NEW_LINE);
 		List<Record> list = table.getRecords();
 		list.forEach(record -> {
@@ -60,6 +60,22 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.NEW_LINE);
 	}
 
+	public void renderPrefixMap(UncheckedWriter output, Table table) {
+		output.write(ParserConstant.NEW_LINE + ParserConstant.NEW_LINE);
+		output.write(ParserConstant.PREFIX_MAP_TOKEN + ParserConstant.SPACE);
+		output.write(ParserConstant.EQUALS_SIGN);
+
+		table.getPrefixMap().keySet().forEach(prefix -> {
+			output.write(ParserConstant.SPACE + ParserConstant.LINE_CONTINUATION_SYMBOL);
+			output.write(ParserConstant.NEW_LINE);
+			output.write(ParserConstant.SPACE);
+			output.write(prefix.toASCIIString());
+			output.write(ParserConstant.TYPE_SIGN);
+			output.write(table.getPrefixMap().get(prefix).toASCIIString());
+		});
+		output.write(ParserConstant.NEW_LINE);
+	}
+
 	public void renderOrder(UncheckedWriter output, Table table) {
 		output.write(ParserConstant.NEW_LINE + ParserConstant.NEW_LINE);
 		output.write(ParserConstant.SORTING_ORDER_DECLARATION_TOKEN + ParserConstant.SPACE);
@@ -83,6 +99,7 @@ public class SimpleFormatRenderer implements Renderer {
 			Table table = tableMap.getTable(tableName);
 			renderTypeSelection(output, tableName, table);
 			renderTypeDefinition(output, table);
+			renderPrefixMap(output, table);
 			renderOrder(output, table);
 			renderAllRecords(output, table);
 		});

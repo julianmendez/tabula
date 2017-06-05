@@ -1,15 +1,32 @@
 package de.tudresden.inf.lat.tabula.table;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 
 /**
- * This models a sorted table.
+ * This models a sorted table with a map of URI prefixes.
  *
  */
 public interface Table extends CompositeTypeValue {
+
+	/**
+	 * Returns the map of URI prefixes.
+	 *
+	 * @return the map of URI prefixes
+	 */
+	Map<URI, URI> getPrefixMap();
+
+	/**
+	 * Sets the map of URI prefixes
+	 *
+	 * @param prefixMap
+	 *            map of URI prefixes
+	 */
+	void setPrefixMap(Map<URI, URI> prefixMap);
 
 	/**
 	 * Returns the sorting order for the fields.

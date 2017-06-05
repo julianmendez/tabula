@@ -2,12 +2,17 @@ package de.tudresden.inf.lat.tabula.renderer;
 
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.TreeMap;
 
+import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.Record;
+import de.tudresden.inf.lat.tabula.datatype.URIType;
 import de.tudresden.inf.lat.tabula.parser.ParserConstant;
 
 /**
@@ -16,15 +21,37 @@ import de.tudresden.inf.lat.tabula.parser.ParserConstant;
 public class SimpleFormatRecordRenderer implements RecordRenderer {
 
 	private Writer output = new OutputStreamWriter(System.out);
+	private Map<URI, URI> prefixMap = new TreeMap<URI, URI>();
 
-	public SimpleFormatRecordRenderer(Writer output) {
+	public SimpleFormatRecordRenderer(Writer output, Map<URI, URI> prefixMap) {
 		Objects.requireNonNull(output);
 		this.output = output;
+		this.prefixMap = prefixMap;
 	}
 
-	public SimpleFormatRecordRenderer(UncheckedWriter output) {
+	public SimpleFormatRecordRenderer(UncheckedWriter output, Map<URI, URI> prefixMap) {
 		Objects.requireNonNull(output);
 		this.output = output.asWriter();
+		this.prefixMap = prefixMap;
+	}
+
+	public String renderWithPrefix(String uriStr) {
+		String[] ret = new String[1];
+		ret[0] = uriStr;
+		boolean[] found = new boolean[1];
+		found[0] = false;
+		prefixMap.keySet().forEach(key -> {
+			String expansion = prefixMap.get(key).toASCIIString();
+			if (!found[0] && uriStr.startsWith(expansion)) {
+				String keyStr = key.toASCIIString();
+				if (!keyStr.isEmpty()) {
+					ret[0] = ParserConstant.PREFIX_AMPERSAND + keyStr + ParserConstant.PREFIX_SEMICOLON;
+				}
+				ret[0] += uriStr.substring(expansion.length());
+				found[0] = true;
+			}
+		});
+		return ret[0];
 	}
 
 	public boolean writeIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {
@@ -33,18 +60,31 @@ public class SimpleFormatRecordRenderer implements RecordRenderer {
 			output.write(field);
 			output.write(ParserConstant.SPACE + ParserConstant.EQUALS_SIGN);
 			if (value.getType().isList()) {
+				boolean[] hasUris = new boolean[1];
+				hasUris[0] = false;
+				if (value instanceof ParameterizedListValue) {
+					hasUris[0] = ((ParameterizedListValue) value).getParameter().equals(new URIType());
+				}
+				value.getType();
 				List<String> list = value.renderAsList();
-				list.forEach(link -> {
+				list.forEach(elem -> {
 					output.write(ParserConstant.SPACE + ParserConstant.LINE_CONTINUATION_SYMBOL);
 					output.write(ParserConstant.NEW_LINE);
 					output.write(ParserConstant.SPACE);
-					output.write(link.toString());
+					if (hasUris[0]) {
+						output.write(renderWithPrefix(elem));
+					} else {
+						output.write(elem.toString());
+					}
 				});
 
 			} else {
 				output.write(ParserConstant.SPACE);
-				output.write(value.toString());
-
+				if (value.getType().equals(new URIType())) {
+					output.write(renderWithPrefix(value.toString()));
+				} else {
+					output.write(value.toString());
+				}
 			}
 			return true;
 		} else {

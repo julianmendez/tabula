@@ -1,10 +1,13 @@
 package de.tudresden.inf.lat.tabula.table;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeType;
@@ -20,6 +23,7 @@ public class TableImpl implements Table {
 
 	private CompositeType tableType = new CompositeTypeImpl();
 	private final List<Record> list = new ArrayList<>();
+	private Map<URI, URI> prefixMap = new TreeMap<URI, URI>();
 	private final List<String> sortingOrder = new ArrayList<>();
 	private final Set<String> fieldsWithReverseOrder = new TreeSet<>();
 
@@ -38,6 +42,16 @@ public class TableImpl implements Table {
 			this.sortingOrder.addAll(otherTable.getSortingOrder());
 			this.fieldsWithReverseOrder.addAll(otherTable.getFieldsWithReverseOrder());
 		}
+	}
+
+	@Override
+	public Map<URI, URI> getPrefixMap() {
+		return this.prefixMap;
+	}
+
+	@Override
+	public void setPrefixMap(Map<URI, URI> newPrefixMap) {
+		this.prefixMap = newPrefixMap;
 	}
 
 	@Override
