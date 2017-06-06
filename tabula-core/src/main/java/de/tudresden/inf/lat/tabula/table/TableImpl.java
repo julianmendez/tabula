@@ -23,7 +23,7 @@ public class TableImpl implements Table {
 
 	private CompositeType tableType = new CompositeTypeImpl();
 	private final List<Record> list = new ArrayList<>();
-	private Map<URI, URI> prefixMap = new TreeMap<URI, URI>();
+	private final Map<URI, URI> prefixMap = new TreeMap<URI, URI>();
 	private final List<String> sortingOrder = new ArrayList<>();
 	private final Set<String> fieldsWithReverseOrder = new TreeSet<>();
 
@@ -39,19 +39,11 @@ public class TableImpl implements Table {
 		this.list.addAll(other.getRecords());
 		if (other instanceof Table) {
 			Table otherTable = (Table) other;
+			Map<URI, URI> otherMap = otherTable.getPrefixMap();
+			otherMap.keySet().forEach(key -> this.prefixMap.put(key, otherMap.get(key)));
 			this.sortingOrder.addAll(otherTable.getSortingOrder());
 			this.fieldsWithReverseOrder.addAll(otherTable.getFieldsWithReverseOrder());
 		}
-	}
-
-	@Override
-	public Map<URI, URI> getPrefixMap() {
-		return this.prefixMap;
-	}
-
-	@Override
-	public void setPrefixMap(Map<URI, URI> newPrefixMap) {
-		this.prefixMap = newPrefixMap;
 	}
 
 	@Override
@@ -62,6 +54,17 @@ public class TableImpl implements Table {
 	@Override
 	public void setType(CompositeType newType) {
 		this.tableType = newType;
+	}
+
+	@Override
+	public Map<URI, URI> getPrefixMap() {
+		return this.prefixMap;
+	}
+
+	@Override
+	public void setPrefixMap(Map<URI, URI> newPrefixMap) {
+		this.prefixMap.clear();
+		newPrefixMap.keySet().forEach(key -> this.prefixMap.put(key, newPrefixMap.get(key)));
 	}
 
 	@Override
@@ -114,8 +117,8 @@ public class TableImpl implements Table {
 
 	@Override
 	public int hashCode() {
-		return this.sortingOrder.hashCode() + 0x1F * (this.fieldsWithReverseOrder.hashCode()
-				+ 0x1F * (this.list.hashCode() + 0x1F * this.tableType.hashCode()));
+		return this.tableType.hashCode() + 0x1F * (this.prefixMap.hashCode() + 0x1F * (this.sortingOrder.hashCode()
+				+ 0x1F * (this.fieldsWithReverseOrder.hashCode() + 0x1F * this.list.hashCode())));
 	}
 
 	@Override
@@ -124,9 +127,10 @@ public class TableImpl implements Table {
 			return true;
 		} else if (obj instanceof Table) {
 			Table other = (Table) obj;
-			return getSortingOrder().equals(other.getSortingOrder())
+			return getType().equals(other.getType()) && getPrefixMap().equals(other.getPrefixMap())
+					&& getSortingOrder().equals(other.getSortingOrder())
 					&& getFieldsWithReverseOrder().equals(other.getFieldsWithReverseOrder())
-					&& getType().equals(other.getType()) && getRecords().equals(other.getRecords());
+					&& getRecords().equals(other.getRecords());
 		} else {
 			return false;
 		}
@@ -134,8 +138,8 @@ public class TableImpl implements Table {
 
 	@Override
 	public String toString() {
-		return this.tableType.toString() + " " + this.sortingOrder + " " + this.fieldsWithReverseOrder.toString() + " "
-				+ this.list.toString();
+		return this.tableType.toString() + " " + this.prefixMap.toString() + " " + this.sortingOrder.toString() + " "
+				+ this.fieldsWithReverseOrder.toString() + " " + this.list.toString();
 	}
 
 }
