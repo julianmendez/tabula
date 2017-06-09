@@ -2,11 +2,12 @@ package de.tudresden.inf.lat.tabula.table;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 
+import de.tudresden.inf.lat.tabula.common.OptMap;
+import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.Record;
 
@@ -16,7 +17,7 @@ import de.tudresden.inf.lat.tabula.datatype.Record;
  */
 public class RecordImpl implements Record {
 
-	private final Map<String, PrimitiveTypeValue> map = new TreeMap<>();
+	private final OptMap<String, PrimitiveTypeValue> map = new OptMapImpl<>(new TreeMap<>());
 
 	/**
 	 * Constructs a new record.
@@ -39,19 +40,14 @@ public class RecordImpl implements Record {
 		if (Objects.isNull(key)) {
 			return Optional.empty();
 		} else {
-			PrimitiveTypeValue value = this.map.get(key);
-			if (Objects.isNull(value)) {
-				return Optional.empty();
-			} else {
-				return Optional.of(value);
-			}
+			return this.map.getOpt(key);
 		}
 	}
 
 	@Override
 	public void set(String key, PrimitiveTypeValue value) {
 		if (Objects.nonNull(key)) {
-			this.map.put(key, value);
+			this.map.putOpt(key, value);
 		}
 	}
 

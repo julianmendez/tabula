@@ -4,12 +4,13 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import de.tudresden.inf.lat.tabula.common.OptMap;
+import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 import de.tudresden.inf.lat.tabula.datatype.CompositeType;
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeImpl;
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
@@ -23,7 +24,7 @@ public class TableImpl implements Table {
 
 	private CompositeType tableType = new CompositeTypeImpl();
 	private final List<Record> list = new ArrayList<>();
-	private final Map<URI, URI> prefixMap = new TreeMap<URI, URI>();
+	private final OptMap<URI, URI> prefixMap = new OptMapImpl<>(new TreeMap<>());
 	private final List<String> sortingOrder = new ArrayList<>();
 	private final Set<String> fieldsWithReverseOrder = new TreeSet<>();
 
@@ -39,8 +40,8 @@ public class TableImpl implements Table {
 		this.list.addAll(other.getRecords());
 		if (other instanceof Table) {
 			Table otherTable = (Table) other;
-			Map<URI, URI> otherMap = otherTable.getPrefixMap();
-			otherMap.keySet().forEach(key -> this.prefixMap.put(key, otherMap.get(key)));
+			OptMap<URI, URI> otherMap = otherTable.getPrefixMap();
+			otherMap.keySet().forEach(key -> this.prefixMap.putOpt(key, otherMap.getOpt(key).get()));
 			this.sortingOrder.addAll(otherTable.getSortingOrder());
 			this.fieldsWithReverseOrder.addAll(otherTable.getFieldsWithReverseOrder());
 		}
@@ -57,14 +58,14 @@ public class TableImpl implements Table {
 	}
 
 	@Override
-	public Map<URI, URI> getPrefixMap() {
+	public OptMap<URI, URI> getPrefixMap() {
 		return this.prefixMap;
 	}
 
 	@Override
-	public void setPrefixMap(Map<URI, URI> newPrefixMap) {
+	public void setPrefixMap(OptMap<URI, URI> newPrefixMap) {
 		this.prefixMap.clear();
-		newPrefixMap.keySet().forEach(key -> this.prefixMap.put(key, newPrefixMap.get(key)));
+		newPrefixMap.keySet().forEach(key -> this.prefixMap.putOpt(key, newPrefixMap.getOpt(key).get()));
 	}
 
 	@Override

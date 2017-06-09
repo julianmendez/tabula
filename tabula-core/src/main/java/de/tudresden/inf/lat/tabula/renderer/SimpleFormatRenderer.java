@@ -71,7 +71,7 @@ public class SimpleFormatRenderer implements Renderer {
 			output.write(ParserConstant.SPACE);
 			output.write(prefix.toASCIIString());
 			output.write(ParserConstant.TYPE_SIGN);
-			output.write(table.getPrefixMap().get(prefix).toASCIIString());
+			output.write(table.getPrefixMap().getOpt(prefix).get().toASCIIString());
 		});
 		output.write(ParserConstant.NEW_LINE);
 	}
@@ -96,7 +96,7 @@ public class SimpleFormatRenderer implements Renderer {
 	public void render(UncheckedWriter output, TableMap tableMap) {
 		output.write(PREFIX);
 		tableMap.getTableIds().forEach(tableName -> {
-			Table table = tableMap.getTable(tableName);
+			Table table = tableMap.getTable(tableName).get();
 			renderTypeSelection(output, tableName, table);
 			renderTypeDefinition(output, table);
 			renderPrefixMap(output, table);

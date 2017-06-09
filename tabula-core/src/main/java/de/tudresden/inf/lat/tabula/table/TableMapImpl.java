@@ -2,8 +2,11 @@ package de.tudresden.inf.lat.tabula.table;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
+
+import de.tudresden.inf.lat.tabula.common.OptMap;
+import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 
 /**
  * This is the default implementation of a table map.
@@ -11,7 +14,7 @@ import java.util.TreeMap;
  */
 public class TableMapImpl implements TableMap {
 
-	private final Map<String, Table> map = new TreeMap<>();
+	private final OptMap<String, Table> map = new OptMapImpl<>(new TreeMap<>());
 
 	/**
 	 * Constructs a new table map.
@@ -26,7 +29,7 @@ public class TableMapImpl implements TableMap {
 	 *            other table map
 	 */
 	public TableMapImpl(TableMap otherTableMap) {
-		otherTableMap.getTableIds().forEach(tableId -> put(tableId, otherTableMap.getTable(tableId)));
+		otherTableMap.getTableIds().forEach(tableId -> put(tableId, otherTableMap.getTable(tableId).get()));
 	}
 
 	/**
@@ -34,6 +37,7 @@ public class TableMapImpl implements TableMap {
 	 * 
 	 * @return the identifiers of the stored tables
 	 */
+	@Override
 	public List<String> getTableIds() {
 		List<String> ret = new ArrayList<>();
 		ret.addAll(this.map.keySet());
@@ -48,8 +52,9 @@ public class TableMapImpl implements TableMap {
 	 * @param table
 	 *            table
 	 */
+	@Override
 	public void put(String id, Table table) {
-		this.map.put(id, table);
+		this.map.putOpt(id, table);
 	}
 
 	/**
@@ -59,8 +64,9 @@ public class TableMapImpl implements TableMap {
 	 *            identifier
 	 * @return the table associated to the given identifier
 	 */
-	public Table getTable(String id) {
-		return this.map.get(id);
+	@Override
+	public Optional<Table> getTable(String id) {
+		return this.map.getOpt(id);
 	}
 
 	@Override

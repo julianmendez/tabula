@@ -216,7 +216,7 @@ public class SqlRenderer implements Renderer {
 	public void render(UncheckedWriter output, TableMap tableMap) {
 		renderPrefix(output);
 		tableMap.getTableIds().forEach(tableName -> {
-			Table table = tableMap.getTable(tableName);
+			Table table = tableMap.getTable(tableName).get();
 			renderTypes(output, tableName, table);
 			renderAllRecords(output, tableName, table);
 			renderOrder(output, tableName, table);

@@ -3,10 +3,12 @@ package de.tudresden.inf.lat.tabula.extension;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeMap;
 
+import de.tudresden.inf.lat.tabula.common.OptMap;
+import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 import de.tudresden.inf.lat.tabula.datatype.ParseException;
 
 /**
@@ -22,7 +24,7 @@ public class ExtensionManager implements Extension {
 	public static final char SPACE = ' ';
 
 	private final List<Extension> extensions = new ArrayList<>();
-	private final Map<String, Extension> extensionMap = new TreeMap<>();
+	private final OptMap<String, Extension> extensionMap = new OptMapImpl<>(new TreeMap<>());
 
 	/**
 	 * Constructs an extension manager.
@@ -35,11 +37,11 @@ public class ExtensionManager implements Extension {
 			this.extensions.addAll(extensions);
 			extensions.forEach(extension -> {
 				String key = extension.getExtensionName();
-				if (this.extensionMap.containsKey(key)) {
+				if (this.extensionMap.isKeyContained(key)) {
 					throw new ExtensionException("Only one implementation is allowed for each extension, and '" + key
 							+ "' was at least twice.");
 				}
-				this.extensionMap.put(key, extension);
+				this.extensionMap.putOpt(key, extension);
 			});
 		}
 	}
@@ -54,14 +56,14 @@ public class ExtensionManager implements Extension {
 			List<String> newArguments = new ArrayList<>();
 			newArguments.addAll(arguments);
 			newArguments.remove(0);
-			Extension extension = this.extensionMap.get(command);
-			if (Objects.isNull(extension)) {
+			Optional<Extension> optExtension = this.extensionMap.getOpt(command);
+			if (!optExtension.isPresent()) {
 				throw new ExtensionException("Extension '" + command + "' was not found.");
-			} else if (newArguments.size() < extension.getRequiredArguments()) {
+			} else if (newArguments.size() < optExtension.get().getRequiredArguments()) {
 				throw new ExtensionException("Insufficient number of arguments for extension '" + command + "'.");
 			} else {
 				try {
-					return extension.process(newArguments);
+					return optExtension.get().process(newArguments);
 				} catch (ParseException | UncheckedIOException e) {
 					throw new ExtensionException(e);
 				}

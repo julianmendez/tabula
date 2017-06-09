@@ -147,7 +147,7 @@ public class CsvRenderer implements Renderer {
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
 		tableMap.getTableIds().forEach(tableName -> {
-			Table table = tableMap.getTable(tableName);
+			Table table = tableMap.getTable(tableName).get();
 			renderTypeSelection(output, tableName, table);
 			renderTypeDefinition(output, table);
 			renderAllRecords(output, table);

@@ -1,8 +1,10 @@
 package de.tudresden.inf.lat.tabula.datatype;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeMap;
+
+import de.tudresden.inf.lat.tabula.common.OptMap;
+import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 
 /**
  * This models a factory of primitive types.
@@ -10,10 +12,10 @@ import java.util.TreeMap;
  */
 public class PrimitiveTypeFactory {
 
-	private Map<String, PrimitiveType> map = new TreeMap<>();
+	private OptMap<String, PrimitiveType> map = new OptMapImpl<>(new TreeMap<>());
 
 	private void add(PrimitiveType primType) {
-		this.map.put(primType.getTypeName(), primType);
+		this.map.putOpt(primType.getTypeName(), primType);
 	}
 
 	/**
@@ -40,7 +42,7 @@ public class PrimitiveTypeFactory {
 	 *         primitive type
 	 */
 	public boolean contains(String primType) {
-		return this.map.containsKey(primType);
+		return this.map.isKeyContained(primType);
 	}
 
 	/**
@@ -53,11 +55,11 @@ public class PrimitiveTypeFactory {
 	 * @return a new value of the specified type
 	 */
 	public PrimitiveTypeValue newInstance(String typeName, String value) {
-		PrimitiveType primType = this.map.get(typeName);
-		if (Objects.isNull(primType)) {
+		Optional<PrimitiveType> optPrimType = this.map.getOpt(typeName);
+		if (!optPrimType.isPresent()) {
 			throw new ParseException("Type '" + typeName + "' is undefined.");
 		} else {
-			return primType.parse(value);
+			return optPrimType.get().parse(value);
 		}
 	}
 

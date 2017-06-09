@@ -3,10 +3,12 @@ package de.tudresden.inf.lat.tabula.datatype;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
+
+import de.tudresden.inf.lat.tabula.common.OptMap;
+import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 
 /**
  * Default implementation of a composite type.
@@ -15,7 +17,7 @@ import java.util.TreeMap;
 public class CompositeTypeImpl implements CompositeType {
 
 	private final List<String> fields = new ArrayList<>();
-	private final Map<String, String> fieldType = new TreeMap<>();
+	private final OptMap<String, String> fieldType = new OptMapImpl<>(new TreeMap<>());
 
 	/**
 	 * Constructs a new composite type.
@@ -42,12 +44,7 @@ public class CompositeTypeImpl implements CompositeType {
 	@Override
 	public Optional<String> getFieldType(String field) {
 		Objects.requireNonNull(field);
-		String value = this.fieldType.get(field);
-		if (Objects.isNull(value)) {
-			return Optional.empty();
-		} else {
-			return Optional.of(value);
-		}
+		return this.fieldType.getOpt(field);
 	}
 
 	/**
@@ -63,7 +60,7 @@ public class CompositeTypeImpl implements CompositeType {
 			throw new ParseException("Field '" + field + "' has been already defined.");
 		} else {
 			this.fields.add(field);
-			this.fieldType.put(field, typeStr);
+			this.fieldType.putOpt(field, typeStr);
 		}
 	}
 
@@ -92,7 +89,7 @@ public class CompositeTypeImpl implements CompositeType {
 	@Override
 	public String toString() {
 		StringBuffer sbuf = new StringBuffer();
-		this.fields.forEach(field -> sbuf.append(field + ":" + this.fieldType.get(field) + " "));
+		this.fields.forEach(field -> sbuf.append(field + ":" + this.fieldType.getOpt(field).get() + " "));
 		return sbuf.toString();
 	}
 

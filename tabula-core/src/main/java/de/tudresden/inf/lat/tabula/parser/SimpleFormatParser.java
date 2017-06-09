@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -17,6 +16,8 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import de.tudresden.inf.lat.tabula.common.OptMap;
+import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 import de.tudresden.inf.lat.tabula.datatype.CompositeType;
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeImpl;
 import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
@@ -120,8 +121,8 @@ public class SimpleFormatParser implements Parser {
 		}
 	}
 
-	public Map<URI, URI> parsePrefixMap(String line, int lineCounter) {
-		Map<URI, URI> ret = new TreeMap<URI, URI>();
+	public OptMap<URI, URI> parsePrefixMap(String line, int lineCounter) {
+		OptMap<URI, URI> ret = new OptMapImpl<>(new TreeMap<>());
 		StringTokenizer stok = new StringTokenizer(getValue(line).get());
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
@@ -132,7 +133,7 @@ public class SimpleFormatParser implements Parser {
 			} else {
 				String key = token.substring(0, pos);
 				String value = token.substring((pos + ParserConstant.PREFIX_SIGN.length()), token.length());
-				ret.put(asUri(key, lineCounter), asUri(value, lineCounter));
+				ret.putOpt(asUri(key, lineCounter), asUri(value, lineCounter));
 			}
 		}
 		return ret;
@@ -176,24 +177,24 @@ public class SimpleFormatParser implements Parser {
 		return Objects.nonNull(line) && line.trim().startsWith(ParserConstant.NEW_RECORD_TOKEN);
 	}
 
-	public URIValue expandUri(URIValue value, Map<URI, URI> prefixMap, int lineCounter) {
+	public URIValue expandUri(URIValue value, OptMap<URI, URI> prefixMap, int lineCounter) {
 		URIValue ret = value;
 		String valueStr = value.render();
 		if (valueStr.startsWith(ParserConstant.PREFIX_AMPERSAND)) {
 			int pos = valueStr.indexOf(ParserConstant.PREFIX_SEMICOLON, ParserConstant.PREFIX_AMPERSAND.length());
 			if (pos != -1) {
 				URI prefix = asUri(valueStr.substring(ParserConstant.PREFIX_AMPERSAND.length(), pos), lineCounter);
-				URI expansionOrNull = prefixMap.get(prefix);
-				if (expansionOrNull != null) {
+				Optional<URI> optExpansion = prefixMap.getOpt(prefix);
+				if (optExpansion.isPresent()) {
 					ret = new URIValue(
-							expansionOrNull + valueStr.substring(pos + ParserConstant.PREFIX_SEMICOLON.length()));
+							optExpansion.get() + valueStr.substring(pos + ParserConstant.PREFIX_SEMICOLON.length()));
 				}
 			}
 		}
 		return ret;
 	}
 
-	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, Map<URI, URI> prefixMap,
+	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, OptMap<URI, URI> prefixMap,
 			int lineCounter) {
 		if (Objects.isNull(key)) {
 			return new StringValue();
@@ -297,7 +298,8 @@ public class SimpleFormatParser implements Parser {
 		if (optKey.isPresent() && optValueStr.isPresent()) {
 			String key = optKey.get();
 			String valueStr = optValueStr.get();
-			PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), currentTable.getPrefixMap(), lineCounter);
+			PrimitiveTypeValue value = getTypedValue(key, valueStr, currentTable.getType(), currentTable.getPrefixMap(),
+					lineCounter);
 			if (key.equals(ParserConstant.ID_KEYWORD)) {
 				if (recordIdsOfCurrentTable.contains(valueStr)) {
 					throw new ParseException("Identifier '" + ParserConstant.ID_KEYWORD + ParserConstant.SPACE
@@ -310,8 +312,8 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public TableMap parseMap(BufferedReader input) throws IOException {
-		Map<String, TableImpl> mapOfTables = new TreeMap<>();
-		Map<String, Set<String>> mapOfRecordIdsOfTables = new TreeMap<>();
+		OptMap<String, TableImpl> mapOfTables = new OptMapImpl<>(new TreeMap<>());
+		OptMap<String, Set<String>> mapOfRecordIdsOfTables = new OptMapImpl<>(new TreeMap<>());
 
 		String line = "";
 		TableImpl currentTable = new TableImpl();
@@ -330,18 +332,18 @@ public class SimpleFormatParser implements Parser {
 					Optional<String> optTableName = getValue(line);
 					if (optTableName.isPresent()) {
 						String tableName = optTableName.get();
-						if (!mapOfTables.containsKey(tableName)) {
-							mapOfTables.put(tableName, new TableImpl());
-							mapOfRecordIdsOfTables.put(tableName, new TreeSet<>());
+						if (!mapOfTables.isKeyContained(tableName)) {
+							mapOfTables.putOpt(tableName, new TableImpl());
+							mapOfRecordIdsOfTables.putOpt(tableName, new TreeSet<>());
 						}
-						currentTable = mapOfTables.get(tableName);
-						recordIdsOfCurrentTable = mapOfRecordIdsOfTables.get(tableName);
+						currentTable = mapOfTables.getOpt(tableName).get();
+						recordIdsOfCurrentTable = mapOfRecordIdsOfTables.getOpt(tableName).get();
 					}
 
 				} else if (isTypeDefinition(line)) {
 					currentTable.setType(parseTypes(line, lineCounter));
 
-			    } else if (isPrefixMapDefinition(line)) {
+				} else if (isPrefixMapDefinition(line)) {
 					currentTable.setPrefixMap(parsePrefixMap(line, lineCounter));
 
 				} else if (isSortingOrderDeclaration(line)) {
@@ -373,7 +375,7 @@ public class SimpleFormatParser implements Parser {
 		}
 
 		TableMapImpl ret = new TableMapImpl();
-		mapOfTables.keySet().forEach(key -> ret.put(key, mapOfTables.get(key)));
+		mapOfTables.keySet().forEach(key -> ret.put(key, mapOfTables.getOpt(key).get()));
 		return ret;
 	}
 

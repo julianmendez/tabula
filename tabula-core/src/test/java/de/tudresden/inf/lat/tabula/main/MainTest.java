@@ -86,12 +86,12 @@ public class MainTest {
 		// Make a copy of the tableMap
 		// TableMapImpl newTableMap = new TableMapImpl(oldTableMap);
 		TableMapImpl newTableMap = new TableMapImpl();
-		oldTableMap.getTableIds().forEach(tableId -> newTableMap.put(tableId, oldTableMap.getTable(tableId)));
+		oldTableMap.getTableIds().forEach(tableId -> newTableMap.put(tableId, oldTableMap.getTable(tableId).get()));
 
 		assertContent(newTableMap, EXPECTED_OUTPUT_FILE_NAME);
 
 		// Get the main table
-		Table table = newTableMap.getTable(TYPE_NAME_RECORD);
+		Table table = newTableMap.getTable(TYPE_NAME_RECORD).get();
 
 		// Make a copy of the main table
 		TableImpl newTable = new TableImpl(table);

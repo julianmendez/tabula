@@ -3,10 +3,10 @@ package de.tudresden.inf.lat.tabula.ext.renderer;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import de.tudresden.inf.lat.tabula.common.OptMap;
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
@@ -122,10 +122,10 @@ public class HtmlRenderer implements Renderer {
 		output.write("</table>\n");
 	}
 
-	public void renderMap(UncheckedWriter output, Map<String, String> map) {
+	public void renderMap(UncheckedWriter output, OptMap<String, String> map) {
 		output.write("<table summary=\"\" border=\"1\">\n");
 		map.keySet().forEach(key -> {
-			String value = map.get(key);
+			String value = map.getOpt(key).get();
 			output.write("<tr>\n");
 			output.write("<td>");
 			output.write(key);
@@ -142,7 +142,7 @@ public class HtmlRenderer implements Renderer {
 	public void render(UncheckedWriter output, TableMap tableMap) {
 		output.write(PREFIX);
 		tableMap.getTableIds().forEach(tableId -> {
-			CompositeTypeValue table = tableMap.getTable(tableId);
+			CompositeTypeValue table = tableMap.getTable(tableId).get();
 			renderAllRecords(output, table);
 		});
 		output.write("\n");

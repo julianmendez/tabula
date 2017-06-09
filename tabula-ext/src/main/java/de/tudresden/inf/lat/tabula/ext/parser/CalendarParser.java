@@ -6,12 +6,13 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.TreeMap;
 
+import de.tudresden.inf.lat.tabula.common.OptMap;
+import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 import de.tudresden.inf.lat.tabula.datatype.CompositeType;
 import de.tudresden.inf.lat.tabula.datatype.ParseException;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeFactory;
@@ -214,14 +215,14 @@ public class CalendarParser implements Parser {
 	}
 
 	public TableMap parseMap(BufferedReader input) throws IOException {
-		Map<String, TableImpl> map = new TreeMap<>();
+		OptMap<String, TableImpl> map = new OptMapImpl<>(new TreeMap<>());
 
-		map.put(CALENDAR_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(CALENDAR_TYPE_FIELDS)));
-		map.put(TIME_ZONE_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(TIME_ZONE_TYPE_FIELDS)));
-		map.put(DAYLIGHT_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(DAYLIGHT_TYPE_FIELDS)));
-		map.put(STANDARD_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(STANDARD_TYPE_FIELDS)));
-		map.put(EVENT_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(EVENT_TYPE_FIELDS)));
-		map.put(ALARM_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(ALARM_TYPE_FIELDS)));
+		map.putOpt(CALENDAR_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(CALENDAR_TYPE_FIELDS)));
+		map.putOpt(TIME_ZONE_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(TIME_ZONE_TYPE_FIELDS)));
+		map.putOpt(DAYLIGHT_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(DAYLIGHT_TYPE_FIELDS)));
+		map.putOpt(STANDARD_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(STANDARD_TYPE_FIELDS)));
+		map.putOpt(EVENT_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(EVENT_TYPE_FIELDS)));
+		map.putOpt(ALARM_TYPE_LABEL, new TableImpl(new SimplifiedCompositeType(ALARM_TYPE_FIELDS)));
 
 		TableImpl currentTable = null;
 		Record currentRecord = null;
@@ -252,16 +253,18 @@ public class CalendarParser implements Parser {
 					currentRecord.set(GENERATED_ID_FIELD_NAME,
 							new StringValue(getGeneratedId(generatedIds, tableIdStack.size())));
 					currentTableId = value;
-					currentTable = map.get(value);
-					if (Objects.isNull(currentTable)) {
+					Optional<TableImpl> optCurrentTable = map.getOpt(value);
+					if (!optCurrentTable.isPresent()) {
 						throw new ParseException("Unknown type '" + value + "' (line " + lineCounter + ").");
+					} else {
+						currentTable = optCurrentTable.get();
 					}
 
 				} else if (isEndLine(line)) {
 					String foreignKey = currentRecord.get(GENERATED_ID_FIELD_NAME).get().render();
 					currentTable.add(currentRecord);
 					String value = getValue(line).get();
-					if (Objects.isNull(map.get(value))) {
+					if (Objects.isNull(map.getOpt(value))) {
 						throw new ParseException("Unknown type '" + value + "' (line " + lineCounter + ").");
 					}
 					if (!value.equals(currentTableId)) {
@@ -297,7 +300,7 @@ public class CalendarParser implements Parser {
 		}
 
 		TableMapImpl ret = new TableMapImpl();
-		map.keySet().forEach(key -> ret.put(key, map.get(key)));
+		map.keySet().forEach(key -> ret.put(key, map.getOpt(key).get()));
 		return ret;
 	}
 

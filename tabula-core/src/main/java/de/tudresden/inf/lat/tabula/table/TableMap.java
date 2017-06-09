@@ -1,6 +1,7 @@
 package de.tudresden.inf.lat.tabula.table;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This models a collection of tables with identifiers.
@@ -32,6 +33,6 @@ public interface TableMap {
 	 *            identifier
 	 * @return the table associated to the given identifier
 	 */
-	Table getTable(String id);
+	Optional<Table> getTable(String id);
 
 }
