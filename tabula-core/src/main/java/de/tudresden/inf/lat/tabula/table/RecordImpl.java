@@ -40,14 +40,14 @@ public class RecordImpl implements Record {
 		if (Objects.isNull(key)) {
 			return Optional.empty();
 		} else {
-			return this.map.getOpt(key);
+			return this.map.get(key);
 		}
 	}
 
 	@Override
 	public void set(String key, PrimitiveTypeValue value) {
 		if (Objects.nonNull(key)) {
-			this.map.putOpt(key, value);
+			this.map.put(key, value);
 		}
 	}
 

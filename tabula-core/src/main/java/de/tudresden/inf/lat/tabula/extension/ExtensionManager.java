@@ -37,11 +37,11 @@ public class ExtensionManager implements Extension {
 			this.extensions.addAll(extensions);
 			extensions.forEach(extension -> {
 				String key = extension.getExtensionName();
-				if (this.extensionMap.isKeyContained(key)) {
+				if (this.extensionMap.containsKey(key)) {
 					throw new ExtensionException("Only one implementation is allowed for each extension, and '" + key
 							+ "' was at least twice.");
 				}
-				this.extensionMap.putOpt(key, extension);
+				this.extensionMap.put(key, extension);
 			});
 		}
 	}
@@ -56,7 +56,7 @@ public class ExtensionManager implements Extension {
 			List<String> newArguments = new ArrayList<>();
 			newArguments.addAll(arguments);
 			newArguments.remove(0);
-			Optional<Extension> optExtension = this.extensionMap.getOpt(command);
+			Optional<Extension> optExtension = this.extensionMap.get(command);
 			if (!optExtension.isPresent()) {
 				throw new ExtensionException("Extension '" + command + "' was not found.");
 			} else if (newArguments.size() < optExtension.get().getRequiredArguments()) {

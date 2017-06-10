@@ -8,7 +8,10 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * This is the default implementation of {@link OptMap}.
+ * This is the default implementation of {@link OptMap}. This implementation
+ * does not copy the map passed as an argument to create the instance, and it
+ * uses the map itself instead. This means that the internal representation can
+ * be modified externally, or it can be retrieved by using {@link #asMap()}.
  * 
  * @author Julian Mendez
  * 
@@ -62,71 +65,35 @@ public class OptMapImpl<K, V> implements OptMap<K, V> {
 	}
 
 	@Override
-	public boolean isKeyContained(K key) {
+	public boolean containsKey(K key) {
 		Objects.requireNonNull(key);
 		return this.map.containsKey(key);
 	}
 
-	// @Override
-	// @Deprecated
-	// public boolean containsKey(Object key) {
-	// Objects.requireNonNull(key);
-	// return this.map.containsKey(key);
-	// }
-
 	@Override
-	public boolean isValueContained(V value) {
+	public boolean containsValue(V value) {
 		Objects.requireNonNull(value);
 		return this.map.containsValue(value);
 	}
 
-	// @Override
-	// @Deprecated
-	// public boolean containsValue(Object value) {
-	// Objects.requireNonNull(value);
-	// return this.map.containsValue(value);
-	// }
-
 	@Override
-	public Optional<V> getOpt(K key) {
+	public Optional<V> get(K key) {
 		Objects.requireNonNull(key);
 		return Optional.ofNullable(this.map.get(key));
 	}
 
-	// @Override
-	// @Deprecated
-	// public V get(Object key) {
-	// Objects.requireNonNull(key);
-	// return this.map.get(key);
-	// }
-
 	@Override
-	public Optional<V> putOpt(K key, V value) {
+	public Optional<V> put(K key, V value) {
 		Objects.requireNonNull(key);
 		Objects.requireNonNull(value);
 		return Optional.ofNullable(this.map.put(key, value));
 	}
 
-	// @Override
-	// @Deprecated
-	// public V put(K key, V value) {
-	// Objects.requireNonNull(key);
-	// Objects.requireNonNull(value);
-	// return this.map.put(key, value);
-	// }
-
 	@Override
-	public Optional<V> removeOpt(K key) {
+	public Optional<V> remove(K key) {
 		Objects.requireNonNull(key);
 		return Optional.ofNullable(this.map.remove(key));
 	}
-
-	// @Override
-	// @Deprecated
-	// public V remove(Object key) {
-	// Objects.requireNonNull(key);
-	// return this.map.remove(key);
-	// }
 
 	@Override
 	public void putAll(Map<? extends K, ? extends V> m) {

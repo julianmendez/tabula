@@ -15,7 +15,7 @@ public class PrimitiveTypeFactory {
 	private OptMap<String, PrimitiveType> map = new OptMapImpl<>(new TreeMap<>());
 
 	private void add(PrimitiveType primType) {
-		this.map.putOpt(primType.getTypeName(), primType);
+		this.map.put(primType.getTypeName(), primType);
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class PrimitiveTypeFactory {
 	 *         primitive type
 	 */
 	public boolean contains(String primType) {
-		return this.map.isKeyContained(primType);
+		return this.map.containsKey(primType);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class PrimitiveTypeFactory {
 	 * @return a new value of the specified type
 	 */
 	public PrimitiveTypeValue newInstance(String typeName, String value) {
-		Optional<PrimitiveType> optPrimType = this.map.getOpt(typeName);
+		Optional<PrimitiveType> optPrimType = this.map.get(typeName);
 		if (!optPrimType.isPresent()) {
 			throw new ParseException("Type '" + typeName + "' is undefined.");
 		} else {

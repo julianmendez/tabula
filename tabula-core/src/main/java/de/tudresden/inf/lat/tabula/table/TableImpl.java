@@ -41,7 +41,7 @@ public class TableImpl implements Table {
 		if (other instanceof Table) {
 			Table otherTable = (Table) other;
 			OptMap<URI, URI> otherMap = otherTable.getPrefixMap();
-			otherMap.keySet().forEach(key -> this.prefixMap.putOpt(key, otherMap.getOpt(key).get()));
+			otherMap.keySet().forEach(key -> this.prefixMap.put(key, otherMap.get(key).get()));
 			this.sortingOrder.addAll(otherTable.getSortingOrder());
 			this.fieldsWithReverseOrder.addAll(otherTable.getFieldsWithReverseOrder());
 		}
@@ -65,7 +65,7 @@ public class TableImpl implements Table {
 	@Override
 	public void setPrefixMap(OptMap<URI, URI> newPrefixMap) {
 		this.prefixMap.clear();
-		newPrefixMap.keySet().forEach(key -> this.prefixMap.putOpt(key, newPrefixMap.getOpt(key).get()));
+		newPrefixMap.keySet().forEach(key -> this.prefixMap.put(key, newPrefixMap.get(key).get()));
 	}
 
 	@Override

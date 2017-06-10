@@ -42,7 +42,7 @@ public class SimpleFormatRecordRenderer implements RecordRenderer {
 		boolean[] found = new boolean[1];
 		found[0] = false;
 		prefixMap.keySet().forEach(key -> {
-			String expansion = prefixMap.getOpt(key).get().toASCIIString();
+			String expansion = prefixMap.get(key).get().toASCIIString();
 			if (!found[0] && uriStr.startsWith(expansion)) {
 				String keyStr = key.toASCIIString();
 				if (keyStr.isEmpty()) {

@@ -119,7 +119,7 @@ public class WikitextRenderer implements Renderer {
 		output.write("{| border=\"1\"\n");
 		output.write("|-\n");
 		map.keySet().forEach(key -> {
-			String value = map.getOpt(key).get();
+			String value = map.get(key).get();
 			output.write("| ");
 			output.write(key);
 			output.write("\n");

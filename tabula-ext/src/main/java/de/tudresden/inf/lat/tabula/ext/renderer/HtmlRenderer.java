@@ -125,7 +125,7 @@ public class HtmlRenderer implements Renderer {
 	public void renderMap(UncheckedWriter output, OptMap<String, String> map) {
 		output.write("<table summary=\"\" border=\"1\">\n");
 		map.keySet().forEach(key -> {
-			String value = map.getOpt(key).get();
+			String value = map.get(key).get();
 			output.write("<tr>\n");
 			output.write("<td>");
 			output.write(key);

@@ -54,7 +54,7 @@ public class TableMapImpl implements TableMap {
 	 */
 	@Override
 	public void put(String id, Table table) {
-		this.map.putOpt(id, table);
+		this.map.put(id, table);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class TableMapImpl implements TableMap {
 	 */
 	@Override
 	public Optional<Table> getTable(String id) {
-		return this.map.getOpt(id);
+		return this.map.get(id);
 	}
 
 	@Override

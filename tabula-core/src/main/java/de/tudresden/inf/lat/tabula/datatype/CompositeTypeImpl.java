@@ -44,7 +44,7 @@ public class CompositeTypeImpl implements CompositeType {
 	@Override
 	public Optional<String> getFieldType(String field) {
 		Objects.requireNonNull(field);
-		return this.fieldType.getOpt(field);
+		return this.fieldType.get(field);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class CompositeTypeImpl implements CompositeType {
 			throw new ParseException("Field '" + field + "' has been already defined.");
 		} else {
 			this.fields.add(field);
-			this.fieldType.putOpt(field, typeStr);
+			this.fieldType.put(field, typeStr);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class CompositeTypeImpl implements CompositeType {
 	@Override
 	public String toString() {
 		StringBuffer sbuf = new StringBuffer();
-		this.fields.forEach(field -> sbuf.append(field + ":" + this.fieldType.getOpt(field).get() + " "));
+		this.fields.forEach(field -> sbuf.append(field + ":" + this.fieldType.get(field).get() + " "));
 		return sbuf.toString();
 	}
 

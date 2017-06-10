@@ -47,13 +47,7 @@ public interface OptMap<K, V> {
 	 * @throws NullPointerException
 	 *             if a <code>null</code> value is given
 	 */
-	boolean isKeyContained(K key);
-
-	// /**
-	// * @deprecated Replaced by {@link #isKeyContained isKeyContained(K)}
-	// */
-	// @Deprecated
-	// public boolean containsKey(Object key);
+	boolean containsKey(K key);
 
 	/**
 	 * Returns <code>true</code> if and only if this map associates one or more
@@ -67,13 +61,7 @@ public interface OptMap<K, V> {
 	 * @throws NullPointerException
 	 *             if a <code>null</code> value is given
 	 */
-	boolean isValueContained(V value);
-
-	// /**
-	// * @deprecated Replaced by {@link #isValueContained isValueContained(V)}
-	// */
-	// @Deprecated
-	// boolean containsValue(Object value);
+	boolean containsValue(V value);
 
 	/**
 	 * Returns an optional containing the value associated to the given key, is
@@ -85,13 +73,7 @@ public interface OptMap<K, V> {
 	 * @return an optional containing the value associated to the given key, is
 	 *         this association exists, or an empty optional otherwise
 	 */
-	Optional<V> getOpt(K key);
-
-	// /**
-	// * @deprecated Replaced by {@link #getOpt getOpt(K)}
-	// */
-	// @Deprecated
-	// V get(Object key);
+	Optional<V> get(K key);
 
 	/**
 	 * Associates the given value with the given key. This method replaces
@@ -107,13 +89,7 @@ public interface OptMap<K, V> {
 	 * @throws NullPointerException
 	 *             if a <code>null</code> value is given
 	 */
-	Optional<V> putOpt(K key, V value);
-
-	// /**
-	// * @deprecated Replaced by {@link #putOpt putOpt(K, V)}
-	// */
-	// @Deprecated
-	// V put(K key, V value);
+	Optional<V> put(K key, V value);
 
 	/**
 	 * Removes the mapping for the given key. This method replaces
@@ -127,13 +103,7 @@ public interface OptMap<K, V> {
 	 * @throws NullPointerException
 	 *             if a <code>null</code> value is given
 	 */
-	public Optional<V> removeOpt(K key);
-
-	// /**
-	// * @deprecated Replaced by {@link #removeOpt removeOpt(K)}
-	// */
-	// @Deprecated
-	// V remove(Object key);
+	public Optional<V> remove(K key);
 
 	/**
 	 * Clears this map.

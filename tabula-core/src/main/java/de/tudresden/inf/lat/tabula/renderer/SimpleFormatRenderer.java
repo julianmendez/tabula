@@ -71,7 +71,7 @@ public class SimpleFormatRenderer implements Renderer {
 			output.write(ParserConstant.SPACE);
 			output.write(prefix.toASCIIString());
 			output.write(ParserConstant.TYPE_SIGN);
-			output.write(table.getPrefixMap().getOpt(prefix).get().toASCIIString());
+			output.write(table.getPrefixMap().get(prefix).get().toASCIIString());
 		});
 		output.write(ParserConstant.NEW_LINE);
 	}

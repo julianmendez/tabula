@@ -133,7 +133,7 @@ public class SimpleFormatParser implements Parser {
 			} else {
 				String key = token.substring(0, pos);
 				String value = token.substring((pos + ParserConstant.PREFIX_SIGN.length()), token.length());
-				ret.putOpt(asUri(key, lineCounter), asUri(value, lineCounter));
+				ret.put(asUri(key, lineCounter), asUri(value, lineCounter));
 			}
 		}
 		return ret;
@@ -184,7 +184,7 @@ public class SimpleFormatParser implements Parser {
 			int pos = valueStr.indexOf(ParserConstant.PREFIX_SEMICOLON, ParserConstant.PREFIX_AMPERSAND.length());
 			if (pos != -1) {
 				URI prefix = asUri(valueStr.substring(ParserConstant.PREFIX_AMPERSAND.length(), pos), lineCounter);
-				Optional<URI> optExpansion = prefixMap.getOpt(prefix);
+				Optional<URI> optExpansion = prefixMap.get(prefix);
 				if (optExpansion.isPresent()) {
 					ret = new URIValue(
 							optExpansion.get() + valueStr.substring(pos + ParserConstant.PREFIX_SEMICOLON.length()));
@@ -332,12 +332,12 @@ public class SimpleFormatParser implements Parser {
 					Optional<String> optTableName = getValue(line);
 					if (optTableName.isPresent()) {
 						String tableName = optTableName.get();
-						if (!mapOfTables.isKeyContained(tableName)) {
-							mapOfTables.putOpt(tableName, new TableImpl());
-							mapOfRecordIdsOfTables.putOpt(tableName, new TreeSet<>());
+						if (!mapOfTables.containsKey(tableName)) {
+							mapOfTables.put(tableName, new TableImpl());
+							mapOfRecordIdsOfTables.put(tableName, new TreeSet<>());
 						}
-						currentTable = mapOfTables.getOpt(tableName).get();
-						recordIdsOfCurrentTable = mapOfRecordIdsOfTables.getOpt(tableName).get();
+						currentTable = mapOfTables.get(tableName).get();
+						recordIdsOfCurrentTable = mapOfRecordIdsOfTables.get(tableName).get();
 					}
 
 				} else if (isTypeDefinition(line)) {
@@ -375,7 +375,7 @@ public class SimpleFormatParser implements Parser {
 		}
 
 		TableMapImpl ret = new TableMapImpl();
-		mapOfTables.keySet().forEach(key -> ret.put(key, mapOfTables.getOpt(key).get()));
+		mapOfTables.keySet().forEach(key -> ret.put(key, mapOfTables.get(key).get()));
 		return ret;
 	}
 
