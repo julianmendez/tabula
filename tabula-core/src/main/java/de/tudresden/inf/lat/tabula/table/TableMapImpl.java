@@ -32,11 +32,6 @@ public class TableMapImpl implements TableMap {
 		otherTableMap.getTableIds().forEach(tableId -> put(tableId, otherTableMap.getTable(tableId).get()));
 	}
 
-	/**
-	 * Returns the identifiers of the stored tables.
-	 * 
-	 * @return the identifiers of the stored tables
-	 */
 	@Override
 	public List<String> getTableIds() {
 		List<String> ret = new ArrayList<>();
@@ -44,26 +39,11 @@ public class TableMapImpl implements TableMap {
 		return ret;
 	}
 
-	/**
-	 * Stores a table with the given identifier.
-	 * 
-	 * @param id
-	 *            identifier
-	 * @param table
-	 *            table
-	 */
 	@Override
-	public void put(String id, Table table) {
-		this.map.put(id, table);
+	public Optional<Table> put(String id, Table table) {
+		return this.map.put(id, table);
 	}
 
-	/**
-	 * Returns the table associated to the given identifier.
-	 * 
-	 * @param id
-	 *            identifier
-	 * @return the table associated to the given identifier
-	 */
 	@Override
 	public Optional<Table> getTable(String id) {
 		return this.map.get(id);
