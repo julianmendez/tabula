@@ -23,15 +23,19 @@ public interface TableMap {
 	 *            identifier
 	 * @param table
 	 *            table
+	 * @return an optional containing the previous value associated to the given
+	 *         key, or an empty optional if there was no association before
 	 */
-	void put(String id, Table table);
+	Optional<Table> put(String id, Table table);
 
 	/**
-	 * Returns the table associated to the given identifier.
+	 * Returns an optional containing the value associated to the given key, or
+	 * an empty optional if there is no association.
 	 * 
 	 * @param id
 	 *            identifier
-	 * @return the table associated to the given identifier
+	 * @return an optional containing the value associated to the given key, or
+	 *         an empty optional if there is no association
 	 */
 	Optional<Table> getTable(String id);
 
