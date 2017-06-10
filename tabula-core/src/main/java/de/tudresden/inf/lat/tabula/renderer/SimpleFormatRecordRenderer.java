@@ -6,15 +6,14 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.TreeMap;
 
-import de.tudresden.inf.lat.tabula.common.OptMap;
-import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.Record;
 import de.tudresden.inf.lat.tabula.datatype.URIType;
 import de.tudresden.inf.lat.tabula.parser.ParserConstant;
+import de.tudresden.inf.lat.tabula.table.PrefixMap;
+import de.tudresden.inf.lat.tabula.table.PrefixMapImpl;
 
 /**
  * Renderer of records in simple format.
@@ -22,39 +21,18 @@ import de.tudresden.inf.lat.tabula.parser.ParserConstant;
 public class SimpleFormatRecordRenderer implements RecordRenderer {
 
 	private Writer output = new OutputStreamWriter(System.out);
-	private OptMap<URI, URI> prefixMap = new OptMapImpl<>(new TreeMap<>());
+	private PrefixMap prefixMap = new PrefixMapImpl();
 
-	public SimpleFormatRecordRenderer(Writer output, OptMap<URI, URI> prefixMap) {
+	public SimpleFormatRecordRenderer(Writer output, PrefixMap prefixMap) {
 		Objects.requireNonNull(output);
 		this.output = output;
 		this.prefixMap = prefixMap;
 	}
 
-	public SimpleFormatRecordRenderer(UncheckedWriter output, OptMap<URI, URI> prefixMap) {
+	public SimpleFormatRecordRenderer(UncheckedWriter output, PrefixMap prefixMap) {
 		Objects.requireNonNull(output);
 		this.output = output.asWriter();
 		this.prefixMap = prefixMap;
-	}
-
-	public String renderWithPrefix(String uriStr) {
-		String[] ret = new String[1];
-		ret[0] = uriStr;
-		boolean[] found = new boolean[1];
-		found[0] = false;
-		prefixMap.keySet().forEach(key -> {
-			String expansion = prefixMap.get(key).get().toASCIIString();
-			if (!found[0] && uriStr.startsWith(expansion)) {
-				String keyStr = key.toASCIIString();
-				if (keyStr.isEmpty()) {
-					ret[0] = "";
-				} else {
-					ret[0] = ParserConstant.PREFIX_AMPERSAND + keyStr + ParserConstant.PREFIX_SEMICOLON;
-				}
-				ret[0] += uriStr.substring(expansion.length());
-				found[0] = true;
-			}
-		});
-		return ret[0];
 	}
 
 	public boolean writeIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {
@@ -75,7 +53,7 @@ public class SimpleFormatRecordRenderer implements RecordRenderer {
 					output.write(ParserConstant.NEW_LINE);
 					output.write(ParserConstant.SPACE);
 					if (hasUris[0]) {
-						output.write(renderWithPrefix(elem));
+						output.write(this.prefixMap.getWithPrefix(URI.create(elem)).toASCIIString());
 					} else {
 						output.write(elem.toString());
 					}
@@ -84,7 +62,7 @@ public class SimpleFormatRecordRenderer implements RecordRenderer {
 			} else {
 				output.write(ParserConstant.SPACE);
 				if (value.getType().equals(new URIType())) {
-					output.write(renderWithPrefix(value.toString()));
+					output.write(this.prefixMap.getWithPrefix(URI.create(value.toString())).toASCIIString());
 				} else {
 					output.write(value.toString());
 				}

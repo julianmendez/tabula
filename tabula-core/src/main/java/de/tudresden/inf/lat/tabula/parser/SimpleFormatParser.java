@@ -28,6 +28,8 @@ import de.tudresden.inf.lat.tabula.datatype.Record;
 import de.tudresden.inf.lat.tabula.datatype.StringValue;
 import de.tudresden.inf.lat.tabula.datatype.URIType;
 import de.tudresden.inf.lat.tabula.datatype.URIValue;
+import de.tudresden.inf.lat.tabula.table.PrefixMap;
+import de.tudresden.inf.lat.tabula.table.PrefixMapImpl;
 import de.tudresden.inf.lat.tabula.table.RecordImpl;
 import de.tudresden.inf.lat.tabula.table.TableImpl;
 import de.tudresden.inf.lat.tabula.table.TableMap;
@@ -121,8 +123,8 @@ public class SimpleFormatParser implements Parser {
 		}
 	}
 
-	public OptMap<URI, URI> parsePrefixMap(String line, int lineCounter) {
-		OptMap<URI, URI> ret = new OptMapImpl<>(new TreeMap<>());
+	public PrefixMap parsePrefixMap(String line, int lineCounter) {
+		PrefixMap ret = new PrefixMapImpl();
 		StringTokenizer stok = new StringTokenizer(getValue(line).get());
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
@@ -177,24 +179,7 @@ public class SimpleFormatParser implements Parser {
 		return Objects.nonNull(line) && line.trim().startsWith(ParserConstant.NEW_RECORD_TOKEN);
 	}
 
-	public URIValue expandUri(URIValue value, OptMap<URI, URI> prefixMap, int lineCounter) {
-		URIValue ret = value;
-		String valueStr = value.render();
-		if (valueStr.startsWith(ParserConstant.PREFIX_AMPERSAND)) {
-			int pos = valueStr.indexOf(ParserConstant.PREFIX_SEMICOLON, ParserConstant.PREFIX_AMPERSAND.length());
-			if (pos != -1) {
-				URI prefix = asUri(valueStr.substring(ParserConstant.PREFIX_AMPERSAND.length(), pos), lineCounter);
-				Optional<URI> optExpansion = prefixMap.get(prefix);
-				if (optExpansion.isPresent()) {
-					ret = new URIValue(
-							optExpansion.get() + valueStr.substring(pos + ParserConstant.PREFIX_SEMICOLON.length()));
-				}
-			}
-		}
-		return ret;
-	}
-
-	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, OptMap<URI, URI> prefixMap,
+	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, PrefixMap prefixMap,
 			int lineCounter) {
 		if (Objects.isNull(key)) {
 			return new StringValue();
@@ -206,14 +191,14 @@ public class SimpleFormatParser implements Parser {
 					PrimitiveTypeValue ret = (new PrimitiveTypeFactory()).newInstance(typeStr, value);
 					if (ret.getType().equals(new URIType())) {
 						URIValue uri = (URIValue) ret;
-						ret = expandUri(uri, prefixMap, lineCounter);
+						ret = new URIValue(prefixMap.getWithoutPrefix(uri.getUri()));
 					} else if (ret instanceof ParameterizedListValue) {
 						ParameterizedListValue list = (ParameterizedListValue) ret;
 						if (list.getParameter().equals(new URIType())) {
 							ParameterizedListValue newList = new ParameterizedListValue(new URIType());
 							list.forEach(elem -> {
 								URIValue uri = (URIValue) elem;
-								newList.add(expandUri(uri, prefixMap, lineCounter));
+								newList.add(new URIValue(prefixMap.getWithoutPrefix(uri.getUri())));
 							});
 							ret = newList;
 						}

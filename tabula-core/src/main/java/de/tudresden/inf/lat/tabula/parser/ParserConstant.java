@@ -13,9 +13,7 @@ public interface ParserConstant {
 	String LINE_CONTINUATION_SYMBOL = "\\";
 	String NEW_LINE = "\n";
 	String NEW_RECORD_TOKEN = "new";
-	String PREFIX_AMPERSAND = "&";
 	String PREFIX_MAP_TOKEN = "prefix";
-	String PREFIX_SEMICOLON = ";";
 	String PREFIX_SIGN = ":";
 	String SORTING_ORDER_DECLARATION_TOKEN = "order";
 	String SPACE = " ";

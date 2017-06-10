@@ -65,7 +65,7 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.PREFIX_MAP_TOKEN + ParserConstant.SPACE);
 		output.write(ParserConstant.EQUALS_SIGN);
 
-		table.getPrefixMap().keySet().forEach(prefix -> {
+		table.getPrefixMap().getKeysAsStream().forEach(prefix -> {
 			output.write(ParserConstant.SPACE + ParserConstant.LINE_CONTINUATION_SYMBOL);
 			output.write(ParserConstant.NEW_LINE);
 			output.write(ParserConstant.SPACE);
