@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * This is the default implementation of {{@link OptMap}.
+ * This is the default implementation of {@link OptMap}.
  * 
  * @author Julian Mendez
  * 
@@ -21,13 +21,34 @@ public class OptMapImpl<K, V> implements OptMap<K, V> {
 
 	private final Map<K, V> map;
 
+	/**
+	 * Constructs a new map. The default implementation structure is a
+	 * {@link HashMap}.
+	 */
 	public OptMapImpl() {
 		this.map = new HashMap<K, V>();
 	}
 
+	/**
+	 * Constructs a new map using a specified {@link Map}.
+	 * 
+	 * @param map
+	 *            map
+	 */
 	public OptMapImpl(Map<K, V> map) {
 		Objects.requireNonNull(map);
 		this.map = map;
+	}
+
+	/**
+	 * Constructs a new map using another specified {@link OptMap}.
+	 * 
+	 * @param map
+	 *            map
+	 */
+	public OptMapImpl(OptMap<K, V> map) {
+		Objects.requireNonNull(map);
+		this.map = map.asMap();
 	}
 
 	@Override
@@ -46,12 +67,12 @@ public class OptMapImpl<K, V> implements OptMap<K, V> {
 		return this.map.containsKey(key);
 	}
 
-	@Override
-	@Deprecated
-	public boolean containsKey(Object key) {
-		Objects.requireNonNull(key);
-		return this.map.containsKey(key);
-	}
+	// @Override
+	// @Deprecated
+	// public boolean containsKey(Object key) {
+	// Objects.requireNonNull(key);
+	// return this.map.containsKey(key);
+	// }
 
 	@Override
 	public boolean isValueContained(V value) {
@@ -59,12 +80,12 @@ public class OptMapImpl<K, V> implements OptMap<K, V> {
 		return this.map.containsValue(value);
 	}
 
-	@Override
-	@Deprecated
-	public boolean containsValue(Object value) {
-		Objects.requireNonNull(value);
-		return this.map.containsValue(value);
-	}
+	// @Override
+	// @Deprecated
+	// public boolean containsValue(Object value) {
+	// Objects.requireNonNull(value);
+	// return this.map.containsValue(value);
+	// }
 
 	@Override
 	public Optional<V> getOpt(K key) {
@@ -72,12 +93,12 @@ public class OptMapImpl<K, V> implements OptMap<K, V> {
 		return Optional.ofNullable(this.map.get(key));
 	}
 
-	@Override
-	@Deprecated
-	public V get(Object key) {
-		Objects.requireNonNull(key);
-		return this.map.get(key);
-	}
+	// @Override
+	// @Deprecated
+	// public V get(Object key) {
+	// Objects.requireNonNull(key);
+	// return this.map.get(key);
+	// }
 
 	@Override
 	public Optional<V> putOpt(K key, V value) {
@@ -86,13 +107,13 @@ public class OptMapImpl<K, V> implements OptMap<K, V> {
 		return Optional.ofNullable(this.map.put(key, value));
 	}
 
-	@Override
-	@Deprecated
-	public V put(K key, V value) {
-		Objects.requireNonNull(key);
-		Objects.requireNonNull(value);
-		return this.map.put(key, value);
-	}
+	// @Override
+	// @Deprecated
+	// public V put(K key, V value) {
+	// Objects.requireNonNull(key);
+	// Objects.requireNonNull(value);
+	// return this.map.put(key, value);
+	// }
 
 	@Override
 	public Optional<V> removeOpt(K key) {
@@ -100,12 +121,12 @@ public class OptMapImpl<K, V> implements OptMap<K, V> {
 		return Optional.ofNullable(this.map.remove(key));
 	}
 
-	@Override
-	@Deprecated
-	public V remove(Object key) {
-		Objects.requireNonNull(key);
-		return this.map.remove(key);
-	}
+	// @Override
+	// @Deprecated
+	// public V remove(Object key) {
+	// Objects.requireNonNull(key);
+	// return this.map.remove(key);
+	// }
 
 	@Override
 	public void putAll(Map<? extends K, ? extends V> m) {
@@ -146,6 +167,11 @@ public class OptMapImpl<K, V> implements OptMap<K, V> {
 	@Override
 	public String toString() {
 		return this.map.toString();
+	}
+
+	@Override
+	public Map<K, V> asMap() {
+		return this.map;
 	}
 
 }

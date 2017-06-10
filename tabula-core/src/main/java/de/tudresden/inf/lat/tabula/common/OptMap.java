@@ -1,7 +1,10 @@
 package de.tudresden.inf.lat.tabula.common;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * An object implementing this interface wraps a map with some conditions:
@@ -17,11 +20,25 @@ import java.util.Optional;
  * @param <V>
  *            type of mapped values
  */
-public interface OptMap<K, V> extends Map<K, V> {
+public interface OptMap<K, V> {
+
+	/**
+	 * Returns the size of this map.
+	 * 
+	 * @return the size of this map
+	 */
+	int size();
+
+	/**
+	 * Returns <code>true</code> if and only if this map is empty.
+	 * 
+	 * @return <code>true</code> if and only if this map is empty
+	 */
+	boolean isEmpty();
 
 	/**
 	 * Returns <code>true</code> if and only if this map contains a mapping for
-	 * the given key. This method replaces {@link #containsKey(Object)}.
+	 * the given key. This method replaces {@link Map#containsKey(Object)}.
 	 * 
 	 * @param key
 	 *            key
@@ -30,18 +47,18 @@ public interface OptMap<K, V> extends Map<K, V> {
 	 * @throws NullPointerException
 	 *             if a <code>null</code> value is given
 	 */
-	public boolean isKeyContained(K key);
+	boolean isKeyContained(K key);
 
-	/**
-	 * @deprecated Replaced by {@link #isKeyContained isKeyContained(K)}
-	 */
-	@Deprecated
-	public boolean containsKey(Object key);
+	// /**
+	// * @deprecated Replaced by {@link #isKeyContained isKeyContained(K)}
+	// */
+	// @Deprecated
+	// public boolean containsKey(Object key);
 
 	/**
 	 * Returns <code>true</code> if and only if this map associates one or more
 	 * keys to the given value. This method replaces
-	 * {@link #containsValue(Object)}.
+	 * {@link Map#containsValue(Object)}.
 	 * 
 	 * @param value
 	 *            value
@@ -50,35 +67,35 @@ public interface OptMap<K, V> extends Map<K, V> {
 	 * @throws NullPointerException
 	 *             if a <code>null</code> value is given
 	 */
-	public boolean isValueContained(V value);
+	boolean isValueContained(V value);
 
-	/**
-	 * @deprecated Replaced by {@link #isValueContained isValueContained(V)}
-	 */
-	@Deprecated
-	public boolean containsValue(Object value);
+	// /**
+	// * @deprecated Replaced by {@link #isValueContained isValueContained(V)}
+	// */
+	// @Deprecated
+	// boolean containsValue(Object value);
 
 	/**
 	 * Returns an optional containing the value associated to the given key, is
 	 * this association exists, or an empty optional otherwise. This method
-	 * replaces {@link #get(Object)}.
+	 * replaces {@link Map#get(Object)}.
 	 * 
 	 * @param key
 	 *            key
 	 * @return an optional containing the value associated to the given key, is
 	 *         this association exists, or an empty optional otherwise
 	 */
-	public Optional<V> getOpt(K key);
+	Optional<V> getOpt(K key);
 
-	/**
-	 * @deprecated Replaced by {@link #getOpt getOpt(K)}
-	 */
-	@Deprecated
-	public V get(Object key);
+	// /**
+	// * @deprecated Replaced by {@link #getOpt getOpt(K)}
+	// */
+	// @Deprecated
+	// V get(Object key);
 
 	/**
 	 * Associates the given value with the given key. This method replaces
-	 * {@link #put put(K, V)}.
+	 * {@link Map#put put(K, V)}.
 	 * 
 	 * @param key
 	 *            key
@@ -90,17 +107,17 @@ public interface OptMap<K, V> extends Map<K, V> {
 	 * @throws NullPointerException
 	 *             if a <code>null</code> value is given
 	 */
-	public Optional<V> putOpt(K key, V value);
+	Optional<V> putOpt(K key, V value);
 
-	/**
-	 * @deprecated Replaced by {@link #putOpt putOpt(K, V)}
-	 */
-	@Deprecated
-	public V put(K key, V value);
+	// /**
+	// * @deprecated Replaced by {@link #putOpt putOpt(K, V)}
+	// */
+	// @Deprecated
+	// V put(K key, V value);
 
 	/**
 	 * Removes the mapping for the given key. This method replaces
-	 * {@link #remove(Object)}.
+	 * {@link Map#remove(Object)}.
 	 * 
 	 * @param key
 	 *            key
@@ -112,10 +129,51 @@ public interface OptMap<K, V> extends Map<K, V> {
 	 */
 	public Optional<V> removeOpt(K key);
 
+	// /**
+	// * @deprecated Replaced by {@link #removeOpt removeOpt(K)}
+	// */
+	// @Deprecated
+	// V remove(Object key);
+
 	/**
-	 * @deprecated Replaced by {@link #removeOpt removeOpt(K)}
+	 * Clears this map.
 	 */
-	@Deprecated
-	public V remove(Object key);
+	void clear();
+
+	/**
+	 * Adds all the associations given in the specified map.
+	 * 
+	 * @param m
+	 *            map containing associations
+	 */
+	void putAll(Map<? extends K, ? extends V> m);
+
+	/**
+	 * Returns the set of keys.
+	 * 
+	 * @return the set of keys
+	 */
+	Set<K> keySet();
+
+	/**
+	 * Returns the collection of values.
+	 * 
+	 * @return the collection of values
+	 */
+	Collection<V> values();
+
+	/**
+	 * Returns a set of associations.
+	 * 
+	 * @return a set of associations
+	 */
+	Set<Entry<K, V>> entrySet();
+
+	/**
+	 * Returns this as a {@link Map}.
+	 * 
+	 * @return this as a <code>Map</code>
+	 */
+	Map<K, V> asMap();
 
 }
