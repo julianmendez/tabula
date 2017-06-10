@@ -22,6 +22,9 @@ public class NormalizationTest {
 	public static final String INPUT_FILE_NAME_1 = "multiple_tables.properties";
 	public static final String EXPECTED_OUTPUT_FILE_NAME_1 = "multiple_tables-expected.properties";
 
+	public static final String INPUT_FILE_NAME_2 = "another_example.properties";
+	public static final String EXPECTED_OUTPUT_FILE_NAME_2 = "another_example-expected.properties";
+
 	public static final String NEW_LINE = "\n";
 
 	String getPath(String fileName) {
@@ -41,6 +44,7 @@ public class NormalizationTest {
 	public void testNormalization() throws IOException {
 		testNormalizationOfFile(INPUT_FILE_NAME_0, EXPECTED_OUTPUT_FILE_NAME_0);
 		testNormalizationOfFile(INPUT_FILE_NAME_1, EXPECTED_OUTPUT_FILE_NAME_1);
+		testNormalizationOfFile(INPUT_FILE_NAME_2, EXPECTED_OUTPUT_FILE_NAME_2);
 	}
 
 }

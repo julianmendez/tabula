@@ -79,6 +79,11 @@ public class SimpleFormatParser implements Parser {
 		}
 	}
 
+	public boolean hasKey(String line, String key) {
+		Optional<String> optKey = getKey(line);
+		return (optKey.isPresent() && optKey.get().equals(key));
+	}
+
 	public Optional<String> getValue(String line) {
 		if (Objects.isNull(line)) {
 			return Optional.empty();
@@ -306,14 +311,15 @@ public class SimpleFormatParser implements Parser {
 		Optional<String> optCurrentId = Optional.empty();
 		Record record = new RecordImpl();
 		int lineCounter = 0;
+		boolean isDefiningType = false;
 
 		while (Objects.nonNull(line)) {
 			Pair pair = readMultiLine(input, lineCounter);
 			line = pair.getLine();
 			lineCounter = pair.getLineCounter();
 			if (Objects.nonNull(line) && !line.trim().isEmpty()) {
-				if (isTypeSelection(line)) {
-
+				if (hasKey(line, ParserConstant.TYPE_SELECTION_TOKEN)) {
+					isDefiningType = true;
 					Optional<String> optTableName = getValue(line);
 					if (optTableName.isPresent()) {
 						String tableName = optTableName.get();
@@ -325,16 +331,17 @@ public class SimpleFormatParser implements Parser {
 						recordIdsOfCurrentTable = mapOfRecordIdsOfTables.get(tableName).get();
 					}
 
-				} else if (isTypeDefinition(line)) {
+				} else if (isDefiningType && hasKey(line, ParserConstant.TYPE_DEFINITION_TOKEN)) {
 					currentTable.setType(parseTypes(line, lineCounter));
 
-				} else if (isPrefixMapDefinition(line)) {
+				} else if (isDefiningType && hasKey(line, ParserConstant.PREFIX_MAP_TOKEN)) {
 					currentTable.setPrefixMap(parsePrefixMap(line, lineCounter));
 
-				} else if (isSortingOrderDeclaration(line)) {
+				} else if (isDefiningType && hasKey(line, ParserConstant.SORTING_ORDER_DECLARATION_TOKEN)) {
 					setSortingOrder(line, currentTable);
 
-				} else if (isNewRecord(line)) {
+				} else if (hasKey(line, ParserConstant.NEW_RECORD_TOKEN)) {
+					isDefiningType = false;
 					record = new RecordImpl();
 					currentTable.add(record);
 					optCurrentId = Optional.empty();
