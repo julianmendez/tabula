@@ -60,37 +60,41 @@ public class SimpleFormatRenderer implements Renderer {
 		output.write(ParserConstant.NEW_LINE);
 	}
 
-	public void renderPrefixMap(UncheckedWriter output, Table table) {
-		output.write(ParserConstant.NEW_LINE + ParserConstant.NEW_LINE);
-		output.write(ParserConstant.PREFIX_MAP_TOKEN + ParserConstant.SPACE);
-		output.write(ParserConstant.EQUALS_SIGN);
+	public void renderPrefixMapIfNecessary(UncheckedWriter output, Table table) {
+		if (!table.getPrefixMap().isEmpty()) {
+			output.write(ParserConstant.NEW_LINE + ParserConstant.NEW_LINE);
+			output.write(ParserConstant.PREFIX_MAP_TOKEN + ParserConstant.SPACE);
+			output.write(ParserConstant.EQUALS_SIGN);
 
-		table.getPrefixMap().getKeysAsStream().forEach(prefix -> {
-			output.write(ParserConstant.SPACE + ParserConstant.LINE_CONTINUATION_SYMBOL);
+			table.getPrefixMap().getKeysAsStream().forEach(prefix -> {
+				output.write(ParserConstant.SPACE + ParserConstant.LINE_CONTINUATION_SYMBOL);
+				output.write(ParserConstant.NEW_LINE);
+				output.write(ParserConstant.SPACE);
+				output.write(prefix.toASCIIString());
+				output.write(ParserConstant.TYPE_SIGN);
+				output.write(table.getPrefixMap().get(prefix).get().toASCIIString());
+			});
 			output.write(ParserConstant.NEW_LINE);
-			output.write(ParserConstant.SPACE);
-			output.write(prefix.toASCIIString());
-			output.write(ParserConstant.TYPE_SIGN);
-			output.write(table.getPrefixMap().get(prefix).get().toASCIIString());
-		});
-		output.write(ParserConstant.NEW_LINE);
+		}
 	}
 
-	public void renderOrder(UncheckedWriter output, Table table) {
-		output.write(ParserConstant.NEW_LINE + ParserConstant.NEW_LINE);
-		output.write(ParserConstant.SORTING_ORDER_DECLARATION_TOKEN + ParserConstant.SPACE);
-		output.write(ParserConstant.EQUALS_SIGN);
+	public void renderOrderIfNecessary(UncheckedWriter output, Table table) {
+		if (!table.getSortingOrder().isEmpty()) {
+			output.write(ParserConstant.NEW_LINE + ParserConstant.NEW_LINE);
+			output.write(ParserConstant.SORTING_ORDER_DECLARATION_TOKEN + ParserConstant.SPACE);
+			output.write(ParserConstant.EQUALS_SIGN);
 
-		table.getSortingOrder().forEach(field -> {
-			output.write(ParserConstant.SPACE + ParserConstant.LINE_CONTINUATION_SYMBOL);
+			table.getSortingOrder().forEach(field -> {
+				output.write(ParserConstant.SPACE + ParserConstant.LINE_CONTINUATION_SYMBOL);
+				output.write(ParserConstant.NEW_LINE);
+				output.write(ParserConstant.SPACE);
+				if (table.getFieldsWithReverseOrder().contains(field)) {
+					output.write(ParserConstant.REVERSE_ORDER_SIGN);
+				}
+				output.write(field);
+			});
 			output.write(ParserConstant.NEW_LINE);
-			output.write(ParserConstant.SPACE);
-			if (table.getFieldsWithReverseOrder().contains(field)) {
-				output.write(ParserConstant.REVERSE_ORDER_SIGN);
-			}
-			output.write(field);
-		});
-		output.write(ParserConstant.NEW_LINE);
+		}
 	}
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
@@ -99,8 +103,8 @@ public class SimpleFormatRenderer implements Renderer {
 			Table table = tableMap.getTable(tableName).get();
 			renderTypeSelection(output, tableName, table);
 			renderTypeDefinition(output, table);
-			renderPrefixMap(output, table);
-			renderOrder(output, table);
+			renderPrefixMapIfNecessary(output, table);
+			renderOrderIfNecessary(output, table);
 			renderAllRecords(output, table);
 		});
 		output.flush();

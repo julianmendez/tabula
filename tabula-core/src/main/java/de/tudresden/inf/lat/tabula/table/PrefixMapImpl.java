@@ -21,10 +21,22 @@ public class PrefixMapImpl implements PrefixMap {
 	private OptMap<URI, URI> prefixMap = new OptMapImpl<URI, URI>(new TreeMap<>());
 	private List<URI> keyList = new ArrayList<URI>();
 
+	@Override
+	public boolean isEmpty() {
+		return this.prefixMap.isEmpty();
+	}
+
+	@Override
+	public int size() {
+		return this.prefixMap.size();
+	}
+
+	@Override
 	public Optional<URI> get(URI key) {
 		return this.prefixMap.get(key);
 	}
 
+	@Override
 	public Optional<URI> put(URI key, URI value) {
 		if (!this.prefixMap.containsKey(key)) {
 			this.keyList.add(key);
@@ -75,7 +87,8 @@ public class PrefixMapImpl implements PrefixMap {
 			if (keyStr.isEmpty()) {
 				ret = URI.create(uriStr.substring(expansionStr.length()));
 			} else {
-				ret = URI.create(PREFIX_AMPERSAND + keyStr + PREFIX_SEMICOLON + uriStr.substring(expansionStr.length()));
+				ret = URI
+						.create(PREFIX_AMPERSAND + keyStr + PREFIX_SEMICOLON + uriStr.substring(expansionStr.length()));
 			}
 		}
 		return ret;
@@ -90,10 +103,6 @@ public class PrefixMapImpl implements PrefixMap {
 	public void clear() {
 		this.prefixMap.clear();
 		this.keyList.clear();
-	}
-
-	public int size() {
-		return this.prefixMap.size();
 	}
 
 }

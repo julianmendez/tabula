@@ -20,6 +20,22 @@ public interface PrefixMap {
 	String PREFIX_SEMICOLON = ";";
 
 	/**
+	 * Returns <code>true</code> if and only if this map does not contain
+	 * associations.
+	 *
+	 * @return <code>true</code> if and only if this map does not contain
+	 *         associations
+	 */
+	boolean isEmpty();
+
+	/**
+	 * Returns the size of this prefix map.
+	 *
+	 * @return the size of this prefix map
+	 */
+	int size();
+
+	/**
 	 * Returns the expansion for the given prefix.
 	 *
 	 * @param key
@@ -80,12 +96,5 @@ public interface PrefixMap {
 	 * Clears the content.
 	 */
 	void clear();
-
-	/**
-	 * Returns the size of this prefix map.
-	 *
-	 * @return the size of this prefix map
-	 */
-	int size();
 
 }
