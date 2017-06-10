@@ -12,16 +12,16 @@ import java.util.Optional;
  * </ul>
  * 
  * @author Julian Mendez
- * @param K
+ * @param <K>
  *            type of keys in this map
- * @param V
+ * @param <V>
  *            type of mapped values
  */
 public interface OptMap<K, V> extends Map<K, V> {
 
 	/**
 	 * Returns <code>true</code> if and only if this map contains a mapping for
-	 * the given key. This replaces {@link #containsKey(Object)}.
+	 * the given key. This method replaces {@link #containsKey(Object)}.
 	 * 
 	 * @param key
 	 *            key
@@ -33,7 +33,7 @@ public interface OptMap<K, V> extends Map<K, V> {
 	public boolean isKeyContained(K key);
 
 	/**
-	 * Use {@link #isKeyContained(K)}
+	 * @deprecated Replaced by {@link #isKeyContained isKeyContained(K)}
 	 */
 	@Deprecated
 	public boolean containsKey(Object key);
@@ -53,14 +53,15 @@ public interface OptMap<K, V> extends Map<K, V> {
 	public boolean isValueContained(V value);
 
 	/**
-	 * Use {@link #isValueContained(V)}
+	 * @deprecated Replaced by {@link #isValueContained isValueContained(V)}
 	 */
 	@Deprecated
 	public boolean containsValue(Object value);
 
 	/**
 	 * Returns an optional containing the value associated to the given key, is
-	 * this association exists, or an empty optional otherwise.
+	 * this association exists, or an empty optional otherwise. This method
+	 * replaces {@link #get(Object)}.
 	 * 
 	 * @param key
 	 *            key
@@ -70,14 +71,14 @@ public interface OptMap<K, V> extends Map<K, V> {
 	public Optional<V> getOpt(K key);
 
 	/**
-	 * Use {@link #getOpt(K)}
+	 * @deprecated Replaced by {@link #getOpt getOpt(K)}
 	 */
 	@Deprecated
 	public V get(Object key);
 
 	/**
 	 * Associates the given value with the given key. This method replaces
-	 * {@link #put(K, V)}.
+	 * {@link #put put(K, V)}.
 	 * 
 	 * @param key
 	 *            key
@@ -92,7 +93,7 @@ public interface OptMap<K, V> extends Map<K, V> {
 	public Optional<V> putOpt(K key, V value);
 
 	/**
-	 * Use {@link #putOpt(K, V)}
+	 * @deprecated Replaced by {@link #putOpt putOpt(K, V)}
 	 */
 	@Deprecated
 	public V put(K key, V value);
@@ -109,10 +110,10 @@ public interface OptMap<K, V> extends Map<K, V> {
 	 * @throws NullPointerException
 	 *             if a <code>null</code> value is given
 	 */
-	public Optional<V> removeOpt(Object key);
+	public Optional<V> removeOpt(K key);
 
 	/**
-	 * Use {@link #removeOpt(K)}
+	 * @deprecated Replaced by {@link #removeOpt removeOpt(K)}
 	 */
 	@Deprecated
 	public V remove(Object key);

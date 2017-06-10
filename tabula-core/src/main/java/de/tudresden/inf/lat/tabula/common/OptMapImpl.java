@@ -12,9 +12,9 @@ import java.util.Set;
  * 
  * @author Julian Mendez
  * 
- * @param K
+ * @param <K>
  *            type of keys in this map
- * @param V
+ * @param <V>
  *            type of mapped values
  */
 public class OptMapImpl<K, V> implements OptMap<K, V> {
@@ -95,7 +95,7 @@ public class OptMapImpl<K, V> implements OptMap<K, V> {
 	}
 
 	@Override
-	public Optional<V> removeOpt(Object key) {
+	public Optional<V> removeOpt(K key) {
 		Objects.requireNonNull(key);
 		return Optional.ofNullable(this.map.remove(key));
 	}
