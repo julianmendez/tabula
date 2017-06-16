@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import de.tudresden.inf.lat.tabula.common.OptMap;
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeValue;
 import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeValue;
@@ -120,23 +119,6 @@ public class HtmlRenderer implements Renderer {
 			output.write("</tr>\n");
 		});
 		output.write("</table>\n");
-	}
-
-	public void renderMap(UncheckedWriter output, OptMap<String, String> map) {
-		output.write("<table summary=\"\" border=\"1\">\n");
-		map.keySet().forEach(key -> {
-			String value = map.get(key).get();
-			output.write("<tr>\n");
-			output.write("<td>");
-			output.write(key);
-			output.write("</td>\n");
-			output.write("<td>");
-			output.write(value);
-			output.write("</td>\n");
-			output.write("</tr>\n");
-		});
-		output.write("</table>\n");
-		output.write("\n");
 	}
 
 	public void render(UncheckedWriter output, TableMap tableMap) {
