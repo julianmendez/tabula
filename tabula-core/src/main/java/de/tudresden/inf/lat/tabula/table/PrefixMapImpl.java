@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
-import de.tudresden.inf.lat.tabula.common.OptMap;
-import de.tudresden.inf.lat.tabula.common.OptMapImpl;
+import de.tudresden.inf.lat.util.map.OptMap;
+import de.tudresden.inf.lat.util.map.OptMapImpl;
 
 /**
  * An object of this class is a map of URI prefixes. This implementation

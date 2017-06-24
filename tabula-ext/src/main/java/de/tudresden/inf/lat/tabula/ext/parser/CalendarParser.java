@@ -11,8 +11,6 @@ import java.util.Optional;
 import java.util.Stack;
 import java.util.TreeMap;
 
-import de.tudresden.inf.lat.tabula.common.OptMap;
-import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 import de.tudresden.inf.lat.tabula.datatype.CompositeType;
 import de.tudresden.inf.lat.tabula.datatype.ParseException;
 import de.tudresden.inf.lat.tabula.datatype.PrimitiveTypeFactory;
@@ -25,6 +23,8 @@ import de.tudresden.inf.lat.tabula.table.RecordImpl;
 import de.tudresden.inf.lat.tabula.table.TableImpl;
 import de.tudresden.inf.lat.tabula.table.TableMap;
 import de.tudresden.inf.lat.tabula.table.TableMapImpl;
+import de.tudresden.inf.lat.util.map.OptMap;
+import de.tudresden.inf.lat.util.map.OptMapImpl;
 
 /**
  * Parser of a calendar.

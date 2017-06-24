@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.TreeMap;
 
-import de.tudresden.inf.lat.tabula.common.OptMap;
-import de.tudresden.inf.lat.tabula.common.OptMapImpl;
+import de.tudresden.inf.lat.util.map.OptMap;
+import de.tudresden.inf.lat.util.map.OptMapImpl;
 
 /**
  * This is the default implementation of a table map.

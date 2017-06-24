@@ -85,7 +85,8 @@
 						<Include-Resource>
 							{maven-resources}, {maven-dependencies},
 							@tabula-core-${project.version}.jar,
-							@tabula-ext-${project.version}.jar
+							@tabula-ext-${project.version}.jar,
+							@util-map-${util.version}.jar
 						</Include-Resource>
 					</instructions>
 				</configuration>

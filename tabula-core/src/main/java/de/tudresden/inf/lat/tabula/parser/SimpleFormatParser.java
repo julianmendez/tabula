@@ -16,8 +16,6 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import de.tudresden.inf.lat.tabula.common.OptMap;
-import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 import de.tudresden.inf.lat.tabula.datatype.CompositeType;
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeImpl;
 import de.tudresden.inf.lat.tabula.datatype.ParameterizedListValue;
@@ -34,6 +32,8 @@ import de.tudresden.inf.lat.tabula.table.RecordImpl;
 import de.tudresden.inf.lat.tabula.table.TableImpl;
 import de.tudresden.inf.lat.tabula.table.TableMap;
 import de.tudresden.inf.lat.tabula.table.TableMapImpl;
+import de.tudresden.inf.lat.util.map.OptMap;
+import de.tudresden.inf.lat.util.map.OptMapImpl;
 
 /**
  * Parser of a table in simple format.

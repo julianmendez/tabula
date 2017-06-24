@@ -7,9 +7,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 
-import de.tudresden.inf.lat.tabula.common.OptMap;
-import de.tudresden.inf.lat.tabula.common.OptMapImpl;
 import de.tudresden.inf.lat.tabula.datatype.ParseException;
+import de.tudresden.inf.lat.util.map.OptMap;
+import de.tudresden.inf.lat.util.map.OptMapImpl;
 
 /**
  * This models an extension that can execute other extensions.
