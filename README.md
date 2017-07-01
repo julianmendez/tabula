@@ -238,7 +238,7 @@ This software is distributed under the [Apache License Version 2.0](https://www.
 
 ## Release notes
 
-See [release notes](https://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md).
+See [release notes](https://julianmendez.github.io/tabula/RELEASE-NOTES.html).
 
 
 ## Contact
