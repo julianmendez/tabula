@@ -19,6 +19,7 @@
   * List_Decimal
   * Empty
 * executes `normalize` extension, if no extension is given
+* shows a warning instead of stopping when the normalization finds duplicated identifiers
 * includes a `prefix` map to shorten URIs
 * build command:
 
