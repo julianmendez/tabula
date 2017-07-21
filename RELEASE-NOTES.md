@@ -18,7 +18,8 @@
   * Decimal
   * List_Decimal
   * Empty
-* executes `normalize` extension, if no extension is given 
+* executes `normalize` extension, if no extension is given
+* shows a warning instead of stopping when the normalization finds duplicated identifiers
 * build command:
 
 ```
