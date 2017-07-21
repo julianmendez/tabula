@@ -49,11 +49,7 @@ public class PrefixMapImpl implements PrefixMap {
 		String uriStr = uri.toASCIIString();
 		Optional<URI> key = prefixMap.keySet().stream()
 				.filter((URI e) -> uriStr.startsWith(prefixMap.get(e).get().toASCIIString())).findFirst();
-		if (key.isPresent()) {
-			return Optional.of(key.get());
-		} else {
-			return Optional.empty();
-		}
+		return key;
 	}
 
 	@Override
