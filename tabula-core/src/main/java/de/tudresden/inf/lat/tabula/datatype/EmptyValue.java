@@ -49,13 +49,15 @@ public class EmptyValue implements PrimitiveTypeValue {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (obj instanceof EmptyValue) {
-			return true;
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	@Override

@@ -131,14 +131,16 @@ public class UncheckedWriterImpl implements UncheckedWriter {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (!(obj instanceof UncheckedWriter)) {
-			return false;
+			result = false;
 		} else {
 			UncheckedWriter other = (UncheckedWriter) obj;
-			return asWriter().equals(other.asWriter());
+			result = asWriter().equals(other.asWriter());
 		}
+		return result;
 	}
 
 	@Override

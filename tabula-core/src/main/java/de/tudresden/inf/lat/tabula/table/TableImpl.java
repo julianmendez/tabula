@@ -66,11 +66,13 @@ public class TableImpl implements Table {
 
 	@Override
 	public boolean add(Record record) {
+		boolean result = false;
 		if (Objects.isNull(record)) {
-			return false;
+			result = false;
 		} else {
-			return this.list.add(record);
+			result = this.list.add(record);
 		}
+		return result;
 	}
 
 	@Override
@@ -101,10 +103,10 @@ public class TableImpl implements Table {
 
 	@Override
 	public List<Record> getRecords() {
-		List<Record> ret = new ArrayList<>();
-		ret.addAll(this.list);
-		Collections.sort(ret, new RecordComparator(this.sortingOrder, this.fieldsWithReverseOrder));
-		return ret;
+		List<Record> result = new ArrayList<>();
+		result.addAll(this.list);
+		Collections.sort(result, new RecordComparator(this.sortingOrder, this.fieldsWithReverseOrder));
+		return result;
 	}
 
 	@Override
@@ -120,17 +122,19 @@ public class TableImpl implements Table {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (obj instanceof Table) {
 			Table other = (Table) obj;
-			return getType().equals(other.getType()) && getPrefixMap().equals(other.getPrefixMap())
+			result = getType().equals(other.getType()) && getPrefixMap().equals(other.getPrefixMap())
 					&& getSortingOrder().equals(other.getSortingOrder())
 					&& getFieldsWithReverseOrder().equals(other.getFieldsWithReverseOrder())
 					&& getRecords().equals(other.getRecords());
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	@Override

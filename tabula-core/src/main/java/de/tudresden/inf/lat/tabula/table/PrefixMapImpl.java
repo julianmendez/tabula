@@ -41,20 +41,21 @@ public class PrefixMapImpl implements PrefixMap {
 		if (!this.prefixMap.containsKey(key)) {
 			this.keyList.add(key);
 		}
-		return this.prefixMap.put(key, value);
+		Optional<URI> result = this.prefixMap.put(key, value);
+		return result;
 	}
 
 	@Override
 	public Optional<URI> getPrefixFor(URI uri) {
 		String uriStr = uri.toASCIIString();
-		Optional<URI> key = prefixMap.keySet().stream()
+		Optional<URI> result = prefixMap.keySet().stream()
 				.filter((URI e) -> uriStr.startsWith(prefixMap.get(e).get().toASCIIString())).findFirst();
-		return key;
+		return result;
 	}
 
 	@Override
 	public URI getWithoutPrefix(URI uri) {
-		URI ret = uri;
+		URI result = uri;
 		String uriStr = uri.toASCIIString();
 		if (uriStr.startsWith(PREFIX_AMPERSAND)) {
 			int pos = uriStr.indexOf(PREFIX_SEMICOLON, PREFIX_AMPERSAND.length());
@@ -62,17 +63,17 @@ public class PrefixMapImpl implements PrefixMap {
 				URI prefix = URI.create(uriStr.substring(PREFIX_AMPERSAND.length(), pos));
 				Optional<URI> optExpansion = this.prefixMap.get(prefix);
 				if (optExpansion.isPresent()) {
-					ret = URI.create(
+					result = URI.create(
 							optExpansion.get().toASCIIString() + uriStr.substring(pos + PREFIX_SEMICOLON.length()));
 				}
 			}
 		}
-		return ret;
+		return result;
 	}
 
 	@Override
 	public URI getWithPrefix(URI uri) {
-		URI ret = uri;
+		URI result = uri;
 		Optional<URI> optPrefix = getPrefixFor(uri);
 		if (optPrefix.isPresent()) {
 			String uriStr = uri.toASCIIString();
@@ -81,13 +82,13 @@ public class PrefixMapImpl implements PrefixMap {
 			Optional<URI> optExpansion = get(key);
 			String expansionStr = optExpansion.get().toASCIIString();
 			if (keyStr.isEmpty()) {
-				ret = URI.create(uriStr.substring(expansionStr.length()));
+				result = URI.create(uriStr.substring(expansionStr.length()));
 			} else {
-				ret = URI
+				result = URI
 						.create(PREFIX_AMPERSAND + keyStr + PREFIX_SEMICOLON + uriStr.substring(expansionStr.length()));
 			}
 		}
-		return ret;
+		return result;
 	}
 
 	@Override

@@ -37,11 +37,13 @@ public class RecordImpl implements Record {
 
 	@Override
 	public Optional<PrimitiveTypeValue> get(String key) {
+		Optional<PrimitiveTypeValue> result = Optional.empty();
 		if (Objects.isNull(key)) {
-			return Optional.empty();
+			result = Optional.empty();
 		} else {
-			return this.map.get(key);
+			result = this.map.get(key);
 		}
+		return result;
 	}
 
 	@Override
@@ -53,23 +55,24 @@ public class RecordImpl implements Record {
 
 	@Override
 	public List<String> getProperties() {
-		List<String> ret = new ArrayList<>();
-		ret.addAll(map.keySet());
-		return ret;
+		List<String> result = new ArrayList<>();
+		result.addAll(map.keySet());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object o) {
+		boolean result = false;
 		if (this == o) {
-			return true;
+			result = true;
 		} else if (o instanceof Record) {
 			Record other = (Record) o;
-			boolean ret = getProperties().equals(other.getProperties());
-			ret = ret && getProperties().stream().allMatch(property -> get(property).equals(other.get(property)));
-			return ret;
+			result = getProperties().equals(other.getProperties());
+			result = result && getProperties().stream().allMatch(property -> get(property).equals(other.get(property)));
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	@Override

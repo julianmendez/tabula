@@ -36,13 +36,15 @@ public class DecimalType implements PrimitiveType {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (Objects.isNull(obj)) {
-			return false;
+			result = false;
 		} else {
-			return (obj instanceof DecimalType);
+			result = (obj instanceof DecimalType);
 		}
+		return result;
 	}
 
 	@Override

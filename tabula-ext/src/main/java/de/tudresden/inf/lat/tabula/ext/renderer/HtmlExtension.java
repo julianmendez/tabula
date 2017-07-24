@@ -24,8 +24,9 @@ public class HtmlExtension implements Extension {
 
 	@Override
 	public boolean process(List<String> arguments) {
+		boolean result = false;
 		if (Objects.isNull(arguments) || arguments.size() != REQUIRED_ARGUMENTS) {
-			return false;
+			result = false;
 		} else {
 			try {
 				String inputFileName = arguments.get(0);
@@ -34,11 +35,12 @@ public class HtmlExtension implements Extension {
 				BufferedWriter output = new BufferedWriter(new FileWriter(outputFileName));
 				HtmlRenderer renderer = new HtmlRenderer(output);
 				renderer.render(tableMap);
-				return true;
+				result = true;
 			} catch (IOException e) {
 				throw new ExtensionException(e);
 			}
 		}
+		return result;
 	}
 
 	@Override

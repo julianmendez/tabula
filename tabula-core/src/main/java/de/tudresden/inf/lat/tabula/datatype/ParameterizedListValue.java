@@ -64,28 +64,31 @@ public class ParameterizedListValue extends ArrayList<PrimitiveTypeValue> implem
 			}
 			sbuf.append(str);
 		}
-		return sbuf.toString();
+		String result = sbuf.toString();
+		return result;
 	}
 
 	@Override
 	public List<String> renderAsList() {
-		List<String> ret = new ArrayList<>();
-		this.forEach(elem -> ret.add(elem.render()));
-		return Collections.unmodifiableList(ret);
+		List<String> list = new ArrayList<>();
+		this.forEach(elem -> list.add(elem.render()));
+		List<String> result = Collections.unmodifiableList(list);
+		return result;
 	}
 
 	@Override
 	public int compareTo(PrimitiveTypeValue obj) {
+		int result = 0;
 		if (obj instanceof ParameterizedListValue) {
 			ParameterizedListValue other = (ParameterizedListValue) obj;
-			int ret = size() - other.size();
-			if (ret == 0) {
-				ret = toString().compareTo(other.toString());
+			result = size() - other.size();
+			if (result == 0) {
+				result = toString().compareTo(other.toString());
 			}
-			return ret;
 		} else {
-			return toString().compareTo(obj.toString());
+			result = toString().compareTo(obj.toString());
 		}
+		return result;
 	}
 
 	public PrimitiveType getParameter() {

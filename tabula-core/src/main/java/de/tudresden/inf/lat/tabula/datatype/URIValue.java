@@ -55,11 +55,13 @@ public class URIValue implements PrimitiveTypeValue {
 	}
 
 	public URI createURI(String uriStr) {
+		URI result = null;
 		try {
-			return new URI(uriStr);
+			result = new URI(uriStr);
 		} catch (URISyntaxException e) {
 			throw new ParseException("Invalid URI '" + uriStr + "'.", e);
 		}
+		return result;
 	}
 
 	public URI getUri() {
@@ -67,23 +69,27 @@ public class URIValue implements PrimitiveTypeValue {
 	}
 
 	public URI getUriNoLabel() {
+		URI result = null;
 		String uriStr = this.uri.toASCIIString();
 		int pos = uriStr.lastIndexOf(SPECIAL_SYMBOL);
 		if (pos == -1) {
-			return this.uri;
+			result = this.uri;
 		} else {
-			return createURI(uriStr.substring(0, pos));
+			result = createURI(uriStr.substring(0, pos));
 		}
+		return result;
 	}
 
 	public String getLabel() {
+		String result = "";
 		String uriStr = this.uri.toASCIIString();
 		int pos = uriStr.lastIndexOf(SPECIAL_SYMBOL);
 		if (pos == -1) {
-			return "";
+			result = "";
 		} else {
-			return uriStr.substring(pos + SPECIAL_SYMBOL.length());
+			result = uriStr.substring(pos + SPECIAL_SYMBOL.length());
 		}
+		return result;
 	}
 
 	@Override
@@ -98,9 +104,10 @@ public class URIValue implements PrimitiveTypeValue {
 
 	@Override
 	public List<String> renderAsList() {
-		List<String> ret = new ArrayList<>();
-		ret.add(render());
-		return Collections.unmodifiableList(ret);
+		List<String> list = new ArrayList<>();
+		list.add(render());
+		List<String> result = Collections.unmodifiableList(list);
+		return result;
 	}
 
 	@Override
@@ -115,14 +122,16 @@ public class URIValue implements PrimitiveTypeValue {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (!(obj instanceof URIValue)) {
-			return false;
+			result = false;
 		} else {
 			URIValue other = (URIValue) obj;
-			return getUri().equals(other.getUri());
+			result = getUri().equals(other.getUri());
 		}
+		return result;
 	}
 
 	@Override

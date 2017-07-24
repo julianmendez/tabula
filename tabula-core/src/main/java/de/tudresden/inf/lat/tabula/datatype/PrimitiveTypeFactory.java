@@ -55,12 +55,14 @@ public class PrimitiveTypeFactory {
 	 * @return a new value of the specified type
 	 */
 	public PrimitiveTypeValue newInstance(String typeName, String value) {
+		PrimitiveTypeValue result = null;
 		Optional<PrimitiveType> optPrimType = this.map.get(typeName);
 		if (!optPrimType.isPresent()) {
 			throw new ParseException("Type '" + typeName + "' is undefined.");
 		} else {
-			return optPrimType.get().parse(value);
+			result = optPrimType.get().parse(value);
 		}
+		return result;
 	}
 
 }

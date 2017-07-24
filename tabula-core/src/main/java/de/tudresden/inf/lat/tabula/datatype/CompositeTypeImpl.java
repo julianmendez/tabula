@@ -71,26 +71,27 @@ public class CompositeTypeImpl implements CompositeType {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
-		}
-		if (obj instanceof CompositeType) {
+			result = true;
+		} else if (obj instanceof CompositeType) {
 			CompositeType other = (CompositeType) obj;
 			boolean ret = getFields().equals(other.getFields());
 			if (ret) {
 				List<String> fields = getFields();
 				ret = ret && fields.stream().allMatch(field -> getFieldType(field).equals(other.getFieldType(field)));
 			}
-			return ret;
+			result = ret;
 		}
-		return false;
+		return result;
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer sbuf = new StringBuffer();
 		this.fields.forEach(field -> sbuf.append(field + ":" + this.fieldType.get(field).get() + " "));
-		return sbuf.toString();
+		String result = sbuf.toString();
+		return result;
 	}
 
 }

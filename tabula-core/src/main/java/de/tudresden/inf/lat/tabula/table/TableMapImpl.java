@@ -34,9 +34,9 @@ public class TableMapImpl implements TableMap {
 
 	@Override
 	public List<String> getTableIds() {
-		List<String> ret = new ArrayList<>();
-		ret.addAll(this.map.keySet());
-		return ret;
+		List<String> result = new ArrayList<>();
+		result.addAll(this.map.keySet());
+		return result;
 	}
 
 	@Override
@@ -56,17 +56,18 @@ public class TableMapImpl implements TableMap {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (obj instanceof TableMap) {
 			TableMap other = (TableMap) obj;
-			boolean ret = getTableIds().equals(other.getTableIds());
+			result = getTableIds().equals(other.getTableIds());
 			List<String> tableIds = getTableIds();
-			ret = ret && tableIds.stream().allMatch(tableId -> getTable(tableId).equals(other.getTable(tableId)));
-			return ret;
+			result = result && tableIds.stream().allMatch(tableId -> getTable(tableId).equals(other.getTable(tableId)));
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	@Override
@@ -79,7 +80,8 @@ public class TableMapImpl implements TableMap {
 			sbuf.append(getTable(tableId));
 			sbuf.append("\n");
 		});
-		return sbuf.toString();
+		String result = sbuf.toString();
+		return result;
 	}
 
 }

@@ -39,16 +39,19 @@ public class HtmlRenderer implements Renderer {
 	}
 
 	public boolean writeAsStringIfNotEmpty(UncheckedWriter output, PrimitiveTypeValue value) {
+		boolean result = false;
 		if (Objects.nonNull(value) && !value.toString().trim().isEmpty()) {
 			output.write(value.toString());
 			output.write("\n");
-			return true;
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, ParameterizedListValue list) {
+		boolean result = false;
 		if (Objects.nonNull(list)) {
 			list.forEach(value -> {
 				if (value.getType().equals(new URIType())) {
@@ -59,13 +62,15 @@ public class HtmlRenderer implements Renderer {
 					writeAsStringIfNotEmpty(output, strVal);
 				}
 			});
-			return true;
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, URIValue link) {
+		boolean result = false;
 		if (Objects.nonNull(link) && !link.isEmpty()) {
 			output.write("<a href=\"");
 			output.write(link.getUriNoLabel().toASCIIString());
@@ -73,10 +78,11 @@ public class HtmlRenderer implements Renderer {
 			output.write(link.getLabel());
 			output.write(")</a>");
 			output.write("\n");
-			return true;
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public void render(UncheckedWriter output, Record record, List<String> fields) {

@@ -54,19 +54,22 @@ public class SqlRenderer implements Renderer {
 	}
 
 	public boolean writeAsStringIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {
+		boolean result = false;
 		if (Objects.nonNull(field) && !field.trim().isEmpty() && Objects.nonNull(value)
 				&& !value.toString().trim().isEmpty()) {
 			output.write(APOSTROPHE);
 			output.write(sanitize(value.toString()));
 			output.write(APOSTROPHE);
-			return true;
+			result = true;
 		} else {
 			output.write(NULL);
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
+		boolean result = false;
 		if (Objects.nonNull(list) && !list.isEmpty()) {
 			output.write(APOSTROPHE);
 			list.forEach(strVal -> {
@@ -74,27 +77,29 @@ public class SqlRenderer implements Renderer {
 				output.write(ParserConstant.SPACE);
 			});
 			output.write(APOSTROPHE);
-			return true;
+			result = true;
 		} else {
 			output.write(NULL);
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String field, URIValue link) {
+		boolean result = false;
 		if (Objects.nonNull(link) && !link.isEmpty()) {
 			output.write(APOSTROPHE);
 			output.write(sanitize(link.toString()));
 			output.write(APOSTROPHE);
-			return true;
+			result = true;
 		} else {
 			output.write(NULL);
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public void render(UncheckedWriter output, String tableName, Record record, List<String> fields) {
-
 		output.write(ParserConstant.NEW_LINE);
 		output.write(INSERT_INTO);
 		output.write(ParserConstant.SPACE);

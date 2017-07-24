@@ -30,12 +30,12 @@ public class ParameterizedListType implements PrimitiveType {
 
 	@Override
 	public ParameterizedListValue parse(String str) {
-		ParameterizedListValue ret = new ParameterizedListValue(this.parameter);
+		ParameterizedListValue result = new ParameterizedListValue(this.parameter);
 		StringTokenizer stok = new StringTokenizer(str);
 		while (stok.hasMoreTokens()) {
-			ret.add(this.parameter.parse(stok.nextToken()));
+			result.add(this.parameter.parse(stok.nextToken()));
 		}
-		return ret;
+		return result;
 	}
 
 	public PrimitiveType getParameter() {
@@ -53,16 +53,18 @@ public class ParameterizedListType implements PrimitiveType {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (Objects.isNull(obj)) {
-			return false;
+			result = false;
 		} else if (obj instanceof ParameterizedListType) {
 			ParameterizedListType other = (ParameterizedListType) obj;
-			return this.parameter.equals(other.parameter);
+			result = this.parameter.equals(other.parameter);
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	@Override

@@ -32,18 +32,21 @@ public class WikitextRenderer implements Renderer {
 	}
 
 	public boolean writeAsStringIfNotEmpty(UncheckedWriter output, String prefix, PrimitiveTypeValue value) {
+		boolean result = false;
 		if (Objects.nonNull(value) && !value.toString().trim().isEmpty()) {
 			output.write(prefix);
 			output.write(value.toString());
 			output.write("\n");
-			return true;
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String prefix,
 			ParameterizedListValue list) {
+		boolean result = false;
 		if (Objects.nonNull(list)) {
 			output.write(prefix);
 			list.forEach(value -> {
@@ -55,13 +58,15 @@ public class WikitextRenderer implements Renderer {
 					writeAsStringIfNotEmpty(output, "", strVal);
 				}
 			});
-			return true;
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String prefix, URIValue link) {
+		boolean result = false;
 		if (Objects.nonNull(link) && !link.isEmpty()) {
 			output.write(prefix);
 			output.write("[");
@@ -70,14 +75,14 @@ public class WikitextRenderer implements Renderer {
 			output.write(link.getLabel());
 			output.write(")]");
 			output.write("\n");
-			return true;
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public void render(UncheckedWriter output, Record record, List<String> fields) {
-
 		fields.forEach(field -> {
 			Optional<PrimitiveTypeValue> optValue = record.get(field);
 			output.write("|");

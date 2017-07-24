@@ -40,15 +40,16 @@ public class RecordComparator implements Comparator<Record> {
 
 	@Override
 	public int compare(Record record0, Record record1) {
+		int result = 0;
 		if (Objects.isNull(record0)) {
 			if (Objects.isNull(record1)) {
-				return 0;
+				result = 0;
 			} else {
-				return (-1);
+				result = (-1);
 			}
 		} else {
 			if (Objects.isNull(record1)) {
-				return 1;
+				result = 1;
 			} else {
 				int ret = 0;
 				Iterator<String> it = this.sortingOrder.iterator();
@@ -57,42 +58,47 @@ public class RecordComparator implements Comparator<Record> {
 					ret = compareValues(record0.get(token), record1.get(token),
 							this.fieldsWithReverseOrder.contains(token));
 				}
-				return ret;
+				result = ret;
 			}
 		}
+		return result;
 	}
 
 	public int compareValues(Optional<PrimitiveTypeValue> optValue0, Optional<PrimitiveTypeValue> optValue1,
 			boolean hasReverseOrder) {
+		int result = 0;
 		if (hasReverseOrder) {
-			return compareValues(optValue1, optValue0, false);
+			result = compareValues(optValue1, optValue0, false);
 		} else {
 			if (optValue0.isPresent()) {
 				if (optValue1.isPresent()) {
-					return optValue0.get().compareTo(optValue1.get());
+					result = optValue0.get().compareTo(optValue1.get());
 				} else {
-					return 1;
+					result = 1;
 				}
 			} else {
 				if (optValue1.isPresent()) {
-					return (-1);
+					result = (-1);
 				} else {
-					return 0;
+					result = 0;
 				}
 			}
 		}
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object o) {
+		boolean result = false;
 		if (this == o) {
-			return true;
+			result = true;
 		} else if (o instanceof RecordComparator) {
 			RecordComparator other = (RecordComparator) o;
-			return this.sortingOrder.equals(other.sortingOrder);
+			result = this.sortingOrder.equals(other.sortingOrder);
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	@Override

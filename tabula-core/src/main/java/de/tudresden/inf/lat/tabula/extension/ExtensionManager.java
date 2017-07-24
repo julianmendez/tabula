@@ -48,6 +48,7 @@ public class ExtensionManager implements Extension {
 
 	@Override
 	public boolean process(List<String> arguments) {
+		boolean result = false;
 		Objects.requireNonNull(arguments);
 		if (arguments.size() < REQUIRED_ARGUMENTS) {
 			throw new ExtensionException("No extension name was given.");
@@ -63,12 +64,13 @@ public class ExtensionManager implements Extension {
 				throw new ExtensionException("Insufficient number of arguments for extension '" + command + "'.");
 			} else {
 				try {
-					return optExtension.get().process(newArguments);
+					result = optExtension.get().process(newArguments);
 				} catch (ParseException | UncheckedIOException e) {
 					throw new ExtensionException(e);
 				}
 			}
 		}
+		return result;
 	}
 
 	@Override
@@ -85,7 +87,8 @@ public class ExtensionManager implements Extension {
 			sbuf.append(extension.getHelp());
 			sbuf.append(NEW_LINE);
 		});
-		return sbuf.toString();
+		String result = sbuf.toString();
+		return result;
 	}
 
 	@Override

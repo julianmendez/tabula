@@ -73,12 +73,14 @@ public class DecimalValue implements PrimitiveTypeValue {
 
 	@Override
 	public int compareTo(PrimitiveTypeValue other) {
+		int result = 0;
 		if (other instanceof DecimalValue) {
 			DecimalValue otherValue = (DecimalValue) other;
-			return this.number.compareTo(otherValue.number);
+			result = this.number.compareTo(otherValue.number);
 		} else {
-			return render().compareTo(other.render());
+			result = render().compareTo(other.render());
 		}
+		return result;
 	}
 
 	@Override
@@ -88,14 +90,16 @@ public class DecimalValue implements PrimitiveTypeValue {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (obj instanceof DecimalValue) {
 			DecimalValue other = (DecimalValue) obj;
-			return this.number.equals(other.number);
+			result =  this.number.equals(other.number);
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	@Override

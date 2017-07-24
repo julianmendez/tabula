@@ -46,7 +46,7 @@ public class CsvParser implements Parser {
 	}
 
 	public List<String> getColumns(String line0) {
-		List<String> ret = new ArrayList<>();
+		List<String> result = new ArrayList<>();
 		String line = Objects.isNull(line0) ? "" : line0.trim();
 		StringBuffer current = new StringBuffer();
 		boolean betweenQuotes = false;
@@ -55,44 +55,44 @@ public class CsvParser implements Parser {
 			if (ch == QUOTES_CHAR) {
 				betweenQuotes = !betweenQuotes;
 			} else if ((ch == COMMA_CHAR) && !betweenQuotes) {
-				ret.add(current.toString());
+				result.add(current.toString());
 				current = new StringBuffer();
 			} else {
 				current.append(ch);
 			}
 		}
 		if (!current.toString().isEmpty()) {
-			ret.add(current.toString());
+			result.add(current.toString());
 		}
-		return ret;
+		return result;
 	}
 
 	private TableImpl createSortedTable(List<String> fields) {
 		CompositeTypeImpl tableType = new CompositeTypeImpl();
 		fields.forEach(fieldName -> tableType.declareField(fieldName, DEFAULT_FIELD_TYPE));
 
-		TableImpl ret = new TableImpl();
-		ret.setType(tableType);
-		return ret;
+		TableImpl result = new TableImpl();
+		result.setType(tableType);
+		return result;
 	}
 
 	public String normalize(String fieldName) {
 		String auxName = Objects.isNull(fieldName) ? UNDERSCORE : fieldName.trim();
 		String name = auxName.isEmpty() ? UNDERSCORE : auxName;
 
-		StringBuffer ret = new StringBuffer();
+		StringBuffer result = new StringBuffer();
 		IntStream.range(0, name.length()).forEach(index -> {
 			char ch = name.charAt(index);
 			if (!Character.isLetterOrDigit(ch)) {
 				ch = UNDERSCORE_CHAR;
 			}
-			ret.append(ch);
+			result.append(ch);
 		});
-		return ret.toString();
+		return result.toString();
 	}
 
 	public List<String> normalizeHeaders(List<String> headers, int lineCounter) {
-		List<String> ret = new ArrayList<>();
+		List<String> result = new ArrayList<>();
 		int idCount = 0;
 		for (String header : headers) {
 			String fieldName = normalize(header);
@@ -103,10 +103,10 @@ public class CsvParser implements Parser {
 				throw new ParseException("This cannot have two identifiers (field '" + ParserConstant.ID_KEYWORD
 						+ "') (line " + lineCounter + ")");
 			} else {
-				ret.add(fieldName);
+				result.add(fieldName);
 			}
 		}
-		return ret;
+		return result;
 	}
 
 	public TableMap parseMap(BufferedReader input) throws IOException {
@@ -140,19 +140,21 @@ public class CsvParser implements Parser {
 			}
 		}
 
-		TableMapImpl ret = new TableMapImpl();
-		ret.put(DEFAULT_TABLE_NAME, currentTable);
-		return ret;
+		TableMapImpl result = new TableMapImpl();
+		result.put(DEFAULT_TABLE_NAME, currentTable);
+		return result;
 	}
 
 	@Override
 	public TableMap parse() {
+		TableMap result = null;
 		try {
-			return parseMap(new BufferedReader(this.input));
+			result = parseMap(new BufferedReader(this.input));
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		return result;
 	}
 
 }

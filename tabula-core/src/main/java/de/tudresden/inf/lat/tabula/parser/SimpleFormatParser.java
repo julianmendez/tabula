@@ -67,38 +67,43 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public Optional<String> getKey(String line) {
+		Optional<String> result = Optional.empty();
 		if (Objects.isNull(line)) {
-			return Optional.empty();
+			result = Optional.empty();
 		} else {
 			int pos = line.indexOf(ParserConstant.EQUALS_SIGN);
 			if (pos == -1) {
-				return Optional.of(line);
+				result = Optional.of(line);
 			} else {
-				return Optional.of(line.substring(0, pos).trim());
+				result = Optional.of(line.substring(0, pos).trim());
 			}
 		}
+		return result;
 	}
 
 	public boolean hasKey(String line, String key) {
 		Optional<String> optKey = getKey(line);
-		return (optKey.isPresent() && optKey.get().equals(key));
+		boolean result = (optKey.isPresent() && optKey.get().equals(key));
+		return result;
 	}
 
 	public Optional<String> getValue(String line) {
+		Optional<String> result = Optional.empty();
 		if (Objects.isNull(line)) {
-			return Optional.empty();
+			result = Optional.empty();
 		} else {
 			int pos = line.indexOf(ParserConstant.EQUALS_SIGN);
 			if (pos == -1) {
-				return Optional.of("");
+				result = Optional.of("");
 			} else {
-				return Optional.of(line.substring(pos + ParserConstant.EQUALS_SIGN.length(), line.length()).trim());
+				result = Optional.of(line.substring(pos + ParserConstant.EQUALS_SIGN.length(), line.length()).trim());
 			}
 		}
+		return result;
 	}
 
 	private CompositeTypeImpl parseTypes(String line, int lineCounter) {
-		CompositeTypeImpl ret = new CompositeTypeImpl();
+		CompositeTypeImpl result = new CompositeTypeImpl();
 		StringTokenizer stok = new StringTokenizer(getValue(line).get());
 		PrimitiveTypeFactory factory = new PrimitiveTypeFactory();
 		while (stok.hasMoreTokens()) {
@@ -110,22 +115,23 @@ public class SimpleFormatParser implements Parser {
 				String key = token.substring(0, pos);
 				String value = token.substring((pos + ParserConstant.TYPE_SIGN.length()), token.length());
 				if (factory.contains(value)) {
-					ret.declareField(key, value);
+					result.declareField(key, value);
 				} else {
 					throw new ParseException("Type '" + value + "' is undefined. (line " + lineCounter + ")");
 				}
 			}
 		}
-		return ret;
+		return result;
 	}
 
 	private URI asUri(String uriStr, int lineCounter) {
+		URI result = null;
 		try {
-			URI uri = new URI(uriStr);
-			return uri;
+			result = new URI(uriStr);
 		} catch (URISyntaxException e) {
 			throw new ParseException("String '" + uriStr + "' is not a valid URI. (line " + lineCounter + ")");
 		}
+		return result;
 	}
 
 	public PrefixMap parsePrefixMap(String line, int lineCounter) {
@@ -186,29 +192,30 @@ public class SimpleFormatParser implements Parser {
 
 	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, PrefixMap prefixMap,
 			int lineCounter) {
+		PrimitiveTypeValue result = new StringValue();
 		if (Objects.isNull(key)) {
-			return new StringValue();
+			result = new StringValue();
 		} else {
 			try {
 				Optional<String> optTypeStr = type0.getFieldType(key);
 				if (optTypeStr.isPresent()) {
 					String typeStr = optTypeStr.get();
-					PrimitiveTypeValue ret = (new PrimitiveTypeFactory()).newInstance(typeStr, value);
-					if (ret.getType().equals(new URIType())) {
-						URIValue uri = (URIValue) ret;
-						ret = new URIValue(prefixMap.getWithoutPrefix(uri.getUri()));
-					} else if (ret instanceof ParameterizedListValue) {
-						ParameterizedListValue list = (ParameterizedListValue) ret;
+					result = (new PrimitiveTypeFactory()).newInstance(typeStr, value);
+					if (result.getType().equals(new URIType())) {
+						URIValue uri = (URIValue) result;
+						result = new URIValue(prefixMap.getWithoutPrefix(uri.getUri()));
+					} else if (result instanceof ParameterizedListValue) {
+						ParameterizedListValue list = (ParameterizedListValue) result;
 						if (list.getParameter().equals(new URIType())) {
 							ParameterizedListValue newList = new ParameterizedListValue(new URIType());
 							list.forEach(elem -> {
 								URIValue uri = (URIValue) elem;
 								newList.add(new URIValue(prefixMap.getWithoutPrefix(uri.getUri())));
 							});
-							ret = newList;
+							result = newList;
 						}
 					}
-					return ret;
+					return result;
 				} else {
 					throw new ParseException("Key '" + key + "' has an undefined type.");
 				}
@@ -216,6 +223,7 @@ public class SimpleFormatParser implements Parser {
 				throw new ParseException(e.getMessage() + " (line " + lineCounter + ")", e.getCause());
 			}
 		}
+		return result;
 	}
 
 	public boolean isMultiLine(String line) {
@@ -223,24 +231,27 @@ public class SimpleFormatParser implements Parser {
 	}
 
 	public String getCleanLine(String line) {
+		String result = "";
 		String trimmedLine = line.trim();
 		if (isMultiLine(line)) {
-			return trimmedLine.substring(0, trimmedLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length())
+			result = trimmedLine.substring(0, trimmedLine.length() - ParserConstant.LINE_CONTINUATION_SYMBOL.length())
 					.trim();
 		} else {
-			return trimmedLine;
+			result = trimmedLine;
 		}
+		return result;
 	}
 
 	public Pair readMultiLine(BufferedReader input, int lineCounter0) throws IOException {
+		Pair result = null;
 		int lineCounter = lineCounter0;
 		String line = input.readLine();
 		if (Objects.isNull(line)) {
-			return new Pair(lineCounter, null);
+			result = new Pair(lineCounter, null);
 		} else {
 			lineCounter += 1;
 			if (line.startsWith(ParserConstant.COMMENT_SYMBOL)) {
-				return new Pair(lineCounter, "");
+				result = new Pair(lineCounter, "");
 			} else {
 				StringBuilder sb = new StringBuilder();
 				while (isMultiLine(line)) {
@@ -253,28 +264,33 @@ public class SimpleFormatParser implements Parser {
 				}
 				sb.append(getCleanLine(line));
 
-				return new Pair(lineCounter, sb.toString());
+				result = new Pair(lineCounter, sb.toString());
 			}
 		}
+		return result;
 	}
 
 	private boolean isIdProperty(String line) {
+		boolean result = false;
 		Optional<String> optKey = getKey(line);
 		if (optKey.isPresent()) {
-			return optKey.get().equals(ParserConstant.ID_KEYWORD);
+			result = optKey.get().equals(ParserConstant.ID_KEYWORD);
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	private Optional<String> getIdProperty(String line) {
+		Optional<String> result = Optional.empty();
 		Optional<String> optKey = getKey(line);
 		Optional<String> optValueStr = getValue(line);
 		if (optKey.isPresent() && optValueStr.isPresent() && optKey.get().equals(ParserConstant.ID_KEYWORD)) {
-			return Optional.of(optValueStr.get());
+			result = Optional.of(optValueStr.get());
 		} else {
-			return Optional.empty();
+			result = Optional.empty();
 		}
+		return result;
 	}
 
 	private void parseProperty(String line, TableImpl currentTable, Set<String> recordIdsOfCurrentTable, Record record,
@@ -366,19 +382,21 @@ public class SimpleFormatParser implements Parser {
 			}
 		}
 
-		TableMapImpl ret = new TableMapImpl();
-		mapOfTables.keySet().forEach(key -> ret.put(key, mapOfTables.get(key).get()));
-		return ret;
+		TableMapImpl result = new TableMapImpl();
+		mapOfTables.keySet().forEach(key -> result.put(key, mapOfTables.get(key).get()));
+		return result;
 	}
 
 	@Override
 	public TableMap parse() {
+		TableMap result = null;
 		try {
-			return parseMap(new BufferedReader(this.input));
+			result = parseMap(new BufferedReader(this.input));
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		return result;
 	}
 
 }

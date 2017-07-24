@@ -104,8 +104,9 @@ public class CalendarParser implements Parser {
 	}
 
 	public Optional<String> getKey(String line) {
+		Optional<String> result = Optional.empty();
 		if (Objects.isNull(line)) {
-			return Optional.empty();
+			result = Optional.empty();
 		} else {
 			int pos = line.indexOf(COLON_CHAR);
 			if (pos == -1) {
@@ -115,22 +116,25 @@ public class CalendarParser implements Parser {
 				if (pos2 >= 0 && pos2 < pos) {
 					pos = pos2;
 				}
-				return Optional.of(line.substring(0, pos).trim());
+				result = Optional.of(line.substring(0, pos).trim());
 			}
 		}
+		return result;
 	}
 
 	public Optional<String> getValue(String line) {
+		Optional<String> result = Optional.empty();
 		if (Objects.isNull(line)) {
-			return Optional.empty();
+			result = Optional.empty();
 		} else {
 			int pos = line.indexOf(COLON_CHAR);
 			if (pos == -1) {
-				return Optional.of("");
+				result = Optional.of("");
 			} else {
-				return Optional.of(line.substring(pos + 1, line.length()).trim());
+				result = Optional.of(line.substring(pos + 1, line.length()).trim());
 			}
 		}
+		return result;
 	}
 
 	public boolean isBeginLine(String line) {
@@ -142,13 +146,14 @@ public class CalendarParser implements Parser {
 	}
 
 	private PrimitiveTypeValue getTypedValue(String key, String value, CompositeType type0, int lineCounter) {
+		PrimitiveTypeValue result = new StringValue();
 		if (Objects.isNull(key)) {
-			return new StringValue();
+			result = new StringValue();
 		} else {
 			try {
 				Optional<String> optTypeStr = type0.getFieldType(key);
 				if (optTypeStr.isPresent()) {
-					return (new PrimitiveTypeFactory()).newInstance(optTypeStr.get(), value);
+					result = (new PrimitiveTypeFactory()).newInstance(optTypeStr.get(), value);
 				} else {
 					throw new ParseException("Key '" + key + "' has an undefined type.");
 				}
@@ -156,10 +161,11 @@ public class CalendarParser implements Parser {
 				throw new ParseException(e.getMessage() + " (line " + lineCounter + ")", e.getCause());
 			}
 		}
+		return result;
 	}
 
 	private List<Pair> preload(BufferedReader input) {
-		List<Pair> ret = new ArrayList<>();
+		List<Pair> result = new ArrayList<>();
 		StringBuffer[] sbuf = new StringBuffer[1];
 		sbuf[0] = new StringBuffer();
 		int[] lineCounter = new int[1];
@@ -168,13 +174,13 @@ public class CalendarParser implements Parser {
 			if (line.startsWith("" + SPACE_CHAR)) {
 				sbuf[0].append(line);
 			} else {
-				ret.add(new Pair(lineCounter[0], sbuf[0].toString()));
+				result.add(new Pair(lineCounter[0], sbuf[0].toString()));
 				sbuf[0] = new StringBuffer();
 				sbuf[0].append(line);
 			}
 			lineCounter[0] += 1;
 		});
-		return ret;
+		return result;
 	}
 
 	private void parseProperty(String line, TableImpl currentTable, Record record, int lineCounter) {
@@ -211,7 +217,8 @@ public class CalendarParser implements Parser {
 			}
 			sbuf.append(counter);
 		}
-		return sbuf.toString();
+		String result = sbuf.toString();
+		return result;
 	}
 
 	public TableMap parseMap(BufferedReader input) throws IOException {
@@ -299,19 +306,21 @@ public class CalendarParser implements Parser {
 			throw new ParseException("Too few " + END_KEYWORD + " keywords  (line " + lineCounter + ").");
 		}
 
-		TableMapImpl ret = new TableMapImpl();
-		map.keySet().forEach(key -> ret.put(key, map.get(key).get()));
-		return ret;
+		TableMapImpl result = new TableMapImpl();
+		map.keySet().forEach(key -> result.put(key, map.get(key).get()));
+		return result;
 	}
 
 	@Override
 	public TableMap parse() {
+		TableMap result = null;
 		try {
-			return parseMap(new BufferedReader(this.input));
+			result = parseMap(new BufferedReader(this.input));
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		return result;
 	}
 
 }

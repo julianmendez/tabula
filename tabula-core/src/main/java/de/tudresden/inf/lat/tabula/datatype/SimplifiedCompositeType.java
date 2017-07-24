@@ -36,17 +36,16 @@ public class SimplifiedCompositeType implements CompositeType {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
-		}
-		if (Objects.isNull(obj)) {
-			return false;
-		}
-		if (obj instanceof SimplifiedCompositeType) {
+			result = true;
+		} else if (Objects.isNull(obj)) {
+			result = false;
+		} else if (obj instanceof SimplifiedCompositeType) {
 			SimplifiedCompositeType other = (SimplifiedCompositeType) obj;
-			return this.dataType.equals(other.dataType);
+			result = this.dataType.equals(other.dataType);
 		}
-		return false;
+		return result;
 	}
 
 	@Override

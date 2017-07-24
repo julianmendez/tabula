@@ -36,13 +36,15 @@ public class EmptyType implements PrimitiveType {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (Objects.isNull(obj)) {
-			return false;
+			result =  false;
 		} else {
-			return (obj instanceof EmptyType);
+			result = (obj instanceof EmptyType);
 		}
+		return result;
 	}
 
 	@Override

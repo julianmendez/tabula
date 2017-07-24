@@ -36,6 +36,7 @@ public class SimpleFormatRecordRenderer implements RecordRenderer {
 	}
 
 	public boolean writeIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {
+		boolean result = false;
 		if (Objects.nonNull(field) && !field.trim().isEmpty() && Objects.nonNull(value) && !value.isEmpty()) {
 			output.write(ParserConstant.NEW_LINE);
 			output.write(field);
@@ -67,10 +68,11 @@ public class SimpleFormatRecordRenderer implements RecordRenderer {
 					output.write(value.toString());
 				}
 			}
-			return true;
+			result = true;
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public void render(UncheckedWriter output, Record record, List<String> fields) {

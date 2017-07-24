@@ -56,9 +56,10 @@ public class StringValue implements PrimitiveTypeValue {
 
 	@Override
 	public List<String> renderAsList() {
-		List<String> ret = new ArrayList<>();
-		ret.add(render());
-		return Collections.unmodifiableList(ret);
+		List<String> list = new ArrayList<>();
+		list.add(render());
+		List<String> result = Collections.unmodifiableList(list);
+		return result;
 	}
 
 	@Override
@@ -73,14 +74,16 @@ public class StringValue implements PrimitiveTypeValue {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean result = false;
 		if (this == obj) {
-			return true;
+			result = true;
 		} else if (obj instanceof StringValue) {
 			StringValue other = (StringValue) obj;
-			return this.str.equals(other.str);
+			result = this.str.equals(other.str);
 		} else {
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	@Override

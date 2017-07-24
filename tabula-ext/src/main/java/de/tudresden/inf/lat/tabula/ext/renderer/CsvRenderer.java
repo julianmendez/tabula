@@ -40,19 +40,22 @@ public class CsvRenderer implements Renderer {
 	}
 
 	public boolean writeAsStringIfNotEmpty(UncheckedWriter output, String field, PrimitiveTypeValue value) {
+		boolean result = false;
 		if (Objects.nonNull(field) && !field.trim().isEmpty() && Objects.nonNull(value)
 				&& !value.toString().trim().isEmpty()) {
 			output.write(QUOTES);
 			output.write(sanitize(value.toString()));
 			output.write(QUOTES);
-			return true;
+			result = true;
 		} else {
 			output.write(NULL);
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public boolean writeParameterizedListIfNotEmpty(UncheckedWriter output, String field, ParameterizedListValue list) {
+		boolean result = false;
 		if (Objects.nonNull(list) && !list.isEmpty()) {
 			output.write(QUOTES);
 			list.forEach(value -> {
@@ -60,27 +63,29 @@ public class CsvRenderer implements Renderer {
 				output.write(ParserConstant.SPACE);
 			});
 			output.write(QUOTES);
-			return true;
+			result = true;
 		} else {
 			output.write(NULL);
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public boolean writeLinkIfNotEmpty(UncheckedWriter output, String field, URIValue link) {
+		boolean result = false;
 		if (Objects.nonNull(link) && !link.isEmpty()) {
 			output.write(QUOTES);
 			output.write(sanitize(link.toString()));
 			output.write(QUOTES);
-			return true;
+			result = true;
 		} else {
 			output.write(NULL);
-			return false;
+			result = false;
 		}
+		return result;
 	}
 
 	public void render(UncheckedWriter output, Record record, List<String> fields) {
-
 		boolean first = true;
 		for (String field : fields) {
 			if (first) {
