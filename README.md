@@ -2,8 +2,9 @@
 *System to manage human-readable tables using files*
 
 
-[![Build Status](https://travis-ci.org/julianmendez/tabula.png?branch=master)](https://travis-ci.org/julianmendez/tabula)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.tu-dresden.inf.lat.tabula/tabula-parent/badge.svg)](https://search.maven.org/#search|ga|1|g%3A%22de.tu-dresden.inf.lat.tabula%22)
+[![build](https://travis-ci.org/julianmendez/tabula.png?branch=master)](https://travis-ci.org/julianmendez/tabula)
+[![maven central](https://maven-badges.herokuapp.com/maven-central/de.tu-dresden.inf.lat.tabula/tabula-parent/badge.svg)](https://search.maven.org/#search|ga|1|g%3A%22de.tu-dresden.inf.lat.tabula%22)
+[![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
 
 Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-) file, but allows defining the same property for different objects.
