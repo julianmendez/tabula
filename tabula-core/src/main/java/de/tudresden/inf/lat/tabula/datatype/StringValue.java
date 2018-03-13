@@ -26,7 +26,7 @@ public class StringValue implements PrimitiveTypeValue {
 	 *            string
 	 */
 	public StringValue(String str) {
-		this.str = Objects.isNull(str) ? "" : str.trim();
+		this.str = Objects.isNull(str) ? "" : str;
 	}
 
 	/**
