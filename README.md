@@ -8,7 +8,7 @@
 *System to manage human-readable tables using files*
 
 
-Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-) file, but allows defining the same property for different objects.
+Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-) file, but allows defining the same property for different objects. The most updated specification can be found in the Scala implementation: [Tabulas](https://github.com/julianmendez/tabulas).
 
 
 ## Download
