@@ -4,9 +4,7 @@
 [![maven central](https://maven-badges.herokuapp.com/maven-central/de.tu-dresden.inf.lat.tabula/tabula-parent/badge.svg)](https://search.maven.org/#search|ga|1|g%3A%22de.tu-dresden.inf.lat.tabula%22)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-
 *System to manage human-readable tables using files*
-
 
 Tabula is a system to manage human-readable tables using files. It uses a specific type of file format that is similar to a [Java Properties](https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader-) file, but allows defining the same property for different objects. The most updated specification can be found in the Scala implementation: [Tabulas](https://github.com/julianmendez/tabulas).
 
@@ -30,7 +28,7 @@ Tabula is a system to manage human-readable tables using files. It uses a specif
 
 The Tabula format has *primitive types* and *composite types*. Unless something different is stated in the [release notes](https://github.com/julianmendez/tabula/blob/master/RELEASE-NOTES.md), the primitive types are:
 
-* `String`: any string without any newline (`'\n'` 0x0A, `'\r'` 0x0D), and not ending in backslash (`'\'` 0x5C), neither in blanks (`'\t'` 0x08, `' '` 0x20)  
+* `String`: any string without any newline (`'\n'` 0x0A, `'\r'` 0x0D), and not ending in backslash (`'\'` 0x5C), neither in blanks (`'\t'` 0x08, `' '` 0x20)
 * `URI`: any valid Uniform Resource Identifier
 * `Integer`: an integer number (`BigInteger`)
 * `Decimal`: a decimal number (`BigDecimal`)
@@ -61,7 +59,7 @@ def = \
 where each *FIELD_NAME* can be any identifier,
 and each *FIELD_TYPE* can be any of the primitive types.
 
-The URIs can be shortened by using prefixes. The prefixes are URIs themselves without colons, because the colon (`:`) is used to define the association. 
+The URIs can be shortened by using prefixes. The prefixes are URIs themselves without colons, because the colon (`:`) is used to define the association.
 
 ```properties
 prefix = \
@@ -89,10 +87,10 @@ where the `-` is optional and used to denote reverse order. For example:
 order = \
  id \
  -author
-``` 
+```
 
 orders the instances by `id` (ascending) and then by author (descending).
- 
+
 The instances come just after the type definition, with the following syntax:
 
 ```properties
@@ -127,13 +125,11 @@ However, the format will normalize and present them differently according to the
 
 This is an example of a library file. Each book record contains an identifier (`id`), a title (`title`), the authors (`authors`), a link to the abstract on the web (`web`), and a list of links to the documents (`documents`). This file is ordered by identifier.
 
-
 ```properties
+
 # simple format 1.0.0
 
-
-type = record 
-
+type = record
 
 def = \
  id:String \
@@ -142,16 +138,13 @@ def = \
  web:URI \
  documents:List_URI
 
-
 prefix = \
  arxiv:https://arxiv.org/
-
 
 order = \
  id
 
-
-new = 
+new =
 id = arXiv:1412.2223
 title = A topological approach to non-Archimedean Mathematics
 authors = \
@@ -163,8 +156,7 @@ documents = \
  https://arxiv.org/ps/1412.2223#ps \
  https://arxiv.org/format/1412.2223#other
 
-
-new = 
+new =
 id = arXiv:1412.3313
 title = Infinitary stability theory
 authors = \
@@ -175,7 +167,6 @@ documents = \
  &arxiv;ps/1412.3313#ps \
  &arxiv;format/1412.3313#other
 
-
 ```
 
 An example like this one is used for the unit tests.
@@ -184,7 +175,7 @@ For example, the [MainTest](https://github.com/julianmendez/tabula/blob/master/t
 
 * read the [example file](https://github.com/julianmendez/tabula/blob/master/tabula-core/src/test/resources/example.properties)
 * add a new field `numberOfAuthors`
-* add to each record the number of authors 
+* add to each record the number of authors
 * compare the [expected result](https://github.com/julianmendez/tabula/blob/master/tabula-core/src/test/resources/example-modified.properties)
 
 This [Bash script](https://github.com/julianmendez/tabula/blob/master/docs/examples/tabula.sh.txt) shows how to start Tabula from the command line.
