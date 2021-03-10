@@ -4,8 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import de.tudresden.inf.lat.tabula.parser.SimpleFormatParser;
 import de.tudresden.inf.lat.tabula.renderer.SimpleFormatRenderer;
@@ -37,7 +37,7 @@ public class NormalizationTest {
 		StringWriter writer = new StringWriter();
 		SimpleFormatRenderer renderer = new SimpleFormatRenderer(writer);
 		renderer.render(tableMap);
-		Assert.assertEquals(expectedResult, writer.toString());
+		Assertions.assertEquals(expectedResult, writer.toString());
 	}
 
 	@Test

@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Objects;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import de.tudresden.inf.lat.tabula.datatype.CompositeType;
 import de.tudresden.inf.lat.tabula.datatype.CompositeTypeImpl;
@@ -71,7 +71,7 @@ public class MainTest {
 		String expectedOutput = readFile(fileName);
 
 		// Compare the expected output with the actual output
-		Assert.assertEquals(expectedOutput, writer.toString());
+		Assertions.assertEquals(expectedOutput, writer.toString());
 	}
 
 	@Test
